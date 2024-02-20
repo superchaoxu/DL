@@ -1,0 +1,23 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: C1
+- file: C2
+  sections:
+  - file: C2_Practical
+  - file: C2_Practical_Test
+- file: C3
+  sections:
+  - file: C3_Practical_Test
+- file: C4
+  sections:
+  - file: C4_Practical_Test_P1
+  - file: C4_Practical_Test_P2
+- file: C5
+  sections:
+  - file: C5_Initialization
+  - file: C5_Regularization
+  - file: C5_Gradient_Checking

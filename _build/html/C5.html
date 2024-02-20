@@ -1,0 +1,962 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5 Practical Aspects of Deep Learning &#8212; Deep Learning Specialization</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'C5';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Practical 5: Initialization" href="C5_Initialization.html" />
+    <link rel="prev" title="Practical 4: Deep Neural Network for Image Classification: Application" href="C4_Practical_Test_P2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Deep Learning Specialization - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Deep Learning Specialization - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to Deep Learning Specialization
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="C1.html">1 Introduction to Deep Learning</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C2.html">2 Neural Networks Basics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical.html">Pre-Practical: Python Basics with Numpy (optional assignment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical_Test.html">Practicel 1: Logistic Regression with a Neural Network mindset</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C3.html">3 Shallow Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C3_Practical_Test.html">Practical 2: Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C4.html">4 Deep Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P1.html">Practical 3: Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P2.html">Practical 4: Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">5 Practical Aspects of Deep Learning</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C5_Initialization.html">Practical 5: Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C5_Regularization.html">Practical 6: Regularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C5_Gradient_Checking.html">Practical 7: Gradient Checking</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FC5.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/C5.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5 Practical Aspects of Deep Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-machine-learning-application">Setting up your Machine Learning Application</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-dev-test-sets">Train / Dev / Test Sets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-variance">Bias / Variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-recipe-for-machine-learning">Bias Recipe for Machine Learning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularizing-your-neural-network">Regularizing your Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization">Regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-regularization-reduces-overfitting">Why regularization Reduces Overfitting?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dropout-regularization">Dropout Regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-dropout">Understanding Dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-regularization-methods">Other Regularization Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-opimization-problem">Setting up your Opimization Problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-inputs">Normalizing Inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanishing-exploding-gradients">Vanishing / Exploding Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-initialization-for-deep-networks">Weight Initialization for Deep Networks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-approximation-of-gradients">Numerical Approximation of Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking">Gradient Checking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking-implementation-notes">Gradient Checking Implementation Notes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="practical-aspects-of-deep-learning">
+<span id="paofdl"></span><h1>5 Practical Aspects of Deep Learning<a class="headerlink" href="#practical-aspects-of-deep-learning" title="Link to this heading">#</a></h1>
+<p>Discover and experiment with a variety of different initialization methods, apply L2 regularization and dropout to avoid model overfitting, then apply gradient checking to identify errors in a fraud detection model.</p>
+<p><strong>Learning Objectives</strong></p>
+<ul class="simple">
+<li><p>Give examples of how different types of initializations can lead to different results</p></li>
+<li><p>Examine the importance of initialization in complex neural networks</p></li>
+<li><p>Explain the difference between train/dev/test sets</p></li>
+<li><p>Diagnose the bias and variance issues in your model</p></li>
+<li><p>Assess the right time and place for using regularization methods such as dropout or L2 regularization</p></li>
+<li><p>Explain Vanishing and Exploding gradients and how to deal with them</p></li>
+<li><p>Use gradient checking to verify the accuracy of your backpropagation implementation</p></li>
+<li><p>Apply zeros initialization, random initialization, and He initialization</p></li>
+<li><p>Apply regularization to a deep learning model</p></li>
+</ul>
+<hr class="docutils" />
+<section id="setting-up-your-machine-learning-application">
+<h2>Setting up your Machine Learning Application<a class="headerlink" href="#setting-up-your-machine-learning-application" title="Link to this heading">#</a></h2>
+<section id="train-dev-test-sets">
+<h3>Train / Dev / Test Sets<a class="headerlink" href="#train-dev-test-sets" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/AzaEKXlZ4cM">Video</a></p>
+<p>The main points are:</p>
+<ol class="arabic simple">
+<li><p>In the modern big data era, where you might have a million examples in total, then the trend is that your <strong>dev and test sets</strong> have been becoming a <strong>much smaller percentage</strong> of the total. Because remember, the goal of the dev set or the development set is that you’re going to test different algorithms on it and see which algorithm works better. So the dev set just needs to be big enough for you to evaluate, say, two different algorithm choices or ten different algorithm choices and quickly decide which one is doing better. And you might not need a whole 20% of your data for that.</p>
+<ul class="simple">
+<li><p>For example, if you have a million training examples, you might decide that just having 10,000 examples in your dev set is more than enough to evaluate, you know, which one or two algorithms does better. And in a similar vein, the main goal of your test set is, given your final classifier, to give you a pretty confident estimate of how well it’s doing. And again, if you have a million examples, maybe you might decide that 10,000 examples is more than enough in order to evaluate a single classifier and give you a good estimate of how well it’s doing. So, in this example, where you have a million examples, if you need just 10,000 for your dev and 10,000 for your test, your ratio will be more like…this 10,000 is 1% of 1 million, so you’ll have 98% train, 1% dev, 1% test. And I’ve also seen applications where, if you have even more than a million examples, you might end up with, you know, 99.5% train and 0.25% dev, 0.25% test. Or maybe a 0.4% dev, 0.1% test.</p></li>
+<li><p>When setting up your machine learning problem, I’ll often set it up into a train, dev and test sets, and if you have a relatively small dataset, these traditional ratios might be okay. But if you have a much larger data set, it’s also fine to set your dev and test sets to be much smaller than your 20% or even 10% of your data.</p></li>
+</ul>
+</li>
+<li><p><strong>Make sure the dev and test set come from a same distribution</strong>.</p></li>
+<li><p>Not having a test set might be fine.</p></li>
+</ol>
+</section>
+<section id="bias-variance">
+<h3>Bias / Variance<a class="headerlink" href="#bias-variance" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/2hIwfc5ak_w">Video</a></p>
+<ul class="simple">
+<li><p><strong>Aim</strong>*: in deep learning, less bias-variance trade-off.</p></li>
+</ul>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/5-1.png"><img alt="_images/5-1.png" src="_images/5-1.png" style="height: 200px;" /></a>
+</figure>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>Train set error</strong></p></td>
+<td><p>1%</p></td>
+<td><p>15%</p></td>
+<td><p>15%</p></td>
+<td><p>0.5%</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Dev set error</strong></p></td>
+<td><p>11%</p></td>
+<td><p>16%</p></td>
+<td><p>30%</p></td>
+<td><p>1%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Comments</strong></p></td>
+<td><p>high variance</p></td>
+<td><p>high bias</p></td>
+<td><p>high bias and high variance</p></td>
+<td><p>low bias and low variance</p></td>
+</tr>
+</tbody>
+</table>
+<p>This analysis is predicated on the assumption, that human level performance gets nearly 0% error or, more generally, that the optimal error, sometimes called Bayes error, so the Bayesian optimal error is nearly 0%.</p>
+<blockquote>
+<div><p>For example, if the optimal error or the Bayes error were much higher - were 15%, then if you look at the second column in the table above, 15% is actually perfectly reasonable for training set and you wouldn’t say that’s high bias and also a pretty low variance.</p>
+</div></blockquote>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="_images/5-2.png"><img alt="_images/5-2.png" src="_images/5-2.png" style="height: 200px;" /></a>
+</figure>
+<p>Where it has high bias, because, by being a mostly linear classifier, it’s just not fitting. The quadratic line shape that well. But by having too much flexibility in the middle, it somehow overfits those two examples in the middle as well. So this classifier kind of has high bias, because it was mostly linear, but you need maybe a curve function or quadratic function. And it has high variance, because it had too much flexibility to fit, you know, those two mislabel, or those aligned examples in the middle as well. In case this seems contrived, well, this example is a little bit contrived in two dimensions, but with very high dimensional inputs. You actually do get things with high bias in some regions and high variance in some regions. And so it is possible to get classifiers like this in high dimensional inputs that seem less contrived.</p>
+<div class="warning admonition">
+<p class="admonition-title">Summary</p>
+<p>You’ve seen how by looking at your algorithm’s error on the training set and your algorithm’s error on the dev set, you can try to diagnose, whether it has problems of high bias or high variance, or maybe both, or maybe neither. And depending on whether your algorithm suffers from bias or variance, it turns out that there are different things you could try.</p>
+</div>
+</section>
+<section id="bias-recipe-for-machine-learning">
+<h3>Bias Recipe for Machine Learning<a class="headerlink" href="#bias-recipe-for-machine-learning" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/zIxFN41JEyY">Video</a></p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="_images/5-3.png"><img alt="_images/5-3.png" src="_images/5-3.png" style="height: 360px;" /></a>
+</figure>
+<blockquote>
+<div><p>Putting <code class="docutils literal notranslate"><span class="pre">find</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">NN</span> <span class="pre">architecture</span></code> in parentheses because one of those things that, you just have to try, maybe you can make it work, maybe not. Whereas, getting a bigger network almost always helps, and training longer, well, doesn’t always help, but it certainly never hurts. So when training a learning algorithm, I would try these things until I can at least get rid of the bias problems.</p>
+</div></blockquote>
+<div class="hint admonition">
+<p class="admonition-title">Notice</p>
+<ol class="arabic simple">
+<li><p>Depending on whether you have high bias or high variance, the set of things you should try could be quite different. So I’ll usually use the training-dev set to try to diagnose if you have a bias or variance problem, and then use that to select the appropriate subset of things to try. So, for example, if you actually have a high bias problem, getting more training data is actually not going to help. Or, at least it’s not the most efficient thing to do. So being clear on how much of a bias problem or variance problem or both, can help you focus on selecting the most useful things to try.</p></li>
+<li><p>in the earlier era of machine learning, there used to be a lot of discussion on what is called the bias variance tradeoff. And the reason for that was that, for a lot of the things you could try, you could increase bias and reduce variance, or reduce bias and increase variance. But, back in the pre-deep learning era, we didn’t have many tools, we didn’t have as many tools that just reduce bias, or that just reduce variance without hurting the other one. But in the modern deep learning, big data era, so long as you can keep training a bigger network, and so long as you can keep getting more data, which isn’t always the case for either of these, but if that’s the case, then getting a bigger network almost always just reduces your bias, without necessarily hurting your variance, so long as you regularize appropriately. And getting more data, pretty much always reduces your variance and doesn’t hurt your bias much. So what’s really happened is that, with these two steps, the ability to train, pick a network, or get more data, we now have tools to drive down bias and just drive down bias, or drive down variance and just drive down variance, without really hurting the other thing that much. And I think this has been one of the big reasons that deep learning has been so useful for supervised learning, that there’s much less of this tradeoff where you have to carefully balance bias and variance, but sometimes, you just have more options for reducing bias or reducing variance, without necessarily increasing the other one. And, in fact, so last, you have a well-regularized network.</p></li>
+<li><p>Training a bigger network almost never hurts. And the main cost of training a neural network that’s too big is just computational time, so long as you’re regularizing.</p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="regularizing-your-neural-network">
+<h2>Regularizing your Neural Network<a class="headerlink" href="#regularizing-your-neural-network" title="Link to this heading">#</a></h2>
+<section id="regularization">
+<h3>Regularization<a class="headerlink" href="#regularization" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/ZlrNwgvycNw">Video</a></p>
+<p>If you suspect your neural network is over fitting your data, that is, you have a high variance problem.</p>
+<ul class="simple">
+<li><p>One of the first things you should try is probably <strong>regularization</strong>.</p></li>
+<li><p>The other way to address high variance is to <strong>get more training data</strong> that’s also quite reliable. But you can’t always get more training data, or it could be expensive to get more data.</p></li>
+</ul>
+<p>But adding regularization will often help to prevent overfitting, or to reduce variance in your network.</p>
+<p>Let’s develop these ideas using logistic regression. Recall that for logistic regression, you try to minimize the cost function <span class="math notranslate nohighlight">\(J\)</span>, <span class="math notranslate nohighlight">\(\text{min}_{w,b} \ \boldsymbol{J}(w,b)\)</span> which is defined as this:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{J}(w,b) = \dfrac{1}{m} \sum_{i=1}^{m}  \mathcal{L}(\hat{y}^{(i)}, y^{(i)}) , \ w \in  \mathbb{R}^{n_x}, \ b \in \mathbb{R}\]</div>
+<p>After adding the regularization item:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{J}(w,b) = \dfrac{1}{m} \sum_{i=1}^{m}  \mathcal{L}(\hat{y}^{(i)}, y^{(i)}) + \dfrac{\lambda}{2m} \lVert w \rVert_2^2 + \dfrac{\lambda}{2m} b^2\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda\)</span> is the regularization parameter. And usually, you set this using your development set, or using hold-out cross validation. When you try a variety of values and see what does the best, in terms of trading off between doing well in your training set versus also setting that two normal of your parameters to be small, which helps prevent over fitting. So lambda is another hyper parameter that you might have to tune.</p>
+<div class="hint admonition">
+<p class="admonition-title">Notice</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{J}(w,b) = \dfrac{1}{m} \sum_{i=1}^{m}  \mathcal{L}(\hat{y}^{(i)}, y^{(i)}) + \dfrac{\lambda}{2m} \lVert w \rVert_2^2\]</div>
+<p>The final regualrization item for <span class="math notranslate nohighlight">\(b\)</span> (<span class="math notranslate nohighlight">\(\dfrac{\lambda}{2m} b^2\)</span>) in the equation above usually can be omitted. Because if you look at your parameters, <span class="math notranslate nohighlight">\(w\)</span> is usually a pretty high dimensional parameter vector, especially with a high variance problem. Maybe <span class="math notranslate nohighlight">\(w\)</span> just has a lot of parameters, so you aren’t fitting all the parameters well, whereas <span class="math notranslate nohighlight">\(b\)</span> is just a single number. So almost all the parameters are in <span class="math notranslate nohighlight">\(w\)</span> rather than <span class="math notranslate nohighlight">\(b\)</span>. And if you add this last term, in practice, it won’t make much of a difference, because <span class="math notranslate nohighlight">\(b\)</span> is just one parameter over a very large number of parameters. In practice, we usually just don’t bother to include it. But you can if you want.</p>
+</div>
+<ul class="simple">
+<li><p>L2 regularization (the Euclidean norm): <span class="math notranslate nohighlight">\(\lVert w \rVert_2^2 = \sum_{j=1}^{n_x} w_j^2 = w^{T}w\)</span></p></li>
+<li><p>L1 regularization: <span class="math notranslate nohighlight">\(\dfrac{\lambda}{2m} \sum_{j=1}^{n_x} \lvert w_j \rvert = \dfrac{\lambda}{2m}\lVert w \rVert_1 \)</span></p></li>
+</ul>
+<p>L2 regularization is the most common type of regularization. Some situations will be used L1 regularization.</p>
+<div class="hint admonition">
+<p class="admonition-title">Notice</p>
+<p>If you use L1 regularization, then <span class="math notranslate nohighlight">\(w\)</span> will end up being <strong>sparse</strong>. And what that means is that the <span class="math notranslate nohighlight">\(w\)</span> vector will <strong>have a lot of zeros in it</strong>. And some people say that this can help with compressing the model, because the set of parameters are zero, then you need less memory to store the model. Although, I find that, in practice, L1 regularization, to make your model sparse, helps only a little bit. So I don’t think it’s used that much, at least not for the purpose of compressing your model. And when people train your networks, L2 regularization is just used much, much more often.</p>
+</div>
+<p>Implement L2 regularization for neural network:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{J}(w^{[1]}, b^{[1]}, \cdots, w^{[l]}, b^{[l]}) = \dfrac{1}{m} \sum_{i=1}^{m}  \mathcal{L}(\hat{y}^{(i)}, y^{(i)}) + \dfrac{\lambda}{2m} \sum_{l=1}^L \lVert w^{[l]} \rVert_F^2 + \dfrac{\lambda}{2m} b^2\]</div>
+<p>The item <span class="math notranslate nohighlight">\(\lVert \bullet \rVert_F^2\)</span> is called <strong>Frobenius norm</strong>. Due to the dimension of the <span class="math notranslate nohighlight">\(w^{[l]}\)</span> is <span class="math notranslate nohighlight">\((n^{[l]}, n^{[l-1]})\)</span>, the Frobenius norm formula of a matrix should be:</p>
+<div class="math notranslate nohighlight">
+\[\lVert w^{[l]} \rVert_F^2 = \sum_{i=1}^{n^{[l]}} \sum_{j=1}^{n^{[l-1]}} (w_{i,j}^{[l]})^2\]</div>
+<p>Frobenius norm just means <strong>the sum of square of elements of a matrix</strong>.</p>
+<p>The rows “<span class="math notranslate nohighlight">\(i\)</span>” of the matrix should be the number of neurons in the current layer <span class="math notranslate nohighlight">\(n^{[l]}\)</span>.</p>
+<p>Whereas the columns “<span class="math notranslate nohighlight">\(j\)</span>” of the weight matrix should equal the number of neurons in the previous layer <span class="math notranslate nohighlight">\(n^{[l-1]}\)</span>.</p>
+<p>To implement gradient descent, for the back propagation to calculate the <span class="math notranslate nohighlight">\(\mathrm{d}w^{[l]}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{d}w^{[l]} = \text{item calculated form back propagation} + \dfrac{\lambda}{m} w^{[l]}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathrm{d}w^{[l]} = \dfrac{\partial J}{\partial w^{[l]}}\)</span>.</p>
+<p>It turns out that with this new definition of <span class="math notranslate nohighlight">\(\mathrm{d}w^{[l]}\)</span>, this is still a correct definition of the derivative of your cost function, with respect to your parameters, now that you’ve added the extra regularization term at the end.</p>
+<p>And then put this <span class="math notranslate nohighlight">\(\mathrm{d}w^{[l]}\)</span> into the update step:</p>
+<div class="math notranslate nohighlight">
+\[w^{[l]} := w^{[l]} - \alpha \mathrm{d}w^{[l]}\]</div>
+<p>The L2 regularization method sometimes also called ‘weight decay’, the reason is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+w^{[l]} 
+&amp;= w^{[l]} - \alpha [\text{item calculated form back propagation} + \dfrac{\lambda}{m} w^{[l]}] \\
+&amp;= w^{[l]} - \dfrac{\alpha \lambda}{m} w^{[l]} - \alpha (\text{item calculated form back propagation}) \\
+&amp;= \underbrace{(1 - \dfrac{\alpha \lambda}{m})}_{&lt;1} w^{[l]} - \alpha (\text{item calculated form back propagation})
+\end{aligned}
+\end{split}\]</div>
+<p>And so the first term shows that whatever the matrix <span class="math notranslate nohighlight">\(w^{[l]} \)</span> is, you’re going to make it a little bit smaller. Like you’re multiplying the matrix <span class="math notranslate nohighlight">\(w\)</span> by the number <span class="math notranslate nohighlight">\((1 - \frac{\alpha \lambda}{m})\)</span>, which is going to be a little bit less than 1.</p>
+</section>
+<section id="why-regularization-reduces-overfitting">
+<h3>Why regularization Reduces Overfitting?<a class="headerlink" href="#why-regularization-reduces-overfitting" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/E-e1LRzRz0o">Video</a></p>
+</section>
+<section id="dropout-regularization">
+<h3>Dropout Regularization<a class="headerlink" href="#dropout-regularization" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/62AiUPL_g18">Video</a></p>
+</section>
+<section id="understanding-dropout">
+<h3>Understanding Dropout<a class="headerlink" href="#understanding-dropout" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/mcNkV_hFoY8">Video</a></p>
+</section>
+<section id="other-regularization-methods">
+<h3>Other Regularization Methods<a class="headerlink" href="#other-regularization-methods" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/4tVRKn4sZiI">Video</a></p>
+</section>
+</section>
+<section id="setting-up-your-opimization-problem">
+<h2>Setting up your Opimization Problem<a class="headerlink" href="#setting-up-your-opimization-problem" title="Link to this heading">#</a></h2>
+<section id="normalizing-inputs">
+<h3>Normalizing Inputs<a class="headerlink" href="#normalizing-inputs" title="Link to this heading">#</a></h3>
+</section>
+<section id="vanishing-exploding-gradients">
+<h3>Vanishing / Exploding Gradients<a class="headerlink" href="#vanishing-exploding-gradients" title="Link to this heading">#</a></h3>
+</section>
+<section id="weight-initialization-for-deep-networks">
+<h3>Weight Initialization for Deep Networks<a class="headerlink" href="#weight-initialization-for-deep-networks" title="Link to this heading">#</a></h3>
+</section>
+<section id="numerical-approximation-of-gradients">
+<h3>Numerical Approximation of Gradients<a class="headerlink" href="#numerical-approximation-of-gradients" title="Link to this heading">#</a></h3>
+</section>
+<section id="gradient-checking">
+<h3>Gradient Checking<a class="headerlink" href="#gradient-checking" title="Link to this heading">#</a></h3>
+</section>
+<section id="gradient-checking-implementation-notes">
+<h3>Gradient Checking Implementation Notes<a class="headerlink" href="#gradient-checking-implementation-notes" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>If you have 20,000,000 examples, how would you split the train/dev/test set? Choose the best option.</p>
+<p>A. 90% train. 5% dev. 5% test.</p>
+<p>B. 99% train. 0.5% dev. 0.5% test.</p>
+<p>C. 60% train. 20% dev. 20% test.</p>
+</li>
+<li><p>In a personal experiment, an M.L. student decides to not use a test set, only train-dev sets. In this case which of the following is true?</p>
+<p>A. He won’t be able to measure the bias of the model.</p>
+<p>B. He won’t be able to measure the variance of the model.</p>
+<p>C. He might be overfitting to the dev set.</p>
+<p>D. Not having a test set is unacceptable under any circumstance.</p>
+</li>
+<li><p>If your Neural Network model seems to have high variance, what of the following would be promising things to try?</p>
+<p>A. Make the Neural Network deeper</p>
+<p>B. Add regularization</p>
+<p>C. Get more training data</p>
+<p>D. Increase the number of units in each hidden layer</p>
+<p>E. Get more test data</p>
+</li>
+<li><p>You are working on an automated check-out kiosk for a supermarket and are building a classifier for apples, bananas, and oranges. Suppose your classifier obtains a training set error of 19% and a dev set error of 21%. Which of the following are promising things to try to improve your classifier? (Check all that apply, suppose the human error is approximately 0%)</p>
+<p>A. Use a bigger network.</p>
+<p>B. Increase the regularization parameter lambda.</p>
+<p>C. Get more training data.</p>
+</li>
+<li><p><strong>True/False</strong> In every case it is a good practice to use dropout when training a deep neural network because it can help to prevent overfitting.   __________</p></li>
+<li><p><strong>True/False</strong> The regularization hyperparameter must be set to zero during testing to avoid getting random results.    __________</p></li>
+<li><p>Which of the following are true about dropout?</p>
+<p>A. It helps to reduce overfitting.</p>
+<p>B. In practice, it eliminates units of each layer with probability of <span class="math notranslate nohighlight">\(1-\)</span>keep_prob.</p>
+<p>C. In practice, it eliminates units of each layer with probability of keep_prob.</p>
+<p>D. It helps to reduce the bias of model.</p>
+</li>
+<li><p>During training a deep neural network that uses the tanh activation function, the value of the gradients is practically zero. Which of the following is most likely to help the vanishing gradient problem?</p>
+<p>A. Use Xavier initialization.</p>
+<p>B. Increase the number of cycles during the training.</p>
+<p>C. Increase the number of layers of the network.</p>
+<p>D. Use a larger regularization parameter.</p>
+</li>
+<li><p>Which of these techniques are useful for reducing variance (reducing overfitting)?</p>
+<p>A. Xavier initialization</p>
+<p>B. L2 regularization</p>
+<p>C. Drop out</p>
+<p>D. Data augmentation</p>
+<p>E. Gradient checking</p>
+<p>F. Vanishing gradient</p>
+<p>G. Exploding gradient</p>
+</li>
+<li><p>Which of the following is the correct expression to normalize the input <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>?</p>
+<p>A. <span class="math notranslate nohighlight">\(x = \dfrac{x-\mu}{\sigma}\)</span></p>
+<p>B. <span class="math notranslate nohighlight">\(x = \dfrac{x}{\sigma}\)</span></p>
+<p>C. <span class="math notranslate nohighlight">\(x = \dfrac{1}{m} \sum_{i=1}^{m}\Big(x^{(i)}\Big)^2\)</span></p>
+<p>D. <span class="math notranslate nohighlight">\(x = \dfrac{1}{m} \sum_{i=1}^{m} x^{(i)}\)</span></p>
+</li>
+<li><p>The dev and test set should:</p>
+<p>A. Be identical to each other (same (x,y) pairs)</p>
+<p>B. Have the same number of examples</p>
+<p>C. Come from the same distribution</p>
+<p>D. Come from different distributions</p>
+</li>
+<li><p>A model developed for a project is presenting high bias. One of the sponsors of the project offers some resources that might help reduce the bias. Which of the following additional resources has a better chance to help reduce the bias?</p>
+<p>A. Give access to more computational resources like GPUs.</p>
+<p>B. Use different sources to gather data and better test the model.</p>
+<p>C. Gather more data for the project.</p>
+</li>
+<li><p>Which of the following are regularization techniques?</p>
+<p>A. Gradient Checking.</p>
+<p>B. Increase the number of layers of the network.</p>
+<p>C. Dropout.</p>
+<p>D. Weight decay.</p>
+</li>
+<li><p><strong>True/False</strong> To reduce high variance, the regularization hyperparameter lambda must be increased.   __________</p></li>
+<li><p>Decreasing the parameter keep_prob from (say) 0.6 to 0.4 will likely cause the following:</p>
+<p>A. Increasing the regularization effect.</p>
+<p>B. Causing the neural network to have a higher variance.</p>
+<p>C. Reducing the regularization effect.</p>
+</li>
+<li><p>Which of the following actions increase the regularization of a model? (Check all that apply)</p>
+<p>A. Increase the value of the hyperparameter lambda.</p>
+<p>B. Decrease the value of the hyperparameter lambda.</p>
+<p>C. Normalizing the data.</p>
+<p>D. Increase the value of keep_prob in dropout.</p>
+<p>E. Make use of data augmentation.</p>
+</li>
+<li><p>Suppose that a model uses, as one feature, the total number of kilometers walked by a person during a year, and another feature is the height of the person in meters. What is the most likely effect of normalization of the input data?</p>
+<p>A. It will make the training faster.</p>
+<p>B. It won’t have any positive or negative effects.</p>
+<p>C. It will make the data easier to visualize.</p>
+<p>D. It will increase the variance of the model.</p>
+</li>
+<li><p>When designing a neural network to detect if a house cat is present in the picture, 500,000 pictures of cats were taken by their owners. These are used to make the training, dev and test sets. It is decided that to increase the size of the test set, 10,000 new images of cats taken from security cameras are going to be used in the test set. Which of the following is true?</p>
+<p>A. This will increase the bias of the model so the new images shouldn’t be used.</p>
+<p>B. This will be harmful to the project since now dev and test sets have different distributions.</p>
+<p>C. This will reduce the bias of the model and help improve it.</p>
+</li>
+<li><p>You are working on an automated check-out kiosk for a supermarket, and are building a classifier for apples, bananas and oranges. Suppose your classifier obtains a training set error of 0.5%, and a dev set error of 7%. Which of the following are promising things to try to improve your classifier? (Check all that apply.)</p>
+<p>A. Increase the regularization parameter lambda.</p>
+<p>B. Decrease the regularization parameter lambda.</p>
+<p>C. Getting more training data.</p>
+<p>D. Use a bigger neural network.</p>
+</li>
+<li><p>What is weight decay?</p>
+<p>A. A technique to avoid vanishing gradient by imposing a ceiling on the values of the weights.</p>
+<p>B. A regularization technique (such as L2 regularization) that results in gradient descent shrinking the weights on every iteration.</p>
+<p>C. The process of gradually decreasing the learning rate during training.</p>
+<p>D. General corruption of the weights in the neural network if it is trained on noisy data.</p>
+</li>
+<li><p>Which of the following actions increase the regularization of a model? (Check all that apply)</p>
+<p>A. Use Xavier initialization.</p>
+<p>B. Increase the value of keep_prob in dropout.</p>
+<p>C. Increase the value of the hyperparameter lambda.</p>
+<p>D. Decrease the value of keep_prob in dropout.</p>
+<p>E. Decrease the value of the hyperparameter lambda.</p>
+</li>
+<li><p>Why do we normalize the inputs <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>?</p>
+<p>A. It makes it easier to visualize the data.</p>
+<p>B. It makes the parameter initialization faster.</p>
+<p>C. Normalization is another word for regularization–It helps to reduce variance.</p>
+<p>D. It makes the cost function faster to optimize.</p>
+</li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Click here for answers!</p>
+<ol class="arabic">
+<li><p>B </br></p>
+<p>B. Given the size of the dataset, 0.5% of the samples are enough to get a good estimate of how well the model is doing. </br></p>
+</li>
+<li><p>C </br></p>
+<p>C.  Although not recommended, if a more accurate measure of the performance is not necessary it is ok to not use a test set. However, this might cause an overfit to the dev set.</p>
+</li>
+<li><p>BC </br></p></li>
+<li><p>A </br></p>
+<p>A. This can be helpful to reduce the bias of the model, and then we can start trying to reduce the high variance if this happens.  </br></p>
+</li>
+<li><p>False </br></p>
+<p>In most cases, it is recommended to not use dropout if there is no overfit. Although in computer vision, due to the nature of the data, it is the default practice. </br></p>
+</li>
+<li><p>False </br></p>
+<p>The regularization parameter affects how the weights change during training, this means during backpropagation. It has no effect during the forward propagation that is when predictions for the test are made. </br></p>
+</li>
+<li><p>AB </br></p>
+<p>A. The dropout is a regularization technique and thus helps to reduce the overfit. </br>
+B. The probability that dropout doesn’t eliminate a neuron is keep_prob.</p>
+</li>
+<li><p>A </br></p>
+<p>A careful initialization can help reduce the vanishing gradient problem. </br></p>
+</li>
+<li><p>BCD </br></p></li>
+<li><p>A </br></p>
+<p>A. This shifts the mean of the input to the origin and makes the variance one in each coordinate of the input examples.</p>
+</li>
+<li><p>C </br></p></li>
+<li><p>A </br></p>
+<p>A. This can allow the developers to try bigger networks, train for more cycles, and test different architectures. </br></p>
+</li>
+<li><p>CD</br></p>
+<p>Using dropout layers is a regularization technique. Weight decay also is a form of regularization.</br></p>
+</li>
+<li><p>True </br></p>
+<p>By increasing the regularization parameter the magnitude of the weight parameters is reduced. This helps avoid overfitting and reduces the variance. </br></p>
+</li>
+<li><p>A </br></p>
+<p>A. This will make the dropout have a higher probability of eliminating a node in the neural network, increasing the regularization effect. </br></p>
+</li>
+<li><p>AE </br></p>
+<p>A. When increasing the hyperparameter lambda we increase the effect of the L_2 penalization. </br>
+E. Data augmentation has a way to generate “new” data at a relatively low cost. Thus making use of data augmentation can reduce the variance. </br></p>
+</li>
+<li><p>A </br></p>
+<p>A. Since the difference between the ranges of the features is very different, this will likely cause the process of gradient descent to oscillate, making the optimization process longer. </br></p>
+</li>
+<li><p>B </br></p>
+<p>B. The quality and type of images are quite different thus we can’t consider that the dev and the test sets came from the same distribution. </br></p>
+</li>
+<li><p>AC </br></p></li>
+<li><p>B </br></p></li>
+<li><p>CD </br></p>
+<p>C. When increasing the hyperparameter lambda, we increase the effect of the L_2 penalization. </br>
+D. When decreasing the keep_prob value, the probability that a node gets discarded during training is higher, thus reducing the regularization effect. </br></p>
+</li>
+<li><p>D </br></p></li>
+</ol>
+</div>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C4_Practical_Test_P2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Practical 4: Deep Neural Network for Image Classification: Application</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C5_Initialization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Practical 5: Initialization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-machine-learning-application">Setting up your Machine Learning Application</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-dev-test-sets">Train / Dev / Test Sets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-variance">Bias / Variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-recipe-for-machine-learning">Bias Recipe for Machine Learning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularizing-your-neural-network">Regularizing your Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization">Regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-regularization-reduces-overfitting">Why regularization Reduces Overfitting?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dropout-regularization">Dropout Regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-dropout">Understanding Dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-regularization-methods">Other Regularization Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-opimization-problem">Setting up your Opimization Problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-inputs">Normalizing Inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanishing-exploding-gradients">Vanishing / Exploding Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-initialization-for-deep-networks">Weight Initialization for Deep Networks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-approximation-of-gradients">Numerical Approximation of Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking">Gradient Checking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking-implementation-notes">Gradient Checking Implementation Notes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Chao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

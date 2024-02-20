@@ -1,0 +1,1001 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3 Shallow Neural Networks &#8212; Deep Learning Specialization</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'C3';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Practical 2: Planar data classification with one hidden layer" href="C3_Practical_Test.html" />
+    <link rel="prev" title="Practicel 1: Logistic Regression with a Neural Network mindset" href="C2_Practical_Test.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Deep Learning Specialization - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Deep Learning Specialization - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to Deep Learning Specialization
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="C1.html">1 Introduction to Deep Learning</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C2.html">2 Neural Networks Basics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical.html">Pre-Practical: Python Basics with Numpy (optional assignment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical_Test.html">Practicel 1: Logistic Regression with a Neural Network mindset</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">3 Shallow Neural Networks</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C3_Practical_Test.html">Practical 2: Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C4.html">4 Deep Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P1.html">Practical 3: Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P2.html">Practical 4: Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C5.html">5 Practical Aspects of Deep Learning</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C5_Initialization.html">Practical 5: Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C5_Regularization.html">Practical 6: Regularization</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FC3.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/C3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3 Shallow Neural Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-networks-overview">Neural Networks Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network-representation">Neural Network Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-a-neural-network-s-output">Computing a Neural Network’s Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectorizing-across-multiple-examples">Vectorizing Across Multiple Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation-for-vectorized-implementation">Explanation for Vectorized Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-do-you-need-non-linear-activation-functions">Why do you need Non-Linear Activation Functions?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivatives-of-activation-functions">Derivatives of Activation Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent-for-neural-networks">Gradient Descent for Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation-intuition-optional">Backpropagation Intuition (Optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-initialization">Random Initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="shallow-neural-networks">
+<span id="shallownn"></span><h1>3 Shallow Neural Networks<a class="headerlink" href="#shallow-neural-networks" title="Link to this heading">#</a></h1>
+<p>Build a neural network with one hidden layer, using forward propagation and backpropagation.</p>
+<p><strong>Learning Objectives</strong></p>
+<ul class="simple">
+<li><p>Describe hidden units and hidden layers.</p></li>
+<li><p>Use units with a non-linear activation function, such as tanh.</p></li>
+<li><p>Implement forward and backward propagation.</p></li>
+<li><p>Apply random initialization to your neural network.</p></li>
+<li><p>Increase fluency in Deep Learning notations and Neural Network Representations.</p></li>
+<li><p>Implement a 2-class classification neural network with a single hidden layer.</p></li>
+<li><p>Compute the cross entropy loss.</p></li>
+</ul>
+<hr class="docutils" />
+<section id="neural-networks-overview">
+<h2>Neural Networks Overview<a class="headerlink" href="#neural-networks-overview" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/f53vwY_wNKY">Video</a></p>
+<p>Let’s give a quick overview of how you implement a neural network. Last chapter, we had learned about logistic regression, and we saw how this model corresponds to the following computation draft.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/3-1.png"><img alt="_images/3-1.png" src="_images/3-1.png" style="height: 280px;" /></a>
+</figure>
+<p>Whereas previously, the node corresponds to two steps to calculations. The first is compute the <span class="math notranslate nohighlight">\(z\)</span>-value, second is it computes the <span class="math notranslate nohighlight">\(a\)</span> value. In the neural network, the stack of nodes will correspond to a <span class="math notranslate nohighlight">\(z\)</span>-like calculation like this, as well as, an <span class="math notranslate nohighlight">\(a\)</span>-like calculation like that. Then, the second node will correspond to another <span class="math notranslate nohighlight">\(z\)</span> and another <span class="math notranslate nohighlight">\(a\)</span> like calculation.</p>
+<p>New notation that we’ll introduce is that we’ll use superscript square bracket one (<span class="math notranslate nohighlight">\([1]\)</span>) to refer to quantities associated with the first stack of nodes, it’s called a layer. Then later, we’ll use superscript square bracket two (<span class="math notranslate nohighlight">\([2]\)</span>) to refer to quantities associated with the second node. That’s called another layer of the neural network.</p>
+<p>The superscript square brackets <span class="math notranslate nohighlight">\([\ ]\)</span>, like we have here, are not to be confused with the superscript round brackets <span class="math notranslate nohighlight">\((\ )\)</span> which we use to refer to individual training examples.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span> superscript round bracket <span class="math notranslate nohighlight">\(i\)</span> (<span class="math notranslate nohighlight">\(x^i\)</span>) refer to the <span class="math notranslate nohighlight">\(i\)</span>-th training example</p></li>
+<li><p>superscript square bracket one and two refer to these different layers; layer one and layer two in this neural network.</p></li>
+</ul>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="_images/3-2.png"><img alt="_images/3-2.png" src="_images/3-2.png" style="height: 380px;" /></a>
+</figure>
+<p>This gives you a quick overview of what a neural network looks like. It’s basically taken logistic regression and repeating it twice.</p>
+</section>
+<section id="neural-network-representation">
+<h2>Neural Network Representation<a class="headerlink" href="#neural-network-representation" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/Gk_xaB2Hg7U">Video</a></p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="_images/3-3.png"><img alt="_images/3-3.png" src="_images/3-3.png" style="height: 450px;" /></a>
+</figure>
+<p>In this example, <span class="math notranslate nohighlight">\(a^{[1]}\)</span> is a four dimensional vector, in <code class="docutils literal notranslate"><span class="pre">Python</span></code> it is the <span class="math notranslate nohighlight">\(4 \times 1\)</span> matrix, or a <span class="math notranslate nohighlight">\(4\)</span> column vector, which shows in the picture. And it’s four dimensional, because in this case we have four nodes, or four units, or four hidden units in this hidden layer.</p>
+<p>The hidden layer will have associated with it parameters <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(W^{[1]}, b^{[1]}\)</span>, superscripts square bracket 1 to indicate that these are parameters associated with layer one with the hidden layer.</p></li>
+<li><p>We’ll see later that <span class="math notranslate nohighlight">\(W^{[1]}\)</span> will be a <span class="math notranslate nohighlight">\(4 \times 3\)</span> matrix and <span class="math notranslate nohighlight">\(b^{[1]}\)</span> will be a <span class="math notranslate nohighlight">\(4 \times 1\)</span> vector in this example.</p></li>
+<li><p>Where the first coordinate four comes from the fact that we have four nodes of our hidden units and a layer, and three comes from the fact that we have three input features.</p></li>
+<li><p>In some of the output layers has associated with it also, parameters <span class="math notranslate nohighlight">\(W^{[2]}\)</span> and <span class="math notranslate nohighlight">\(b^{[2]}\)</span>. And it turns out the dimensions of these are <span class="math notranslate nohighlight">\(1 \times 4\)</span> and <span class="math notranslate nohighlight">\(1 \times 1\)</span>. And this <span class="math notranslate nohighlight">\(1 \times 4\)</span> is because the hidden layer has four hidden units, the output layer has just one unit.</p></li>
+</ul>
+<p>We’ll talk about the dimensions of these matrices in next section.</p>
+<div class="hint admonition">
+<p class="admonition-title">What the word <strong>hidden</strong> means?</p>
+<p>In a neural network that you train with supervised learning, the training set contains values of the inputs <span class="math notranslate nohighlight">\(x\)</span> as well as the target outputs <span class="math notranslate nohighlight">\(y\)</span>. So the term hidden layer refers to the fact that in the training set, the true values for these nodes in the middle are not observed. That is, you don’t see what they should be in the training set. You see what the inputs are. You see what the output should be. But the things in the hidden layer are not seen in the training set. So that kind of explains the name hidden layer; just because you don’t see it in the training set.</p>
+</div>
+</section>
+<section id="computing-a-neural-network-s-output">
+<h2>Computing a Neural Network’s Output<a class="headerlink" href="#computing-a-neural-network-s-output" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/cptdfvi5wK0">Video</a></p>
+<p>In the last section, you learned what a single hidden layer neural network looks like. In this section, let’s go through the details of exactly how this neural network computes these outputs. What you see is that it is like logistic regression, but repeated a lot of times.</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="_images/3-4.png"><img alt="_images/3-4.png" src="_images/3-4.png" style="height: 360px;" /></a>
+</figure>
+<p>Now, we’ve said before that logistic regression, the circle in logistic regression, really represents two steps of computation rows. You compute <span class="math notranslate nohighlight">\(z\)</span> first and then compute the activation as a sigmoid function of <span class="math notranslate nohighlight">\(z\)</span>. So, a neural network just does this a lot more times, like shows in the left. Let’s start by focusing on just one of the nodes in the hidden layer. Let’s look at the first node in the hidden layer.</p>
+<p>I’ve grayed out the other nodes for now. So, similar to logistic regression on the left, this nodes in the hidden layer does two steps of computation.</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="_images/3-5.jpg"><img alt="_images/3-5.jpg" src="_images/3-5.jpg" style="height: 380px;" /></a>
+</figure>
+<p>The first step and think of as the left half of this node, it computes <span class="math notranslate nohighlight">\(z_1^{[1]} = w_1^{[1]T} x + b_1^{[1]}\)</span>, and the notation we’ll use is, these are all quantities associated with the first hidden layer. So, that’s why we have a bunch of square brackets there. This is the first node in the hidden layer. So, that’s why we have the subscript one over there. So first, it does that, and then the second step, is it computes <span class="math notranslate nohighlight">\(a_1^{[1]} = \sigma (z_1^{[1]} )\)</span>, like so. So, for both <span class="math notranslate nohighlight">\(z\)</span> and <span class="math notranslate nohighlight">\(a\)</span>, the notational convention is that the <span class="math notranslate nohighlight">\([l]\)</span> here in superscript square brackets, refers to the layer number, and the <span class="math notranslate nohighlight">\([i]\)</span> subscript here, refers to the nodes in that layer. So, the node we’ll be looking at is <strong>layer one</strong>, that is a hidden layer <strong>node one</strong>.</p>
+<p>That little circle, that first node in the neural network, represents carrying out these two steps of computation. Now, let’s look at the second node in the neural network, or the second node in the hidden layer of the neural network. Similar to the logistic regression unit on the left, this little circle represents two steps of computation. The first step is it computes <span class="math notranslate nohighlight">\(z\)</span>. This is still layer one, but now as a second node <span class="math notranslate nohighlight">\(z_2^{[1]} = w_2^{[1]T} x + b_2^{[1]}\)</span>. And then <span class="math notranslate nohighlight">\(a_2^{[1]} = \sigma (z_2^{[1]} )\)</span>.</p>
+<p>So, we’ve talked through the first two hidden units in a neural network, having units three and four also represents some computations. So now, if you then go through and write out the corresponding equations for the third and fourth hidden units, you get the following. Now, if you’re actually implementing a neural network, doing this with a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, seems really inefficient. So, what we’re going to do, is take these four equations and vectorize. So, we’re going to start by showing how to compute <span class="math notranslate nohighlight">\(z\)</span> as a vector, it turns out you could do it as follows.</p>
+<ul class="simple">
+<li><p>stack <span class="math notranslate nohighlight">\(w_i^{[1]T}\)</span> into a matrix. By stacking those four <span class="math notranslate nohighlight">\(w\)</span> vectors together, you end up with a matrix. So, another way to think of this is that we have four logistic regression units there, and each of the logistic regression units, has a corresponding parameter vector, <span class="math notranslate nohighlight">\(w\)</span>. By stacking those four vectors together, you end up with this <span class="math notranslate nohighlight">\(4 \times 3\)</span> matrix. This matrix here which we obtained by stacking the lowercase <span class="math notranslate nohighlight">\(w_1^{[1]}\)</span> through <span class="math notranslate nohighlight">\(w_4^{[1]}\)</span>, we’re going to call this matrix capital <span class="math notranslate nohighlight">\(W^{[1]}\)</span>.</p></li>
+<li><p>Computing vector <span class="math notranslate nohighlight">\(z^{[1]}\)</span>, which is taken by stacking up these individuals of <span class="math notranslate nohighlight">\(z\)</span>’s into a column vector. When we’re vectorizing, one of the rules of thumb that might help you navigate this, is that while we have different nodes in the layer, we’ll stack them vertically. So, that’s why we have <span class="math notranslate nohighlight">\(z_1^{[1]}\)</span> through <span class="math notranslate nohighlight">\(z_4^{[1]}\)</span>, those corresponded to four different nodes in the hidden layer, and so we stacked these four numbers vertically to form the vector <span class="math notranslate nohighlight">\(z^{[1]}\)</span>.</p></li>
+<li><p>Computing vector <span class="math notranslate nohighlight">\(a^{[1]}\)</span>. So, prior won’t surprise you to see that we’re going to define <span class="math notranslate nohighlight">\(a^{[1]}\)</span>, as just stacking together, those activation values, <span class="math notranslate nohighlight">\(a_1^{[1]}\)</span> through <span class="math notranslate nohighlight">\(a_4^{[1]}\)</span>. So, just take these four values and stack them together in a vector called <span class="math notranslate nohighlight">\(a^{[1]}\)</span>. This is going to be a sigmoid of <span class="math notranslate nohighlight">\(z^{[1]}\)</span>, where this now has been implementation of the sigmoid function that takes in the four elements of <span class="math notranslate nohighlight">\(z\)</span>, and applies the sigmoid function element-wise to it.</p></li>
+</ul>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="_images/3-6.png"><img alt="_images/3-6.png" src="_images/3-6.png" style="height: 460px;" /></a>
+</figure>
+<p>To sumarrise the first layer of the neural network given an input <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="_images/3-7.png"><img alt="_images/3-7.png" src="_images/3-7.png" style="height: 300px;" /></a>
+</figure>
+<p>Remember, that we said <span class="math notranslate nohighlight">\(x\)</span> is equal to <span class="math notranslate nohighlight">\(a^{[0]}\)</span>. Just say <span class="math notranslate nohighlight">\(\hat{y}\)</span> is also equal to <span class="math notranslate nohighlight">\(a^{[2]}\)</span>. If you want, you can actually take the <span class="math notranslate nohighlight">\(x\)</span> in the first equation and replace it with <span class="math notranslate nohighlight">\(a^{[0]}\)</span>, since <span class="math notranslate nohighlight">\(a^{[0]}\)</span> is if you want as an alias for the vector of input features, <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>For logistic regression, to implement the output or to implement prediction, you compute <span class="math notranslate nohighlight">\(\mathbf{z} = \mathbf{w}^T \mathbf{x} + \mathbf{b}\)</span>, and <span class="math notranslate nohighlight">\(\hat{y} = a = \sigma{(z)}\)</span>. When you have a neural network with one hidden layer, what you need to implement, is to computer this output is just the four equations shows in the figure on the left.</p>
+<p>You can think of this as a vectorized implementation of computing the output of first four logistic regression units in the hidden layer:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{z}^{[1]} &amp;= \mathbf{W}^{[1]} \mathbf{a}^{[0]} + \mathbf{b}^{[1]} \\
+\mathbf{a}^{[1]} &amp;= \sigma({\mathbf{z}^{[1]}})
+\end{aligned}
+\end{split}\]</div>
+<p>and then the logistic regression in the output layer which is what this does:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{z}^{[2]} &amp;= \mathbf{W}^{[2]} \mathbf{a}^{[1]} + \mathbf{b}^{[2]} \\
+\mathbf{a}^{[2]} &amp;= \sigma({\mathbf{z}^{[2]}})
+\end{aligned}
+\end{split}\]</div>
+</section>
+<section id="vectorizing-across-multiple-examples">
+<h2>Vectorizing Across Multiple Examples<a class="headerlink" href="#vectorizing-across-multiple-examples" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/WSu85RCigi0">Video</a></p>
+<p>In the last section, you have learned how to compute the prediction on a neural network, given a single training example. In this section, you will learn how to vectorize across multiple training examples. And the outcome will be quite similar to what you learned for logistic regression. Whereby stacking up different training examples in different columns of the matrix, you’d be able to take the equations you had from the previous section. And with very little modification, change them to make the neural network compute the outputs on all the examples on pretty much all at the same time. So let’s see the details on how to do that.</p>
+<p>The four equations we have from the previous section of how you compute <span class="math notranslate nohighlight">\(\mathbf{z}^{[1]}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{a}^{[1]}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{z}^{[2]}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{a}^{[2]}\)</span>. And they tell you how, given an input feature back to <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, you can use them to generate <span class="math notranslate nohighlight">\(\mathbf{a}^{[2]} = \hat{\mathbf{y}}\)</span> hat for a single training example.</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x} \longrightarrow \mathbf{a}^{[2]} = \hat{\mathbf{y}}\]</div>
+<p>Now if you have <span class="math notranslate nohighlight">\(m\)</span> training examples, you need to repeat this process for:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{x}^{(1)} &amp;\longrightarrow \mathbf{a}^{[2](1)} = \hat{\mathbf{y}}^{(1)} \\
+\mathbf{x}^{(2)} &amp;\longrightarrow \mathbf{a}^{[2](2)} = \hat{\mathbf{y}}^{(2)}  \\
+\vdots \\
+\mathbf{x}^{(m)} &amp;\longrightarrow \mathbf{a}^{[2](m)} = \hat{\mathbf{y}}^{(m)}
+\end{aligned}
+\end{split}\]</div>
+<p>So the notation <span class="math notranslate nohighlight">\(\mathbf{a}^{[2](i)}\)</span>:</p>
+<ul class="simple">
+<li><p>the round bracket <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\((i)\)</span>, refers to training example <span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p>the square bracket 2, <span class="math notranslate nohighlight">\([2]\)</span>, refers to layer 2.</p></li>
+</ul>
+<p>And so to suggest that if you have an unvectorized implementation and want to compute the predictions of all your training examples, you need to do a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop from <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">to</span> <span class="pre">m</span></code>. Then basically implement these four equations. What we like to do is vectorize this whole computation, so as to get rid of this <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.</p>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="_images/3-8.png"><img alt="_images/3-8.png" src="_images/3-8.png" style="height: 380px;" /></a>
+</figure>
+<p>They are also obtained by taking these vectors and stacking them horizontally. And taking these vectors and stacking them horizontally, in order to get <span class="math notranslate nohighlight">\(\mathbf{Z}^{[2]}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{A}^{[2]}\)</span>. One of the property of this notation that might help you to think about it is that this matrixes say <span class="math notranslate nohighlight">\(\mathbf{Z}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{A}\)</span>, horizontally we’re going to index across training examples. So that’s why the horizontal index corresponds to different training example, when you sweep from left to right you’re scanning through the training cells. And vertically this vertical index corresponds to different nodes in the neural network.</p>
+<ul class="simple">
+<li><p>horizontally the matrix <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> goes over different training examples.</p></li>
+<li><p>vertically the different indices in the matrix <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> corresponds to different hidden units. As you scan down this is your indexing to the hidden units number.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{X}\)</span> where horizontally corresponds to different training examples. And vertically it corresponds to different input features which are really different than those of the input layer of the neural network.</p></li>
+</ul>
+</section>
+<section id="explanation-for-vectorized-implementation">
+<h2>Explanation for Vectorized Implementation<a class="headerlink" href="#explanation-for-vectorized-implementation" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/PzpiZKWtyRc">Video</a></p>
+<figure class="align-default" id="id9">
+<a class="reference internal image-reference" href="_images/3-9.png"><img alt="_images/3-9.png" src="_images/3-9.png" style="height: 380px;" /></a>
+</figure>
+<p>I hope this gives a justification for why we had previously <span class="math notranslate nohighlight">\(\mathbf{W}^{[1]} \mathbf{x}^{(i)} = \mathbf{z}^{[1](i)} \)</span> when we’re looking at single training example at the time. When you took the different training examples and stacked them up in different columns, then the corresponding result is that you end up with the <span class="math notranslate nohighlight">\(\mathbf{z}\)</span>’s also stacked at the columns.</p>
+<p>So in this section, I’ve only justified that <span class="math notranslate nohighlight">\(\mathbf{Z}^{[1]} = \mathbf{W}^{[1]} \mathbf{X} + \mathbf{b}^{[1]}\)</span> is a correct vectorization of the first step of the four steps we have in the previous section, but it turns out that a similar analysis allows you to show that the other steps also work on using a very similar logic where if you stack the inputs in columns then after the equation, you get the corresponding outputs also stacked up in columns.</p>
+<figure class="align-default" id="id10">
+<a class="reference internal image-reference" href="_images/3-10.png"><img alt="_images/3-10.png" src="_images/3-10.png" style="height: 380px;" /></a>
+</figure>
+<div class="hint admonition">
+<p class="admonition-title">Reminder</p>
+<p>Because <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> is also equal to <span class="math notranslate nohighlight">\(\mathbf{A}^{[0]}\)</span>, remember that the input feature vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> was equal to <span class="math notranslate nohighlight">\(\mathbf{a}^{[0]}\)</span>, so <span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span> equals \mathbf{a}^{<a class="reference internal" href="#i"><span class="xref myst">0</span></a>}. Then there’s actually a certain symmetry to these equations where this first equation can also be written  <span class="math notranslate nohighlight">\(\mathbf{Z}^{[1]} = \mathbf{W}^{[1]} \mathbf{A}^{[0]} + \mathbf{b}^{[1]}\)</span>.</p>
+<p>And so, you see that the first pair of equations and the second pair of equations actually look very similar but just of all of the indices advance by one. So this kind of shows that the different layers of a neural network are roughly doing the same thing or just doing the same computation over and over. And here we have two-layer neural network where we go to a much deeper neural network in next chapter. You see that even deeper neural networks are basically taking these two steps and just doing them even more times than you’re seeing here. So that’s how you can vectorize your neural network across multiple training examples.</p>
+</div>
+</section>
+<section id="activation-functions">
+<h2>Activation Functions<a class="headerlink" href="#activation-functions" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/pFa8lh3Rqmo">Video</a></p>
+<ol class="arabic simple">
+<li><p><strong>sigmoid function</strong></p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[g(z) = \dfrac{1}{1+e^{-z}}\]</div>
+<ul class="simple">
+<li><p>the sigmoid function goes between zero and one.</p></li>
+<li><p>I would say never use this except for the output layer if you’re doing binary classification or maybe almost never use this. And the reason I almost never use this is because the tanh is pretty much strictly superior.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>tanh function</strong> (tangent function / hyperbolic tangent function)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[g(z) = \dfrac{e^z - e^{-z}}{e^z + e^{-z}}\]</div>
+<ul class="simple">
+<li><p>the tanh function goes between <span class="math notranslate nohighlight">\((-1, 1)\)</span>.</p></li>
+<li><p>This almost always works better than the sigmoid function because with values between plus one and minus one, the mean of the activations that come out of your hidden layer are closer to having a zero mean. And so just as sometimes when you train a learning algorithm, you might center the data and your data have zero mean using a <strong>tanh</strong> instead of a sigmoid function. Kind of has the effect of centering your data so that the mean of your data is close to 0 rather than 0.5. And this actually makes learning for the next layer a little bit easier.</p></li>
+<li><p>The one <em><strong>exception</strong></em> is for the <strong>output layer</strong> because if <span class="math notranslate nohighlight">\(y\)</span> is either zero or one (<span class="math notranslate nohighlight">\(y \in (0,1)\)</span>), then it makes sense for <span class="math notranslate nohighlight">\(\hat{y}\)</span> to be a number that you want to output that’s between zero and one rather than between -1 and 1. So the one exception where I would use the sigmoid activation function is when you’re using binary classification. In which case you might use the sigmoid activation function for the upper layer.</p></li>
+<li><p>One of the downsides of both the sigmoid function and the tanh function is that if <span class="math notranslate nohighlight">\(z\)</span> is either very large or very small, then the gradient of the derivative of the slope of this function becomes very small. So if <span class="math notranslate nohighlight">\(z\)</span> is very large or <span class="math notranslate nohighlight">\(z\)</span> is very small, the slope of the function either ends up being close to zero and so this can slow down gradient descent. So one other choice that is very popular in machine learning is what’s called the rectified linear unit.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>ReLU function</strong> (Rectified Linear unit)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[g(z) = \text{max}(0, z)\]</div>
+<ul class="simple">
+<li><p>So the derivative is one so long as <span class="math notranslate nohighlight">\(z\)</span> is positive and derivative or the slope is zero when <span class="math notranslate nohighlight">\(z\)</span> is negative. If you’re implementing this, technically the derivative when <span class="math notranslate nohighlight">\(z\)</span> is exactly zero is not well defined. But when you implement this in the computer, the odds that you get exactly <span class="math notranslate nohighlight">\(z\)</span> equals <span class="math notranslate nohighlight">\(0.000000000000000\)</span> is very small. So you don’t need to worry about it. In practice, you could pretend a derivative when <span class="math notranslate nohighlight">\(z\)</span> is equal to zero, you can pretend is either one or zero. And you can work just fine. So the fact is not differentiable.</p></li>
+<li><p>One disadvantage of the ReLU is that the derivative is equal to zero when <span class="math notranslate nohighlight">\(z\)</span> is negative. In practice this works just fine. But there is another version of the value called the Leaky ReLU.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Leaky ReLU function</strong></p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[g(z) = \text{max}(0.01z, z)\]</div>
+<ul class="simple">
+<li><p>instead of it being zero when <span class="math notranslate nohighlight">\(z\)</span> is negative, it just takes a slight slope.</p></li>
+<li><p>And you might say, why is that constant <span class="math notranslate nohighlight">\(0.01\)</span>? Well, you can also make that an another parameter of the learning algorithm. And some people say that works even better, but how they see people do that. So, if you feel like trying it in your application, please feel free to do so. And you can just see how it works and how well it works, and stick with it if it gives you a good result.</p></li>
+<li><p>This usually works better than the ReLU activation function. Although, it’s just not used as much in practice. Either one should be fine. Although, if you had to pick one, I usually just use the ReLU.</p></li>
+<li><p>The advantage of both the ReLU and the Leaky ReLU is that for a lot of the space of <span class="math notranslate nohighlight">\(z\)</span>, the derivative of the activation function, the slope of the activation function is very different from zero. And so in practice, using the value activation function, your neural network will often learn much faster than when using the tanh or the sigmoid activation function. And the main reason is that there is less of this effect of the slope of the function going to zero, which slows down learning. And I know that for half of the range of <span class="math notranslate nohighlight">\(z\)</span> in ReLU, the slope for value is zero. But in practice, enough of your hidden units will have <span class="math notranslate nohighlight">\(z\)</span> greater than zero. So learning can still be quite fast for most training examples.</p></li>
+</ul>
+<figure class="align-default" id="id11">
+<a class="reference internal image-reference" href="_images/3-11.png"><img alt="_images/3-11.png" src="_images/3-11.png" style="height: 360px;" /></a>
+</figure>
+<ul class="simple">
+<li><p>The activation functions can be different for different layers. And sometimes to denote that the activation functions are different for different layers, we might use these square brackets superscripts as well to indicate that <span class="math notranslate nohighlight">\(g^{[1]}(z)\)</span> may be different than <span class="math notranslate nohighlight">\(g^{[2]}(z)\)</span>.</p></li>
+</ul>
+<div class="hint admonition">
+<p class="admonition-title"><em><strong>Rules of thumb for choosing activation functions</strong></em></p>
+<p>If your output is zero one value, if you’re using binary classification, then the sigmoid activation function is very natural choice for the output layer. And then for all other units, the ReLU or the rectified linear unit is increasingly the default choice of activation function. So if you’re not sure what to use for your hidden layer, I would just use the ReLU activation function, is what you see most people using these days. Although sometimes people also use the tanh activation function.</p>
+<p>One of the things we will see in deep learning is that you often have a lot of different choices in how you build your neural network. Ranging from a number of hidden units to the choices activation function, to how you initialize the ways. A lot of choices like that. And it turns out that it is sometimes difficult to get good guidelines for exactly what will work best for your problem. So throughout these courses, I’ll keep on giving you a sense of what I see in the industry in terms of what’s more or less popular. But for your application, with your applications, idiosyncrasies is actually very difficult to know in advance exactly what will work best. So common piece of advice would be, if you’re not sure which one of these activation functions work best, try them all. And evaluate on a holdout validation set or a development set. And see which one works better and then go of that. And I think that by testing these different choices for your application, you would be better at future proofing your neural network architecture against the idiosyncracies problems. As well as evolutions of the algorithms rather than, if I were to tell you always use a value activation and don’t use anything else. That just may or may not apply for whatever problem you end up working on.</p>
+</div>
+</section>
+<section id="why-do-you-need-non-linear-activation-functions">
+<h2>Why do you need Non-Linear Activation Functions?<a class="headerlink" href="#why-do-you-need-non-linear-activation-functions" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/cJmupX30PCs">Video</a></p>
+</section>
+<section id="derivatives-of-activation-functions">
+<h2>Derivatives of Activation Functions<a class="headerlink" href="#derivatives-of-activation-functions" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/WLgjYfNifGk">Video</a></p>
+<ol class="arabic simple">
+<li><p><strong>sigmoid function</strong></p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[a = g(z) = \dfrac{1}{1+e^{-z}}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+g'(z) 
+&amp;= \dfrac{\mathrm{d}}{\mathrm{d}z}g(z) \\
+&amp;= \dfrac{-e^{-z}}{(1+e^{-z})^2} \\
+&amp;= \dfrac{1}{1+e^{-z}} \cdot \dfrac{-e^{-z}}{1+e^{-z}} \\
+&amp;= \dfrac{1}{1+e^{-z}} \cdot \Big( 1 - \dfrac{1}{1+e^{-z}} \Big) \\
+&amp;= g(z) \Big(1-g(z) \Big) \\
+&amp;= a(1-a)
+\end{aligned}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(z = 10\)</span>, <span class="math notranslate nohighlight">\(g(z) \approx 1\)</span>, <span class="math notranslate nohighlight">\(\dfrac{\mathrm{d}}{\mathrm{d}z}g(z) \approx 1\times(1-1) \approx 0\)</span></p></li>
+<li><p>If <span class="math notranslate nohighlight">\(z = -10\)</span>, <span class="math notranslate nohighlight">\(g(z) \approx 0\)</span>, <span class="math notranslate nohighlight">\(\dfrac{\mathrm{d}}{\mathrm{d}z}g(z) \approx 0\times(1-0) \approx 0\)</span></p></li>
+<li><p>If <span class="math notranslate nohighlight">\(z = 0\)</span>, <span class="math notranslate nohighlight">\(g(z) = \dfrac{1}{2}\)</span>, <span class="math notranslate nohighlight">\(\dfrac{\mathrm{d}}{\mathrm{d}z}g(z) = \dfrac{1}{2}\times(1-\dfrac{1}{2}) = \dfrac{1}{4}\)</span></p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>tanh function</strong></p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[a = g(z) = \dfrac{e^z - e^{-z}}{e^z + e^{-z}}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+g'(z) 
+&amp;= \dfrac{\mathrm{d}}{\mathrm{d}z}g(z) \\
+&amp;= \dfrac{(e^z + e^{-z})^2 - (e^z - e^{-z})^2}{(e^z + e^{-z})^2} \\
+&amp;= 1- \dfrac{(e^z - e^{-z})^2}{(e^z + e^{-z})^2} \\
+&amp;= 1- \Big(g(z) \Big)^2 \\
+&amp;= 1-a^2
+\end{aligned}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(z = 10\)</span>, <span class="math notranslate nohighlight">\(g(z) \approx 1\)</span>, <span class="math notranslate nohighlight">\(\dfrac{\mathrm{d}}{\mathrm{d}z}g(z) \approx 0\)</span></p></li>
+<li><p>If <span class="math notranslate nohighlight">\(z = -10\)</span>, <span class="math notranslate nohighlight">\(g(z) \approx -1\)</span>, <span class="math notranslate nohighlight">\(\dfrac{\mathrm{d}}{\mathrm{d}z}g(z) \approx 0\)</span></p></li>
+<li><p>If <span class="math notranslate nohighlight">\(z = 0\)</span>, <span class="math notranslate nohighlight">\(g(z) = 0\)</span>, <span class="math notranslate nohighlight">\(\dfrac{\mathrm{d}}{\mathrm{d}z}g(z) = 1\)</span></p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>ReLU function</strong> and <strong>Leaky ReLU function</strong></p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[g(z) = \text{max}(0, z)\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+g'(z) =
+\begin{cases}
+0,\quad \mbox{if} z &lt; 0\\
+1,\quad \mbox{if} z \geq 0
+\end{cases}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[g(z) = \text{max}(0.01z, z)\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+g'(z) =
+\begin{cases}
+0.01,\quad &amp;\mbox{if} z &lt; 0\\
+1,\quad &amp;\mbox{if} z \geq 0
+\end{cases}
+\end{split}\]</div>
+</section>
+<section id="gradient-descent-for-neural-networks">
+<h2>Gradient Descent for Neural Networks<a class="headerlink" href="#gradient-descent-for-neural-networks" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/CT21tIhFP-E">Video</a></p>
+<p>Parameters: <span class="math notranslate nohighlight">\(\mathbf{W}^{[1]}, \ \mathbf{b}^{[1]}, \ \mathbf{W}^{[2]}, \ \mathbf{b}^{[2]}\)</span></p>
+<p>Dimensions: <span class="math notranslate nohighlight">\(n_x = n^{[0]}\)</span>, <span class="math notranslate nohighlight">\(n^{[1]}\)</span>, <span class="math notranslate nohighlight">\(n^{[2]}\)</span>;</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{W}^{[1]}\)</span>: <span class="math notranslate nohighlight">\((n^{[1]}, n^{[0]})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{b}^{[1]}\)</span>: <span class="math notranslate nohighlight">\((n^{[1]}, 1)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{W}^{[2]}\)</span>: <span class="math notranslate nohighlight">\((n^{[2]}, n^{[1]})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{b}^{[2]}\)</span>: <span class="math notranslate nohighlight">\((n^{[2]}, 1)\)</span></p></li>
+</ul>
+<p>Cost function: <span class="math notranslate nohighlight">\(\boldsymbol{J}(\mathbf{W}^{[1]}, \ \mathbf{b}^{[1]}, \ \mathbf{W}^{[2]}, \ \mathbf{b}^{[2]}) = \dfrac{1}{m} \sum_{i=1}^{m}  \mathcal{L}(\hat{y}, y) \)</span></p>
+<p><strong>Forward propogation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{Z}^{[1]} &amp;= \mathbf{W}^{[1]} \mathbf{A}^{[0]} + \mathbf{b}^{[1]} \\
+\mathbf{A}^{[1]} &amp;= g^{[1]}({\mathbf{Z}^{[1]}}) \\
+\mathbf{Z}^{[2]} &amp;= \mathbf{W}^{[2]} \mathbf{A}^{[1]} + \mathbf{b}^{[2]} \\
+\mathbf{A}^{[2]} &amp;= g^{[2]}({\mathbf{Z}^{[2]}}) = \sigma({\mathbf{Z}^{[2]}})
+\end{aligned}
+\end{split}\]</div>
+<p><strong>Backward propogation</strong>:</p>
+<figure class="align-default" id="id12">
+<a class="reference internal image-reference" href="_images/3-12.png"><img alt="_images/3-12.png" src="_images/3-12.png" style="height: 300px;" /></a>
+</figure>
+</section>
+<section id="backpropagation-intuition-optional">
+<h2>Backpropagation Intuition (Optional)<a class="headerlink" href="#backpropagation-intuition-optional" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/MXLJQ0qIRxM">Video</a></p>
+</section>
+<section id="random-initialization">
+<h2>Random Initialization<a class="headerlink" href="#random-initialization" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/BSAWBJRTjuM">Video</a></p>
+<p>When you change your neural network, it’s important to initialize the weights randomly. For logistic regression, it was okay to initialize the weights to zero. But for a neural network of initialize the weights to parameters to all zero and then applied gradient descent, it won’t work.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Where did the constant <span class="math notranslate nohighlight">\(0.01\)</span> comes from and why is it? Why not put the number <span class="math notranslate nohighlight">\(100\)</span> or <span class="math notranslate nohighlight">\(1000\)</span>?</p>
+<p>If <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> is too large, you’re more likely to end up even at the very start of training, with very large values of <span class="math notranslate nohighlight">\(\mathbf{z}\)</span>. Which causes your tanh or your sigmoid activation function to be saturated, thus slowing down learning.</p>
+<ul class="simple">
+<li><p>Turns out that we usually prefer to initialize the weights to very small random values. Because if you are using a tanh or sigmoid activation function, or the other sigmoid, even just at the output layer. If the weights are too large, then when you compute the activation values, remember that <span class="math notranslate nohighlight">\(\mathbf{z}^{[1]} = \mathbf{W}^{[1]} \mathbf{a}^{[0]} + \mathbf{b}^{[1]}\)</span>. And then <span class="math notranslate nohighlight">\(\mathbf{a}^{[1]} \)</span> is the activation function applied to <span class="math notranslate nohighlight">\(\mathbf{z}^{[1]}\)</span>. So if <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> is very big, <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> will be very, or at least some values of <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> will be either very large or very small. And so in that case, you’re more likely to end up at these <strong>flat parts</strong> of the tanh function or the sigmoid function, where the slope or the gradient is very small. Meaning that gradient descent will be very slow. So learning was very slow.</p></li>
+</ul>
+<p>If you don’t have any sigmoid or tanh activation functions throughout your neural network, this is less of an issue. But if you’re doing binary classification, and your output unit is a sigmoid function, then you just don’t want the initial parameters to be too large. So that’s why multiplying by 0.01 would be something reasonable to try, or any other small number.</p>
+<figure class="align-default" id="id13">
+<a class="reference internal image-reference" href="_images/3-13.png"><img alt="_images/3-13.png" src="_images/3-13.png" style="height: 210px;" /></a>
+</figure>
+</div>
+<p>When you’re training a neural network with just one hidden layer, it is a relatively shallow neural network, without too many hidden layers. Set it to 0.01 will probably work okay. But when you’re training a very very deep neural network, then you might want to pick a different constant than 0.01. And in next chapter material, we’ll talk a little bit about how and when you might want to choose a different constant than 0.01. But either way, it will usually end up being a relatively small number.</p>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>Which of the following are true? (Check all that apply.)</p>
+<p>A. <span class="math notranslate nohighlight">\(W^{[1]}\)</span> is a matrix with rows equal to the transpose of the parameter vectors of the first layer.</p>
+<p>B. <span class="math notranslate nohighlight">\(W^{[1]}\)</span> is a matrix with rows equal to the parameter vectors of the first layer.</p>
+<p>C. <span class="math notranslate nohighlight">\(W_1\)</span> is a matrix with rows equal to the parameter vectors of the first layer.</p>
+<p>D. <span class="math notranslate nohighlight">\(w^{[4]}_3\)</span> is the column vector of parameters of the fourth layer and third neuron.</p>
+<p>E. <span class="math notranslate nohighlight">\(w^{[4]}_3\)</span> is the column vector of parameters of the third layer and fourth neuron.</p>
+<p>F. <span class="math notranslate nohighlight">\(w^{[4]}_3\)</span> is the row vector of parameters of the fourth layer and third neuron.</p>
+</li>
+<li><p><strong>True/False</strong> The sigmoid function is only mentioned as an activation function for historical reasons. The tanh is always preferred without exceptions in all the layers of a Neural Network.   __________</p></li>
+<li><p>Which of these is a correct vectorized implementation of forward propagation for layer <span class="math notranslate nohighlight">\(l\)</span>, where <span class="math notranslate nohighlight">\(1 \le l \le L\)</span>?</p>
+<p>A. <span class="math notranslate nohighlight">\(\begin{aligned}
+Z^{[l]} &amp;= W^{[l-1]}A^{[l]} + b^{[l-1]} \\
+A^{[l]} &amp;= g^{[l]}(Z^{[l]})
+\end{aligned}\)</span></p>
+<p>B. <span class="math notranslate nohighlight">\(\begin{aligned}
+Z^{[l]} &amp;= W^{[l]}A^{[l-1]} + b^{[l]} \\
+A^{[l]} &amp;= g^{[l]}(Z^{[l]})
+\end{aligned}\)</span></p>
+<p>C. <span class="math notranslate nohighlight">\(\begin{aligned}
+Z^{[l]} &amp;= W^{[l]}A^{[l]} + b^{[l]} \\
+A^{[l+1]} &amp;= g^{[l]}(Z^{[l]})
+\end{aligned}\)</span></p>
+<p>D. <span class="math notranslate nohighlight">\(\begin{aligned}
+Z^{[l]} &amp;= W^{[l]}A^{[l]} + b^{[l]} \\
+A^{[l+1]} &amp;= g^{[l+1]}(Z^{[l]})
+\end{aligned}\)</span></p>
+</li>
+<li><p><strong>True/False</strong> The use of the ReLU activation function is becoming more rare because the ReLU function has no derivative for <span class="math notranslate nohighlight">\(c = 0\)</span>.  __________</p></li>
+<li><p>Consider the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> 
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span><span class="mi">1</span> <span class="p">)</span> 
+</pre></div>
+</div>
+<p>What will be the <span class="math notranslate nohighlight">\(y.shape\)</span>?</p>
+<p>A. <code class="docutils literal notranslate"><span class="pre">(4,</span> <span class="pre">1)</span></code></p>
+<p>B. <code class="docutils literal notranslate"><span class="pre">(4,</span> <span class="pre">)</span></code></p>
+<p>C. <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">5)</span></code></p>
+<p>D. <code class="docutils literal notranslate"><span class="pre">(5,</span> <span class="pre">)</span></code></p>
+</li>
+<li><p>Suppose you have built a neural network with one hidden layer and tanh as activation function for the hidden layers. Which of the following is a best option to initialize the weights?</p>
+<p>A. Initialize all weights to a single number chosen randomly.</p>
+<p>B. Initialize all weights to 0.</p>
+<p>C. Initialize the weights to large random numbers.</p>
+<p>D. Initialize the weights to small random numbers.</p>
+</li>
+<li><p><strong>True/False</strong> A single output and single layer neural network that uses the sigmoid function as activation is equivalent to the logistic regression.   __________</p></li>
+<li><p>You have built a network using the tanh activation for all the hidden units. You initialize the weights to relatively large values, using <code class="docutils literal notranslate"><span class="pre">np.random.randn(..,</span> <span class="pre">..)*1000</span></code>. What will happen?</p>
+<p>A. This will cause the inputs of the tanh to also be very large, thus causing gradients to be close to zero. The optimization algorithm will thus become slow.</p>
+<p>B. This will cause the inputs of the tanh to also be very large, causing the units to be “highly activated” and thus speed up learning compared to if the weights had to start from small values.</p>
+<p>C. So long as you initialize the weights randomly gradient descent is not affected by whether the weights are large or small.</p>
+<p>D. This will cause the inputs of the tanh to also be very large, thus causing gradients to also become large. You therefore have to set <span class="math notranslate nohighlight">\(\alpha\)</span> to a very small value to prevent divergence; this will slow down learning.</p>
+</li>
+<li><p>Consider the following 1 hidden layer neural network:</p>
+<figure class="align-default" id="q9">
+<a class="reference internal image-reference" href="_images/3-q9.png"><img alt="_images/3-q9.png" src="_images/3-q9.png" style="height: 200px;" /></a>
+</figure>
+<p>Which of the following statements are True? (Check all that apply).</p>
+<p>A. <span class="math notranslate nohighlight">\(b^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((4,1)\)</span></p>
+<p>B. <span class="math notranslate nohighlight">\(b^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((2,1)\)</span></p>
+<p>C. <span class="math notranslate nohighlight">\(b^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((4,1)\)</span></p>
+<p>D. <span class="math notranslate nohighlight">\(W^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((2,4)\)</span></p>
+<p>E. <span class="math notranslate nohighlight">\(W^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((1,4)\)</span></p>
+<p>F. <span class="math notranslate nohighlight">\(W^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((4,2)\)</span></p>
+<p>G. <span class="math notranslate nohighlight">\(b^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((1,1)\)</span></p>
+<p>H. <span class="math notranslate nohighlight">\(W^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((4,1)\)</span></p>
+</li>
+<li><p>Consider the following 1 hidden layer neural network:</p>
+<figure class="align-default" id="q10">
+<a class="reference internal image-reference" href="_images/3-q10.png"><img alt="_images/3-q10.png" src="_images/3-q10.png" style="height: 460px;" /></a>
+</figure>
+<p>What are the dimensions of <span class="math notranslate nohighlight">\(Z^{[1]}\)</span>  and <span class="math notranslate nohighlight">\(A^{[1]}\)</span>?</p>
+<p>A. <span class="math notranslate nohighlight">\(Z^{[1]}\)</span> and <span class="math notranslate nohighlight">\(A^{[1]}\)</span> are <span class="math notranslate nohighlight">\((2,m)\)</span></p>
+<p>B. <span class="math notranslate nohighlight">\(Z^{[1]}\)</span> and <span class="math notranslate nohighlight">\(A^{[1]}\)</span> are <span class="math notranslate nohighlight">\((4,1)\)</span></p>
+<p>C. <span class="math notranslate nohighlight">\(Z^{[1]}\)</span> and <span class="math notranslate nohighlight">\(A^{[1]}\)</span> are <span class="math notranslate nohighlight">\((4,m)\)</span></p>
+<p>D. <span class="math notranslate nohighlight">\(Z^{[1]}\)</span> and <span class="math notranslate nohighlight">\(A^{[1]}\)</span> are <span class="math notranslate nohighlight">\((2,1)\)</span></p>
+</li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Click here for answers!</p>
+<ol class="arabic">
+<li><p>AD </br></p>
+<p>A. We construct <span class="math notranslate nohighlight">\(W^{[1]}\)</span> stacking the parameter vectors <span class="math notranslate nohighlight">\(w^{[1]_j}\)</span> of all the neurons of the first layer. </br></p>
+<p>D. The vector <span class="math notranslate nohighlight">\(w^{[i]_j}\)</span> is the column vector of parameters of the i-th layer and j-th neuron of that layer. </br></p>
+</li>
+<li><p>False </br></p>
+<p>Although the tanh almost always works better than the sigmoid function when used in hidden layers, thus is always proffered as activation function, the exception is for the output layer in classification problems. </br></p>
+</li>
+<li><p>B </br></p></li>
+<li><p>False </br></p>
+<p>Although the ReLU function has no derivative at <span class="math notranslate nohighlight">\(c = 0\)</span> this rarely causes any problems in practice. Moreover it has become the default activation function in many cases, as explained in the lectures.  </br></p>
+</li>
+<li><p>B </br></p>
+<p>B. Yes. By using <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> the sum is computed over each row of the array, thus the resulting array is a column vector with 4 entries. Since the option <code class="docutils literal notranslate"><span class="pre">keepdims</span></code> was not used the array doesn’t keep the second dimension. </br></p>
+</li>
+<li><p>D </br></p>
+<p>D. The use of random numbers helps to “break the symmetry” between all the neurons allowing them to compute different functions. When using small random numbers the values <span class="math notranslate nohighlight">\(z^{[k]}\)</span> will be close to zero thus the activation values will have a larger gradient speeding up the training process. </br></p>
+</li>
+<li><p>True </br></p>
+<p>The logistic regression model can be expressed by <span class="math notranslate nohighlight">\(\hat{y} = \sigma(Wx+b)\)</span>. This isthe same as <span class="math notranslate nohighlight">\(a^{[1]}=\sigma(W^{[1]}X+b)\)</span>. </br></p>
+</li>
+<li><p>A </br></p>
+<p>A. tanh becomes flat for large values; this leads its gradient to be close to zero. This slows down the optimization algorithm. </br></p>
+</li>
+<li><p>CEFG </br></p></li>
+<li><p>A </br></p>
+<p>A. Yes. The <span class="math notranslate nohighlight">\(Z^{[1]}\)</span> and <span class="math notranslate nohighlight">\(A^{[1]}\)</span> are calculated over a batch of training examples. The number of columns in <span class="math notranslate nohighlight">\(Z^{[1]}\)</span>  and <span class="math notranslate nohighlight">\(A^{[1]}\)</span> is equal to the number of examples in the batch, <span class="math notranslate nohighlight">\(m\)</span>. And the number of rows in <span class="math notranslate nohighlight">\(Z^{[1]}\)</span>  and <span class="math notranslate nohighlight">\(A^{[1]}\)</span> is equal to the number of neurons in the first layer. </br></p>
+</li>
+</ol>
+</div>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C2_Practical_Test.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Practicel 1: Logistic Regression with a Neural Network mindset</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C3_Practical_Test.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Practical 2: Planar data classification with one hidden layer</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-networks-overview">Neural Networks Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network-representation">Neural Network Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-a-neural-network-s-output">Computing a Neural Network’s Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectorizing-across-multiple-examples">Vectorizing Across Multiple Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation-for-vectorized-implementation">Explanation for Vectorized Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-do-you-need-non-linear-activation-functions">Why do you need Non-Linear Activation Functions?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivatives-of-activation-functions">Derivatives of Activation Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent-for-neural-networks">Gradient Descent for Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation-intuition-optional">Backpropagation Intuition (Optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-initialization">Random Initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Chao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

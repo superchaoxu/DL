@@ -1,0 +1,989 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4 Deep Neural Networks &#8212; Deep Learning Specialization</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'C4';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Practical 3: Building your Deep Neural Network: Step by Step" href="C4_Practical_Test_P1.html" />
+    <link rel="prev" title="Practical 2: Planar data classification with one hidden layer" href="C3_Practical_Test.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Deep Learning Specialization - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Deep Learning Specialization - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to Deep Learning Specialization
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="C1.html">1 Introduction to Deep Learning</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C2.html">2 Neural Networks Basics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical.html">Pre-Practical: Python Basics with Numpy (optional assignment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical_Test.html">Practicel 1: Logistic Regression with a Neural Network mindset</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C3.html">3 Shallow Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C3_Practical_Test.html">Practical 2: Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">4 Deep Neural Networks</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P1.html">Practical 3: Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P2.html">Practical 4: Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C5.html">5 Practical Aspects of Deep Learning</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C5_Initialization.html">Practical 5: Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C5_Regularization.html">Practical 6: Regularization</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FC4.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/C4.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4 Deep Neural Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-l-layer-neural-network">Deep L-layer Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation-in-a-deep-network">Forward Propagation in a Deep Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-your-matrix-dimensions-right">Getting your Matrix Dimensions Right</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-deep-representations">Why Deep Representations?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-blocks-of-deep-neural-networks">Building Blocks of Deep Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-and-backward-propagation">Forward and Backward Propagation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propogation-for-layer-l">Forward propogation for layer <span class="math notranslate nohighlight">\(l\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-propogation-for-layer-l">Backward propogation for layer <span class="math notranslate nohighlight">\(l\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters-and-hyperparameters">Parameters and Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-with-formula">Summary with formula</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="deep-neural-networks">
+<span id="dnn"></span><h1>4 Deep Neural Networks<a class="headerlink" href="#deep-neural-networks" title="Link to this heading">#</a></h1>
+<p>Analyze the key computations underlying deep learning, then use them to build and train deep neural networks for computer vision tasks.</p>
+<p><strong>Learning Objectives</strong></p>
+<ul class="simple">
+<li><p>Describe the successive block structure of a deep neural network.</p></li>
+<li><p>Build a deep L-layer neural network.</p></li>
+<li><p>Analyze matrix and vector dimensions to check neural network implementations.</p></li>
+<li><p>Use a cache to pass information from forward to back propagation.</p></li>
+<li><p>Explain the role of hyperparameters in deep learning.</p></li>
+<li><p>Build a 2-layer neural network.</p></li>
+</ul>
+<hr class="docutils" />
+<section id="deep-l-layer-neural-network">
+<h2>Deep L-layer Neural Network<a class="headerlink" href="#deep-l-layer-neural-network" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/xkNf7Nqn9VI">Video</a></p>
+<p>Logistic regression is a very “shallow” model, whereas the model, with five hidden layers for example, is a much deeper model, and shallow versus depth is a matter of degree. So neural network of a single hidden layer, this would be a 2 layer neural network. Remember when we count layers in a neural network, we don’t count the input layer, we just count the hidden layers as was the output layer. So, a 2 layer neural network is still quite shallow, but not as shallow as logistic regression. Technically logistic regression is a one layer neural network, but over the last several years the AI, on the machine learning community, has realized that there are functions that very deep neural networks can learn that shallower models are often unable to.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/4-1.png"><img alt="_images/4-1.png" src="_images/4-1.png" style="height: 400px;" /></a>
+</figure>
+<p>Although for any given problem, it might be hard to predict in advance exactly how deep in your network you would want. So it would be reasonable to try logistic regression, try one and then two hidden layers, and view the number of hidden layers as another hyper parameter that you could try a variety of values of, and evaluate on all that across validation data, or on your development set.</p>
+<p>Let’s now go through the notation we used to describe deep neural networks. Here’s is a four layer neural network with three hidden layers:</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="_images/4-2.png"><img alt="_images/4-2.png" src="_images/4-2.png" style="height: 300px;" /></a>
+</figure>
+<p>Notation:</p>
+<ul class="simple">
+<li><p>Number of layers (L): L = 4</p></li>
+<li><p>Number of unites in layer <span class="math notranslate nohighlight">\(l\)</span>: <span class="math notranslate nohighlight">\(n^{[l]}\)</span>.</p>
+<ul>
+<li><p>In this example: <span class="math notranslate nohighlight">\(n^{[1]} = 5, \quad n^{[2]} = 5, \quad n^{[3]} = 3, \quad n^{[4]} = n^{[L]}= 1, \quad n^{[0]} = n_x = 3\)</span></p></li>
+</ul>
+</li>
+<li><p>Activation in layer <span class="math notranslate nohighlight">\(l\)</span>: <span class="math notranslate nohighlight">\(a^{[l]} = g^{[l]}(\mathbf{z}^{[l]})\)</span>.</p></li>
+<li><p>Weights for <span class="math notranslate nohighlight">\(\mathbf{z}^{[l]}\)</span>: <span class="math notranslate nohighlight">\(\mathbf{w}^{[l]}, \quad b^{[l]}\)</span>.</p></li>
+</ul>
+</section>
+<section id="forward-propagation-in-a-deep-network">
+<h2>Forward Propagation in a Deep Network<a class="headerlink" href="#forward-propagation-in-a-deep-network" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/JT5mKK93lII">Video</a></p>
+<figure class="align-default" id="copy">
+<a class="reference internal image-reference" href="_images/4-2.png"><img alt="_images/4-2.png" src="_images/4-2.png" style="height: 300px;" /></a>
+</figure>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{Z}^{[l]} &amp;= \mathbf{W}^{[l]} \mathbf{A}^{[l-1]} + \mathbf{b}^{[l]} \\
+\mathbf{A}^{[l]} &amp;= g^{[l]}({\mathbf{Z}^{[l]}}) \\
+\end{aligned}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{Z}^{[1]} &amp;= \mathbf{W}^{[1]} \mathbf{A}^{[0]} + \mathbf{b}^{[1]} \\
+\mathbf{A}^{[1]} &amp;= g^{[1]}({\mathbf{Z}^{[1]}}) \\
+\mathbf{Z}^{[2]} &amp;= \mathbf{W}^{[2]} \mathbf{A}^{[1]} + \mathbf{b}^{[2]} \\
+\mathbf{A}^{[2]} &amp;= g^{[2]}({\mathbf{Z}^{[2]}})  \\
+\mathbf{Z}^{[3]} &amp;= \mathbf{W}^{[3]} \mathbf{A}^{[2]} + \mathbf{b}^{[3]} \\
+\mathbf{A}^{[3]} &amp;= g^{[3]}({\mathbf{Z}^{[3]}})  \\
+\mathbf{Z}^{[4]} &amp;= \mathbf{W}^{[4]} \mathbf{A}^{[3]} + \mathbf{b}^{[4]} \\
+\mathbf{A}^{[4]} &amp;= g^{[4]}({\mathbf{Z}^{[4]}}) 
+\end{aligned}
+\end{split}\]</div>
+<p>If you look at this implementation of vectorization, it looks like that there is going to be a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop here, by using <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">l=1...L</span></code>.</p>
+<p>I know that when implementing neural networks, we usually want to get rid of explicit <code class="docutils literal notranslate"><span class="pre">for</span></code> loops. But this is one place where I don’t think there’s any way to implement this without an explicit <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. So when implementing forward propagation, it is perfectly okay to have a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to compute the activations for layer one, then layer two, then layer three, then layer four. I don’t think there is any way to do this without a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop that goes from one to capital L, from one through the total number of layers in the neural network. So, in this place, it’s perfectly okay to have an explicit <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.</p>
+<p>If the pieces we’ve seen so far looks a little bit familiar to you, that’s because what we’re seeing is taking a piece very similar to what you’ve seen in the neural network with a single hidden layer and just repeating that more times.</p>
+<p>Now, it turns out that we implement a deep neural network, one of the ways to increase your odds of having a bug-free implementation is to think very systematic and carefully about the matrix dimensions you’re working with. So, when I’m trying to debug my own code, I’ll often pull a piece of paper, and just think carefully through, so the dimensions of the matrix I’m working with.</p>
+</section>
+<section id="getting-your-matrix-dimensions-right">
+<h2>Getting your Matrix Dimensions Right<a class="headerlink" href="#getting-your-matrix-dimensions-right" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/35_DNMcMW-w">Video</a></p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="_images/4-3.png"><img alt="_images/4-3.png" src="_images/4-3.png" style="height: 250px;" /></a>
+</figure>
+<ul class="simple">
+<li><p>For one sample:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{w}^{[l]} &amp;: \big(  n^{[l]}, n^{[l-1]} \big) \\
+b^{[l]} &amp;: \big(  n^{[l]}, 1 \big) \\
+\mathrm{d} \mathbf{w}^{[l]} &amp;: \big(  n^{[l]}, n^{[l-1]} \big) \\
+\mathrm{d} b^{[l]} &amp;: \big(  n^{[l]}, 1 \big) \\
+\mathbf{z}^{[l]}, \mathbf{a}^{[l]} &amp;: \big(  n^{[l]}, 1 \big) \\
+\text{if } l = 0 &amp;: \mathbf{a}^{[0]} = \mathbf{x} = \big(  n^{[0]}, 1 \big) \\
+\end{aligned}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>For <span class="math notranslate nohighlight">\(m\)</span> samples and vectorized implementation:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{W}^{[l]} &amp;: \big(  n^{[l]}, n^{[l-1]} \big) \\
+b^{[l]} &amp;: \big(  n^{[l]}, m \big) \\
+\mathrm{d} \mathbf{W}^{[l]} &amp;: \big(  n^{[l]}, n^{[l-1]} \big) \\
+\mathrm{d} b^{[l]} &amp;: \big(  n^{[l]}, m \big) \\
+\mathbf{Z}^{[l]}, \mathbf{A}^{[l]} &amp;: \big(  n^{[l]}, m \big) \\
+\text{if } l = 0 &amp;: \mathbf{A}^{[0]} = \mathbf{X} = \big(  n^{[0]}, m \big) \\
+\mathrm{d} \mathbf{Z}^{[l]}, \mathrm{d} \mathbf{A}^{[l]} &amp;: \big(  n^{[l]}, m \big)
+\end{aligned}
+\end{split}\]</div>
+<p>When you implement a deep neural network if you keep straight the dimensions of these various matrices and vectors you’re working with, hopefully, that will help you eliminate some class of possible bugs.</p>
+</section>
+<section id="why-deep-representations">
+<h2>Why Deep Representations?<a class="headerlink" href="#why-deep-representations" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/52H13FH0yQo">Video</a></p>
+<ul class="simple">
+<li><p>Intuition about deep representation</p></li>
+<li><p>Circuit theory and deep learning</p></li>
+</ul>
+<p>Circuit theory, informally: There are functions you can compute with a “small” L-layer deep neural network that shallower networks require exponentially more hidden units to compute.</p>
+</section>
+<section id="building-blocks-of-deep-neural-networks">
+<h2>Building Blocks of Deep Neural Networks<a class="headerlink" href="#building-blocks-of-deep-neural-networks" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/grQ1OvXLamY">Video</a></p>
+<p>In the chapter 2 and 3, you have already learned the basic building blocks of forward propagation and back propagation, the key components you need to implement a deep neural network. Let’s see how you can put these components together to build your deep net.</p>
+<p>In a deep neural network, picking one layer (layer <span class="math notranslate nohighlight">\(l\)</span>) and looking at the computations focusing on just that layer for now.</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="_images/4-4.png"><img alt="_images/4-4.png" src="_images/4-4.png" style="height: 200px;" /></a>
+</figure>
+<p>For layer <span class="math notranslate nohighlight">\(l\)</span>, you have some parameters:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{w}^{[l]}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{b}^{[l]}\)</span></p></li>
+<li><p>Forward: Input  <span class="math notranslate nohighlight">\(\mathbf{a}^{[l-1]}\)</span> Output <span class="math notranslate nohighlight">\(\mathbf{a}^{[l]}\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{z}^{[l]} = \mathbf{w}^{[l]}  \mathbf{a}^{[l-1]}+ \mathbf{b}^{[l]}\)</span>, cache <span class="math notranslate nohighlight">\(\mathbf{z}^{[l]}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{a}^{[l]} = g^{[l]}(\mathbf{z}^{[l]})\)</span></p></li>
+</ul>
+</li>
+<li><p>Backward: Input  <span class="math notranslate nohighlight">\(\mathrm{d} \mathbf{a}^{[l]}\)</span> Output <span class="math notranslate nohighlight">\(\mathrm{d}\mathbf{a}^{[l-1]}\)</span></p></li>
+</ul>
+<p>To summarize, in layer <span class="math notranslate nohighlight">\(l\)</span>, you’re going to have these steps show below:</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="_images/4-5.png"><img alt="_images/4-5.png" src="_images/4-5.png" style="height: 360px;" /></a>
+</figure>
+<p>So if you can implement these two functions then the basic computation of the neural network will be as follows.</p>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="_images/4-6.png"><img alt="_images/4-6.png" src="_images/4-6.png" style="height: 400px;" /></a>
+</figure>
+<p>So that’s one iteration of gradient descent for your neural network.</p>
+<div class="hint admonition">
+<p class="admonition-title">Reminder</p>
+<p>Conceptually, it will be useful to think of the cache here in the figure as storing the value of <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> for the backward functions. But when you implement this, and you see this in the programming exercise, When you implement this, you find that the cache may be a convenient way to get to this value of the parameters of <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>, into the backward function as well. So for this exercise you actually store in your cache to <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> as well as <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>. But from an implementation standpoint, I just find it a convenient way to just get the parameters, copy to where you need to use them later when you’re computing back propagation. So that’s just an implementational detail that you see when you do the programming exercise.</p>
+</div>
+<p>So you’ve now seen what are the basic building blocks for implementing a deep neural network. In each layer there’s a forward propagation step and there’s a corresponding backward propagation step. And has a cache to pass information from one to the other.</p>
+</section>
+<section id="forward-and-backward-propagation">
+<h2>Forward and Backward Propagation<a class="headerlink" href="#forward-and-backward-propagation" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/8k5XEQDrT-8">Video</a></p>
+<section id="forward-propogation-for-layer-l">
+<h3>Forward propogation for layer <span class="math notranslate nohighlight">\(l\)</span><a class="headerlink" href="#forward-propogation-for-layer-l" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Input <span class="math notranslate nohighlight">\(\mathbf{a}^{[l-1]}\)</span></p></li>
+<li><p>Output <span class="math notranslate nohighlight">\(\mathbf{a}^{[l]}\)</span>, cache <span class="math notranslate nohighlight">\(\mathbf{z}^{[l]}\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{z}^{[l]} &amp;= \mathbf{w}^{[l]}  \mathbf{a}^{[l-1]}+ \mathbf{b}^{[l]} \\
+\mathbf{a}^{[l]} &amp;= g^{[l]}(\mathbf{z}^{[l]})
+\end{aligned}
+\end{split}\]</div>
+<p>Vectorised:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{Z}^{[l]} &amp;= \mathbf{W}^{[l]}  \mathbf{A}^{[l-1]}+ \mathbf{b}^{[l]} \\
+\mathbf{A}^{[l]} &amp;= g^{[l]}(\mathbf{Z}^{[l]})
+\end{aligned}
+\end{split}\]</div>
+</section>
+<section id="backward-propogation-for-layer-l">
+<h3>Backward propogation for layer <span class="math notranslate nohighlight">\(l\)</span><a class="headerlink" href="#backward-propogation-for-layer-l" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Input <span class="math notranslate nohighlight">\(\mathrm{d} \mathbf{a}^{[l]}\)</span></p></li>
+<li><p>Output <span class="math notranslate nohighlight">\(\mathrm{d}\mathbf{a}^{[l-1]}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{d}\mathbf{W}^{[l]}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{d}\mathbf{b}^{[l]}\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathrm{d}\mathbf{z}^{[l]} &amp;= \dfrac{\mathrm{d}\mathcal{L}}{\mathrm{d}z} = \dfrac{\mathrm{d}\mathcal{L}}{\mathrm{d}a} \times  \dfrac{\mathrm{d}a}{\mathrm{d}z} = \mathrm{d}\mathbf{a}^{[l]} *  g^{[l]'}(\mathbf{z}^{[l]}) \\
+\mathrm{d}\mathbf{W}^{[l]} &amp;= \dfrac{\mathrm{d}\mathcal{L}}{\mathrm{d}W} = \dfrac{\mathrm{d}\mathcal{L}}{\mathrm{d}a} \times \dfrac{\mathrm{d}a}{\mathrm{d}z} \times \dfrac{\mathrm{d}z}{\mathrm{d}W} = \mathrm{d}\mathbf{z}^{[l]} *  \mathbf{a}^{[l-1]} \\
+\mathrm{d}\mathbf{b}^{[l]} &amp;= \dfrac{\mathrm{d}\mathcal{L}}{\mathrm{d}b} = \dfrac{\mathrm{d}\mathcal{L}}{\mathrm{d}a} \times \dfrac{\mathrm{d}a}{\mathrm{d}z} \times \dfrac{\mathrm{d}z}{\mathrm{d}b} = \mathrm{d}\mathbf{z}^{[l]} \\
+\mathrm{d}\mathbf{a}^{[l-1]} &amp;= \mathbf{W}^{[l]T} \cdot \mathrm{d}\mathbf{z}^{[l]}
+\end{aligned}
+\end{split}\]</div>
+<p>Vectorised:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathrm{d}\mathbf{Z}^{[l]} &amp;= \mathrm{d}\mathbf{A}^{[l]} *  g^{[l]'}(\mathbf{Z}^{[l]}) \\
+\mathrm{d}\mathbf{W}^{[l]} &amp;= \dfrac{1}{m} \mathrm{d}\mathbf{Z}^{[l]} \cdot \mathbf{A}^{[l-1]T} \\
+\mathrm{d}\mathbf{b}^{[l]} &amp;= \dfrac{1}{m} \text{np.sum}(\mathrm{d}\mathbf{Z}^{[l]} \text{, axis = }1 \text{, keepdims = True} )\\
+\mathrm{d}\mathbf{A}^{[l-1]} &amp;= \mathrm{d}\mathbf{W}^{[l]T} \cdot \mathrm{d}\mathbf{Z}^{[l]} 
+\end{aligned}
+\end{split}\]</div>
+<p>For a more in depth explaination of Feedforward Neural Networks:</p>
+<p><a class="reference external" href="https://jonaslalin.com/2021/12/10/feedforward-neural-networks-part-1/">Feedforward Neural Networks in Depth, Part 1: Forward and Backward Propagations</a></p>
+<p><a class="reference external" href="https://jonaslalin.com/2021/12/21/feedforward-neural-networks-part-2/">Feedforward Neural Networks in Depth, Part 2: Activation Functions</a></p>
+<p><a class="reference external" href="https://jonaslalin.com/2021/12/22/feedforward-neural-networks-part-3/">Feedforward Neural Networks in Depth, Part 3: Cost Functions</a></p>
+</section>
+</section>
+<section id="parameters-and-hyperparameters">
+<h2>Parameters and Hyperparameters<a class="headerlink" href="#parameters-and-hyperparameters" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://youtu.be/RGScA6l3KiM">Video</a></p>
+<p>Being effective in developing your deep Neural Nets requires that you not only organize your parameters well but also your hyper parameters.</p>
+<ul class="simple">
+<li><p>Parameters: <span class="math notranslate nohighlight">\(W^{[1]}, b^{[1]}, W^{[2]}, b^{[2]}, \cdots\)</span></p></li>
+<li><p>Hyperparameters:</p>
+<ul>
+<li><p>Learning rate <span class="math notranslate nohighlight">\(\alpha\)</span></p></li>
+<li><p>number of iterations</p></li>
+<li><p>number of hidden layers</p></li>
+<li><p>number of hidden units <span class="math notranslate nohighlight">\(n^{[1]}, n^{[2]}, \cdots\)</span></p></li>
+<li><p>choice of activation function</p></li>
+</ul>
+</li>
+</ul>
+<p>So all of these things are things that you need to tell your learning algorithm and so these are parameters that control the ultimate parameters <span class="math notranslate nohighlight">\(W\)</span> and <span class="math notranslate nohighlight">\(b\)</span> and so we call all of these things below hyper parameters.</p>
+<p>We call these things hyper parameters, because it is the hyper parameters that somehow determine the final value of the parameters <span class="math notranslate nohighlight">\(W\)</span> and <span class="math notranslate nohighlight">\(b\)</span> that you end up with. So when you’re training a deep net for your own application you find that there may be a lot of possible settings for the hyper parameters that you need to just try out.</p>
+</section>
+<section id="summary-with-formula">
+<h2>Summary with formula<a class="headerlink" href="#summary-with-formula" title="Link to this heading">#</a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>Forward propogation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{Z}^{[1]} &amp;= \mathbf{W}^{[1]} \mathbf{A}^{[0]} + \mathbf{b}^{[1]} \\
+\mathbf{A}^{[1]} &amp;= g^{[1]}({\mathbf{Z}^{[1]}}) \\
+\mathbf{Z}^{[2]} &amp;= \mathbf{W}^{[2]} \mathbf{A}^{[1]} + \mathbf{b}^{[2]} \\
+\mathbf{A}^{[2]} &amp;= g^{[2]}({\mathbf{Z}^{[2]}}) \\
+\vdots \\
+\mathbf{Z}^{[L]} &amp;= \mathbf{W}^{[L]} \mathbf{A}^{[L-1]} + \mathbf{b}^{[L]} \\
+\mathbf{A}^{[L]} &amp;= g^{[L]}({\mathbf{Z}^{[L]}}) = \hat{Y}
+\end{aligned}
+\end{split}\]</div>
+<p><strong>Backward propogation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathrm{d}\mathbf{Z}^{[l]} &amp;= \mathrm{d}\mathbf{A}^{[l]} *  g^{[l]'}(\mathbf{Z}^{[l]}) \\
+\mathrm{d}\mathbf{W}^{[l]} &amp;= \dfrac{1}{m} \mathrm{d}\mathbf{Z}^{[l]} \cdot \mathbf{A}^{[l-1]T} \\
+\mathrm{d}\mathbf{b}^{[l]} &amp;= \dfrac{1}{m} \text{np.sum}(\mathrm{d}\mathbf{Z}^{[l]} \text{, axis = }1 \text{, keepdims = True} )\\
+\mathrm{d}\mathbf{Z}^{[l-1]} &amp;= \mathrm{d}\mathbf{W}^{[l]T} \cdot \mathrm{d}\mathbf{Z}^{[l]} * g^{[l-1]'}(\mathbf{Z}^{[l-1]}) \\
+\vdots \\
+\mathrm{d}\mathbf{Z}^{[1]} &amp;= \mathrm{d}\mathbf{W}^{[2]T} \cdot \mathrm{d}\mathbf{Z}^{[2]} * g^{[1]'}(\mathbf{Z}^{[1]}) \\
+\mathrm{d}\mathbf{W}^{[1]} &amp;= \dfrac{1}{m} \mathrm{d}\mathbf{Z}^{[1]} \cdot \mathbf{A}^{[0]T} \\
+\mathrm{d}\mathbf{b}^{[1]} &amp;= \dfrac{1}{m} \text{np.sum}(\mathrm{d}\mathbf{Z}^{[1]} \text{, axis = }1 \text{, keepdims = True} )\\
+\end{aligned}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>Note that <span class="math notranslate nohighlight">\(*\)</span> denotes element-wise multiplication.</p></li>
+<li><p>Note that <span class="math notranslate nohighlight">\(\mathbf{A}^{[0]T}\)</span> ia another way to denote the input features, which is also written as <span class="math notranslate nohighlight">\(\mathbf{X}^{T}\)</span>.</p></li>
+</ul>
+</div>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>True/False</strong> We use the “cache” in our implementation of forward and backward propagation to pass useful values to the next layer in the forward propagation.   __________</p></li>
+<li><p>Among the following, which ones are “hyperparameters”? (Check all that apply.)</p>
+<p>A. Size of the hidden layers <span class="math notranslate nohighlight">\(n^{[l]}\)</span></p>
+<p>B. number of iterations</p>
+<p>C. Weight matrices <span class="math notranslate nohighlight">\(W^{[l]}\)</span></p>
+<p>D. Bias veactors <span class="math notranslate nohighlight">\(b^{[l]}\)</span></p>
+<p>E. Activation values <span class="math notranslate nohighlight">\(a^{[l]}\)</span></p>
+<p>F. Number of layers <span class="math notranslate nohighlight">\(L\)</span> in the neural network</p>
+<p>G. Learning rate <span class="math notranslate nohighlight">\(\alpha\)</span></p>
+</li>
+<li><p>Which of the following is more likely related to the early layers of a deep neural network?</p>
+<figure class="align-default" id="q3">
+<a class="reference internal image-reference" href="_images/4-q3.png"><img alt="_images/4-q3.png" src="_images/4-q3.png" style="height: 220px;" /></a>
+</figure>
+</li>
+<li><p><strong>True/False</strong> Vectorization allows us to compute <span class="math notranslate nohighlight">\(a^{[l]}\)</span> for all the examples on a batch at the same time without using a for loop.  __________</p></li>
+<li><p>Consider the following neural network:</p>
+<figure class="align-default" id="q5">
+<a class="reference internal image-reference" href="_images/4-q5.png"><img alt="_images/4-q5.png" src="_images/4-q5.png" style="height: 160px;" /></a>
+</figure>
+<p>How many layers does this network have?</p>
+<p>A. The number of layers <span class="math notranslate nohighlight">\(L\)</span> is 4. The number of hidden layers is 4.</p>
+<p>B. The number of layers <span class="math notranslate nohighlight">\(L\)</span> is 5. The number of hidden layers is 4.</p>
+<p>C. The number of layers <span class="math notranslate nohighlight">\(L\)</span> is 4. The number of hidden layers is 3.</p>
+<p>D. The number of layers <span class="math notranslate nohighlight">\(L\)</span> is 3. The number of hidden layers is 3.</p>
+</li>
+<li><p><strong>True/False</strong> During forward propagation, in the forward function for a layer <span class="math notranslate nohighlight">\(l\)</span> you need to know what is the activation function in a layer (sigmoid, tanh, ReLU, etc.). During backpropagation, the corresponding backward function also needs to know what is the activation function for layer <span class="math notranslate nohighlight">\(l\)</span>, since the gradient depends on it.   __________</p></li>
+<li><p><strong>True/False</strong> For any mathematical function you can compute with an L-layered deep neural network with N hidden units there is a shallow neural network that requires only <span class="math notranslate nohighlight">\(\text{log}(N)\)</span> units, but it is very difficult to train.  __________</p></li>
+<li><p>Consider the following 2 hidden layer neural network:</p>
+<figure class="align-default" id="q8">
+<a class="reference internal image-reference" href="_images/4-q8.png"><img alt="_images/4-q8.png" src="_images/4-q8.png" style="height: 260px;" /></a>
+</figure>
+<p>Which of the following statements are True? (Check all that apply).</p>
+<p>A. <span class="math notranslate nohighlight">\(b^{[3]}\)</span> will have shape <span class="math notranslate nohighlight">\((1,1)\)</span></p>
+<p>B. <span class="math notranslate nohighlight">\(W^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((3,4)\)</span></p>
+<p>C. <span class="math notranslate nohighlight">\(W^{[3]}\)</span> will have shape <span class="math notranslate nohighlight">\((1,3)\)</span></p>
+<p>D. <span class="math notranslate nohighlight">\(b^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((1,1)\)</span></p>
+<p>E. <span class="math notranslate nohighlight">\(W^{[3]}\)</span> will have shape <span class="math notranslate nohighlight">\((3,1)\)</span></p>
+<p>F. <span class="math notranslate nohighlight">\(b^{[3]}\)</span> will have shape <span class="math notranslate nohighlight">\((3,1)\)</span></p>
+<p>G. <span class="math notranslate nohighlight">\(b^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((3,1)\)</span></p>
+<p>H. <span class="math notranslate nohighlight">\(W^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((4,4)\)</span></p>
+<p>I. <span class="math notranslate nohighlight">\(b^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((4,1)\)</span></p>
+<p>J. <span class="math notranslate nohighlight">\(b^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((3,1)\)</span></p>
+<p>K. <span class="math notranslate nohighlight">\(W^{[1]}\)</span> will have shape <span class="math notranslate nohighlight">\((3,4)\)</span></p>
+<p>L. <span class="math notranslate nohighlight">\(W^{[2]}\)</span> will have shape <span class="math notranslate nohighlight">\((3,1)\)</span></p>
+</li>
+<li><p>Whereas the previous question used a specific network, in the general case what is the dimension of <span class="math notranslate nohighlight">\(b^{[l]}\)</span>, the bias vector associated with layer <span class="math notranslate nohighlight">\(l\)</span>?</p>
+<p>A. <span class="math notranslate nohighlight">\(b^{[l]}\)</span> has shape <span class="math notranslate nohighlight">\((n^{[l]},1)\)</span></p>
+<p>B. <span class="math notranslate nohighlight">\(b^{[l]}\)</span> has shape <span class="math notranslate nohighlight">\((n^{[l+1]},1)\)</span></p>
+<p>C. <span class="math notranslate nohighlight">\(b^{[l]}\)</span> has shape <span class="math notranslate nohighlight">\((1, n^{[l-1]})\)</span></p>
+<p>D. <span class="math notranslate nohighlight">\(b^{[l]}\)</span> has shape <span class="math notranslate nohighlight">\((1, n^{[l]})\)</span></p>
+</li>
+<li><p>What is the “cache” used for in our implementation of forward propagation and backward propagation?</p>
+<p>A. It is used to keep track of the hyperparameters that we are searching over, to speed up computation.</p>
+<p>B. We use it to pass variables computed during backward propagation to the corresponding forward propagation step. It contains useful values for forward propagation to compute activations.</p>
+<p>C. It is used to cache the intermediate values of the cost function during training.</p>
+<p>D. We use it to pass <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> computed during forward propagation to the corresponding backward propagation step. It contains useful values for backward propagation to compute derivatives.</p>
+</li>
+<li><p><strong>True/False</strong> During the backpropagation process, we use gradient descent to change the hyperparameters.   __________</p></li>
+<li><p><strong>True/False</strong> We can not use vectorization to calculate <span class="math notranslate nohighlight">\(\mathrm{d}A^{[l]}\)</span> in backpropagation, we must use a for loop over all the examples.  __________</p></li>
+<li><p>Consider the following neural network:  What are all the values of <span class="math notranslate nohighlight">\(n^{[0]}\)</span>, <span class="math notranslate nohighlight">\(n^{[1]}\)</span>, <span class="math notranslate nohighlight">\(n^{[2]}\)</span>, <span class="math notranslate nohighlight">\(n^{[3]}\)</span> and <span class="math notranslate nohighlight">\(n^{[4]}\)</span>.</p>
+<figure class="align-default" id="q13">
+<a class="reference internal image-reference" href="_images/4-q13.png"><img alt="_images/4-q13.png" src="_images/4-q13.png" style="height: 260px;" /></a>
+</figure>
+</li>
+<li><p><strong>True/False</strong> During forward propagation, to calculate <span class="math notranslate nohighlight">\(\mathrm{d}A^{[l]}\)</span>, you use the activation function <span class="math notranslate nohighlight">\(g^{[l]}\)</span> with the values of <span class="math notranslate nohighlight">\(Z^{[l]}\)</span>. During backward propagation, you calculate <span class="math notranslate nohighlight">\(\mathrm{d}A^{[l]}\)</span> from <span class="math notranslate nohighlight">\(Z^{[l]}\)</span>.  __________</p></li>
+<li><p><strong>True/False</strong> A shallow neural network with a single hidden layer and 6 hidden units can compute any function that a neural network with 2 hidden layers and 6 hidden units can compute.  __________</p></li>
+<li><p>Suppose <code class="docutils literal notranslate"><span class="pre">W[i]</span></code> is the array with the weights of the i-th layer, <code class="docutils literal notranslate"><span class="pre">b[i]</span></code> is the vector of biases of the i-th layer, and <code class="docutils literal notranslate"><span class="pre">g</span></code> is the activation function used in all layers. Which of the following calculates the forward propagation for the neural network with L layers.</p></li>
+</ol>
+<p>A.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> 
+    <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>B.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>C.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>D.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic" start="17">
+<li><p>Which of the following are “parameters” of a neural network? (Check all that apply.)</p>
+<p>A. <span class="math notranslate nohighlight">\(W^{[l]}\)</span> the weight matrices.</p>
+<p>B. <span class="math notranslate nohighlight">\(b^{[l]}\)</span> the bias vector.</p>
+<p>C. <span class="math notranslate nohighlight">\(g^{[l]}\)</span> the activation functions.</p>
+<p>D. <span class="math notranslate nohighlight">\(L\)</span> the number of layers of the neural network.</p>
+</li>
+<li><p>Which of the following statements is true?</p>
+<p>A. The deeper layers of a neural network are typically computing more complex features of the input than the earlier layers.</p>
+<p>B. The earlier layers of a neural network are typically computing more complex features of the input than the deeper layers.</p>
+</li>
+<li><p>In the general case if we are training with <span class="math notranslate nohighlight">\(m\)</span> examples what is the shape of <span class="math notranslate nohighlight">\(A^{[l]}\)</span>?</p>
+<p>A. <span class="math notranslate nohighlight">\((m, n^{[l+1]})\)</span></p>
+<p>B. <span class="math notranslate nohighlight">\((m, n^{[l]})\)</span></p>
+<p>C. <span class="math notranslate nohighlight">\((n^{[l]}, m)\)</span></p>
+<p>D. <span class="math notranslate nohighlight">\((n^{[l+1]}, m)\)</span></p>
+</li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Click here for answers!</p>
+<ol class="arabic">
+<li><p>False </br></p>
+<p>The “cache” is used in our implementation to store values computed during forward propagation to be used in backward propagation. </br></p>
+</li>
+<li><p>ABFG </br></p></li>
+<li><p>C </br></p>
+<p>The early layer of a neural network usually computes simple features such as edges and lines. </br></p>
+</li>
+<li><p>True </br></p>
+<p>Vectorization allows us to compute the activation for all the training examples at the same time, avoiding the use of a for loop.  </br></p>
+</li>
+<li><p>C </br></p>
+<p>C. Yes.  As seen in lecture, the number of layers is counted as the number of hidden layers + 1. The input and output layers are not counted as hidden layers. </br></p>
+</li>
+<li><p>True </br></p>
+<p>Yes, as you’ve seen in chapter 3 each activation has a different derivative. Thus, during backpropagation you need to know which activation was used in the forward propagation to be able to compute the correct derivative. </br></p>
+</li>
+<li><p>False </br></p>
+<p>On the contrary, some mathematical functions can be computed using an L-layered neural network and a given number of hidden units; but using a shallow neural network the number of necessary hidden units grows exponentially. </br></p>
+</li>
+<li><p>ABCHIG </br></p>
+<p>More generally, the shape of <span class="math notranslate nohighlight">\(W^{[l]}\)</span> is <span class="math notranslate nohighlight">\((n^{[l]}, n^{[l-1]})\)</span>, and the the shape of <span class="math notranslate nohighlight">\(b^{[l]}\)</span> is <span class="math notranslate nohighlight">\((n^{[l]}, m)\)</span></br></p>
+</li>
+<li><p>A </br></p>
+<p>A. Yes. <span class="math notranslate nohighlight">\(b^{[l]}\)</span> is a column vector with the same number of rows as units in the respective layer. </br></p>
+</li>
+<li><p>D </br></p>
+<p>D. Correct, the “cache” records values from the forward propagation units and are used in backward propagation units because it is needed to compute the chain rule derivatives.</p>
+</li>
+<li><p>False </br></p>
+<p>During backpropagation, we use gradient descent to compute new values of <span class="math notranslate nohighlight">\(W^{[l]}\)</span> and <span class="math notranslate nohighlight">\(b^{[l]}\)</span>. These are the parameters of the network. </br></p>
+</li>
+<li><p>False </br></p>
+<p>We can use vectorization in backpropagation to calculate <span class="math notranslate nohighlight">\(\mathrm{d}A^{[l]}\)</span> for each layer. This computation is done over all the training examples. </br></p>
+</li>
+<li><p>4, 4, 3, 2, 1 </br></p></li>
+<li><p>False </br></p>
+<p>During backward propagation we are interested in computing <span class="math notranslate nohighlight">\(\mathrm{d}W^{[l]}\)</span> and <span class="math notranslate nohighlight">\(\mathrm{d}b^{[l]}\)</span>. For that we use  <span class="math notranslate nohighlight">\(g^{'[l]}\)</span>, <span class="math notranslate nohighlight">\(\mathrm{d}Z^{[l]}\)</span>, <span class="math notranslate nohighlight">\(Z^{[l]}\)</span> and <span class="math notranslate nohighlight">\(W^{[l]}\)</span>. </br></p>
+</li>
+<li><p>False </br></p>
+<p>As seen during the lectures there are functions you can compute with a “small” L-layer deep neural network that shallower networks require exponentially more hidden units to compute. </br></p>
+</li>
+<li><p>A </br></p>
+<p>A. Remember that the range omits the last number thus the range from 1 to L calculates only the A up to the L-1 layer.</p>
+</li>
+<li><p>AB </br></p>
+<p>AB. The weight matrices and the bias vectors are the parameters of the network. </br></p>
+</li>
+<li><p>A  </br></p></li>
+<li><p>C </br></p>
+<p>The number of rows in <span class="math notranslate nohighlight">\(A^{[l]}\)</span> corresponds to the number of units in the <span class="math notranslate nohighlight">\(l\)</span>-th layer. </br></p>
+</li>
+</ol>
+</div>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C3_Practical_Test.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Practical 2: Planar data classification with one hidden layer</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C4_Practical_Test_P1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Practical 3: Building your Deep Neural Network: Step by Step</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-l-layer-neural-network">Deep L-layer Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation-in-a-deep-network">Forward Propagation in a Deep Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-your-matrix-dimensions-right">Getting your Matrix Dimensions Right</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-deep-representations">Why Deep Representations?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-blocks-of-deep-neural-networks">Building Blocks of Deep Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-and-backward-propagation">Forward and Backward Propagation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propogation-for-layer-l">Forward propogation for layer <span class="math notranslate nohighlight">\(l\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-propogation-for-layer-l">Backward propogation for layer <span class="math notranslate nohighlight">\(l\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters-and-hyperparameters">Parameters and Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-with-formula">Summary with formula</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Chao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

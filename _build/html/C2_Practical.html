@@ -1,0 +1,1464 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pre-Practical: Python Basics with Numpy (optional assignment) &#8212; Deep Learning Specialization</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'C2_Practical';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Practicel 1: Logistic Regression with a Neural Network mindset" href="C2_Practical_Test.html" />
+    <link rel="prev" title="2 Neural Networks Basics" href="C2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Deep Learning Specialization - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Deep Learning Specialization - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to Deep Learning Specialization
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="C1.html">1 Introduction to Deep Learning</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="C2.html">2 Neural Networks Basics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Pre-Practical: Python Basics with Numpy (optional assignment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical_Test.html">Practicel 1: Logistic Regression with a Neural Network mindset</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C3.html">3 Shallow Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C3_Practical_Test.html">Practical 2: Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C4.html">4 Deep Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P1.html">Practical 3: Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P2.html">Practical 4: Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C5.html">5 Practical Aspects of Deep Learning</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C5_Initialization.html">Practical 5: Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C5_Regularization.html">Practical 6: Regularization</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FC2_Practical.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/C2_Practical.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Pre-Practical: Python Basics with Numpy (optional assignment)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-ipython-notebooks">About iPython Notebooks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-basic-functions-with-numpy">1 - Building basic functions with numpy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid-function-np-exp">1.1 - sigmoid function, np.exp()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-basic-sigmoid">Exercise 2 - basic_sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-sigmoid">Exercise 3 - sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid-gradient">1.2 - Sigmoid Gradient</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-sigmoid-derivative">Exercise 4 - sigmoid_derivative</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-arrays">1.3 - Reshaping arrays</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-image2vector">Exercise 5 - image2vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-rows">1.4 - Normalizing rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-normalize-rows">Exercise 6 - normalize_rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-softmax">Exercise 7 - softmax</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectorization">2 - Vectorization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-l1-and-l2-loss-functions">2.1 Implement the L1 and L2 loss functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-l1">Exercise 8 - L1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-l2">Exercise 9 - L2</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="pre-practical-python-basics-with-numpy-optional-assignment">
+<h1>Pre-Practical: Python Basics with Numpy (optional assignment)<a class="headerlink" href="#pre-practical-python-basics-with-numpy-optional-assignment" title="Link to this heading">#</a></h1>
+<p>Welcome to your first assignment. This exercise gives you a brief introduction to Python. Even if you’ve used Python before, this will help familiarize you with the functions we’ll need.</p>
+<p><strong>Instructions:</strong></p>
+<ul class="simple">
+<li><p>You will be using Python 3.</p></li>
+<li><p>Avoid using for-loops and while-loops, unless you are explicitly told to do so.</p></li>
+<li><p>After coding your function, run the cell right below it to check if your result is correct.</p></li>
+</ul>
+<p><strong>After this assignment you will:</strong></p>
+<ul class="simple">
+<li><p>Be able to use iPython Notebooks</p></li>
+<li><p>Be able to use numpy functions and numpy matrix/vector operations</p></li>
+<li><p>Understand the concept of “broadcasting”</p></li>
+<li><p>Be able to vectorize code</p></li>
+</ul>
+<p>Let’s get started!</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/neural-networks-deep-learning/supplement/iLwon/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="about-ipython-notebooks">
+<h2>About iPython Notebooks<a class="headerlink" href="#about-ipython-notebooks" title="Link to this heading">#</a></h2>
+<p>iPython Notebooks are interactive coding environments embedded in a webpage. You will be using iPython notebooks in this class. You only need to write code between the # your code here comment. After writing your code, you can run the cell by either pressing “SHIFT”+”ENTER” or by clicking on “Run Cell” (denoted by a play symbol) in the upper bar of the notebook.</p>
+<p>We will often specify “(≈ X lines of code)” in the comments to tell you about how much code you need to write. It is just a rough estimate, so don’t feel bad if your code is longer or shorter.</p>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p>Set test to <code class="docutils literal notranslate"><span class="pre">&quot;Hello</span> <span class="pre">World&quot;</span></code> in the cell below to print “Hello World” and run the two cells below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># (≈ 1 line of code)</span>
+<span class="c1"># test = </span>
+<span class="c1"># YOUR CODE STARTS HERE</span>
+<span class="n">test</span> <span class="o">=</span> <span class="s1">&#39;Hello World&#39;</span>
+
+<span class="c1"># YOUR CODE ENDS HERE</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;test: &quot;</span> <span class="o">+</span> <span class="n">test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>test: Hello World
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong>:</p>
+<p>test: Hello World</p>
+<p><strong>What you need to remember</strong>:</p>
+<ul class="simple">
+<li><p>Run your cells using SHIFT+ENTER (or “Run cell”)</p></li>
+<li><p>Write code in the designated areas using Python 3 only</p></li>
+<li><p>Do not modify the code outside of the designated areas</p></li>
+</ul>
+</section>
+</section>
+<section id="building-basic-functions-with-numpy">
+<h2>1 - Building basic functions with numpy<a class="headerlink" href="#building-basic-functions-with-numpy" title="Link to this heading">#</a></h2>
+<p>Numpy is the main package for scientific computing in Python. It is maintained by a large community (<a class="reference external" href="http://www.numpy.org">www.numpy.org</a>). In this exercise you will learn several key numpy functions such as <code class="docutils literal notranslate"><span class="pre">np.exp</span></code>, <code class="docutils literal notranslate"><span class="pre">np.log</span></code>, and <code class="docutils literal notranslate"><span class="pre">np.reshape</span></code>. You will need to know how to use these functions for future assignments.</p>
+<section id="sigmoid-function-np-exp">
+<h3>1.1 - sigmoid function, np.exp()<a class="headerlink" href="#sigmoid-function-np-exp" title="Link to this heading">#</a></h3>
+<p>Before using <code class="docutils literal notranslate"><span class="pre">np.exp()</span></code>, you will use <code class="docutils literal notranslate"><span class="pre">math.exp()</span></code> to implement the sigmoid function. You will then see why <code class="docutils literal notranslate"><span class="pre">np.exp()</span></code> is preferable to <code class="docutils literal notranslate"><span class="pre">math.exp()</span></code>.</p>
+</section>
+<section id="exercise-2-basic-sigmoid">
+<h3>Exercise 2 - basic_sigmoid<a class="headerlink" href="#exercise-2-basic-sigmoid" title="Link to this heading">#</a></h3>
+<p>Build a function that returns the sigmoid of a real number x. Use <code class="docutils literal notranslate"><span class="pre">math.exp(x)</span></code> for the exponential function.</p>
+<p><strong>Reminder</strong>:
+<span class="math notranslate nohighlight">\(\text{sigmoid}(x) = \frac{1}{1+e^{-x}}\)</span> is sometimes also known as the logistic function. It is a non-linear function used not only in Machine Learning (Logistic Regression), but also in Deep Learning.</p>
+<figure class="align-default" id="pra-1">
+<a class="reference internal image-reference" href="_images/Sigmoid.png"><img alt="_images/Sigmoid.png" src="_images/Sigmoid.png" style="width: 500px; height: 230px;" /></a>
+</figure>
+<p>To refer to a function belonging to a specific package you could call it using <code class="docutils literal notranslate"><span class="pre">package_name.function()</span></code>. Run the code below to see an example with <code class="docutils literal notranslate"><span class="pre">math.exp()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">public_tests_c1w2</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># GRADED FUNCTION: basic_sigmoid</span>
+
+<span class="k">def</span> <span class="nf">basic_sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute sigmoid of x.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">    x -- A scalar</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">    s -- sigmoid(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># (≈ 1 line of code)</span>
+    <span class="c1"># s = </span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;basic_sigmoid(1) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">basic_sigmoid</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="n">basic_sigmoid_test</span><span class="p">(</span><span class="n">basic_sigmoid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>basic_sigmoid(1) = 0.7310585786300049
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Actually, we rarely use the “math” library in deep learning because the inputs of the functions are real numbers. In deep learning we mostly use matrices and vectors. This is why numpy is more useful.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### One reason why we use &quot;numpy&quot; instead of &quot;math&quot; in Deep Learning ###</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="c1"># x becomes a python list object</span>
+<span class="n">basic_sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># you will see this give an error when you run it, because x is a vector.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">### One reason why we use &quot;numpy&quot; instead of &quot;math&quot; in Deep Learning ###</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="c1"># x becomes a python list object</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">basic_sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nn">Cell In[3], line 19,</span> in <span class="ni">basic_sigmoid</span><span class="nt">(x)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span><span class="sd"> Compute sigmoid of x.</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span><span class="sd"> s -- sigmoid(x)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="c1"># (≈ 1 line of code)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># s = </span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="c1"># YOUR CODE STARTS HERE</span>
+<span class="ne">---&gt; </span><span class="mi">19</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="c1"># YOUR CODE ENDS HERE</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">return</span> <span class="n">s</span>
+
+<span class="ne">TypeError</span>: bad operand type for unary -: &#39;list&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>In fact, if <span class="math notranslate nohighlight">\( x = (x_1, x_2, ..., x_n)\)</span> is a row vector then <code class="docutils literal notranslate"><span class="pre">np.exp(x)</span></code> will apply the exponential function to every element of x. The output will thus be: <code class="docutils literal notranslate"><span class="pre">np.exp(x)</span> <span class="pre">=</span> <span class="pre">(e^{x_1},</span> <span class="pre">e^{x_2},</span> <span class="pre">...,</span> <span class="pre">e^{x_n})</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># example of np.exp</span>
+<span class="n">t_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">t_x</span><span class="p">))</span> <span class="c1"># result is (exp(1), exp(2), exp(3))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 2.71828183  7.3890561  20.08553692]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Furthermore, if x is a vector, then a Python operation such as <span class="math notranslate nohighlight">\(s = x + 3\)</span> or <span class="math notranslate nohighlight">\(s = \frac{1}{x}\)</span> will output s as a vector of the same size as x.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example of vector operation</span>
+<span class="n">t_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">t_x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[4 5 6]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Any time you need more info on a numpy function, we encourage you to look at <a class="reference external" href="https://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.exp.html">the official documentation</a>.</p>
+<p>You can also create a new cell in the notebook and write <code class="docutils literal notranslate"><span class="pre">np.exp?</span></code> (for example) to get quick access to the documentation.</p>
+</section>
+<section id="exercise-3-sigmoid">
+<h3>Exercise 3 - sigmoid<a class="headerlink" href="#exercise-3-sigmoid" title="Link to this heading">#</a></h3>
+<p>Implement the sigmoid function using numpy.</p>
+<p><strong>Instructions</strong>: x could now be either a real number, a vector, or a matrix. The data structures we use in numpy to represent these shapes (vectors, matrices…) are called numpy arrays. You don’t need to know more for now.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \text{For } x \in \mathbb{R}^n \text{,     } \text{sigmoid}(x) = \text{sigmoid}\begin{pmatrix}
+    x_1  \\
+    x_2  \\
+    ...  \\
+    x_n  \\
+\end{pmatrix} = \begin{pmatrix}
+    \frac{1}{1+e^{-x_1}}  \\
+    \frac{1}{1+e^{-x_2}}  \\
+    ...  \\
+    \frac{1}{1+e^{-x_n}}  \\
+\end{pmatrix}\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: sigmoid</span>
+
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the sigmoid of x</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">    x -- A scalar or numpy array of any size</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">    s -- sigmoid(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># (≈ 1 line of code)</span>
+    <span class="c1"># s = </span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sigmoid(t_x) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">t_x</span><span class="p">)))</span>
+
+<span class="n">sigmoid_test</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sigmoid(t_x) = [0.73105858 0.88079708 0.95257413]
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="sigmoid-gradient">
+<h3>1.2 - Sigmoid Gradient<a class="headerlink" href="#sigmoid-gradient" title="Link to this heading">#</a></h3>
+<p>As you’ve seen in lecture, you will need to compute gradients to optimize loss functions using backpropagation. Let’s code your first gradient function.</p>
+</section>
+<section id="exercise-4-sigmoid-derivative">
+<h3>Exercise 4 - sigmoid_derivative<a class="headerlink" href="#exercise-4-sigmoid-derivative" title="Link to this heading">#</a></h3>
+<p>Implement the function sigmoid_grad() to compute the gradient of the sigmoid function with respect to its input x. The formula is:</p>
+<div class="math notranslate nohighlight">
+\[\text{sigmoid}\_\text{derivative}(x) = \sigma'(x) = \sigma(x) (1 - \sigma(x))\tag{2}\]</div>
+<p>You often code this function in two steps:</p>
+<ol class="arabic simple">
+<li><p>Set s to be the sigmoid of x. You might find your sigmoid(x) function useful.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(\sigma'(x) = s(1-s)\)</span></p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: sigmoid_derivative</span>
+
+<span class="k">def</span> <span class="nf">sigmoid_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the gradient (also called the slope or derivative) of the sigmoid function with respect to its input x.</span>
+<span class="sd">    You can store the output of the sigmoid function into variables and then use it to calculate the gradient.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    x -- A scalar or numpy array</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">    ds -- Your computed gradient.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#(≈ 2 lines of code)</span>
+    <span class="c1"># s = </span>
+    <span class="c1"># ds = </span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">s</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">s</span><span class="p">)</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">ds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;sigmoid_derivative(t_x) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sigmoid_derivative</span><span class="p">(</span><span class="n">t_x</span><span class="p">)))</span>
+
+<span class="n">sigmoid_derivative_test</span><span class="p">(</span><span class="n">sigmoid_derivative</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sigmoid_derivative(t_x) = [0.19661193 0.10499359 0.04517666]
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="reshaping-arrays">
+<h3>1.3 - Reshaping arrays<a class="headerlink" href="#reshaping-arrays" title="Link to this heading">#</a></h3>
+<p>Two common numpy functions used in deep learning are <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.shape.html">np.shape</a> and <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.reshape.html">np.reshape()</a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X.shape</span></code> is used to get the shape (dimension) of a matrix/vector X.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X.reshape(...)</span></code> is used to reshape X into some other dimension.</p></li>
+</ul>
+<p>For example, in computer science, an image is represented by a 3D array of shape <span class="math notranslate nohighlight">\((\text{length}, \text{height}, \text{depth} = 3)\)</span>. However, when you read an image as the input of an algorithm you convert it to a vector of shape <span class="math notranslate nohighlight">\((\text{length} \times \text{height} \times 3, 1)\)</span>. In other words, you “unroll”, or reshape, the 3D array into a 1D vector.</p>
+<figure class="align-default" id="practice-1">
+<a class="reference internal image-reference" href="_images/image2vector_kiank.png"><img alt="_images/image2vector_kiank.png" src="_images/image2vector_kiank.png" style="width: 500px; height: 300px;" /></a>
+</figure>
+</section>
+<section id="exercise-5-image2vector">
+<h3>Exercise 5 - image2vector<a class="headerlink" href="#exercise-5-image2vector" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">image2vector()</span></code> that takes an input of shape (length, height, 3) and returns a vector of shape (length*height*3, 1). For example, if you would like to reshape an array v of shape (a, b, c) into a vector of shape (a*b,c) you would do:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="c1"># v.shape[0] = a ; v.shape[1] = b ; v.shape[2] = c</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Please don’t hardcode the dimensions of image as a constant. Instead look up the quantities you need with <code class="docutils literal notranslate"><span class="pre">image.shape[0]</span></code>, etc.</p></li>
+<li><p>You can use v = v.reshape(-1, 1). Just make sure you understand why it works.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION:image2vector</span>
+
+<span class="k">def</span> <span class="nf">image2vector</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Argument:</span>
+<span class="sd">    image -- a numpy array of shape (length, height, depth)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    v -- a vector of shape (length*height*depth, 1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># (≈ 1 line of code)</span>
+    <span class="c1"># v =</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is a 3 by 3 by 2 array, typically images will be (num_px_x, num_px_y,3) where 3 represents the RGB values</span>
+<span class="n">t_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span> <span class="mf">0.67826139</span><span class="p">,</span>  <span class="mf">0.29380381</span><span class="p">],</span>
+                     <span class="p">[</span> <span class="mf">0.90714982</span><span class="p">,</span>  <span class="mf">0.52835647</span><span class="p">],</span>
+                     <span class="p">[</span> <span class="mf">0.4215251</span> <span class="p">,</span>  <span class="mf">0.45017551</span><span class="p">]],</span>
+
+                   <span class="p">[[</span> <span class="mf">0.92814219</span><span class="p">,</span>  <span class="mf">0.96677647</span><span class="p">],</span>
+                    <span class="p">[</span> <span class="mf">0.85304703</span><span class="p">,</span>  <span class="mf">0.52351845</span><span class="p">],</span>
+                    <span class="p">[</span> <span class="mf">0.19981397</span><span class="p">,</span>  <span class="mf">0.27417313</span><span class="p">]],</span>
+
+                   <span class="p">[[</span> <span class="mf">0.60659855</span><span class="p">,</span>  <span class="mf">0.00533165</span><span class="p">],</span>
+                    <span class="p">[</span> <span class="mf">0.10820313</span><span class="p">,</span>  <span class="mf">0.49978937</span><span class="p">],</span>
+                    <span class="p">[</span> <span class="mf">0.34144279</span><span class="p">,</span>  <span class="mf">0.94630077</span><span class="p">]]])</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;image2vector(image) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">image2vector</span><span class="p">(</span><span class="n">t_image</span><span class="p">)))</span>
+
+<span class="n">image2vector_test</span><span class="p">(</span><span class="n">image2vector</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>image2vector(image) = [[0.67826139]
+ [0.29380381]
+ [0.90714982]
+ [0.52835647]
+ [0.4215251 ]
+ [0.45017551]
+ [0.92814219]
+ [0.96677647]
+ [0.85304703]
+ [0.52351845]
+ [0.19981397]
+ [0.27417313]
+ [0.60659855]
+ [0.00533165]
+ [0.10820313]
+ [0.49978937]
+ [0.34144279]
+ [0.94630077]]
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="normalizing-rows">
+<h3>1.4 - Normalizing rows<a class="headerlink" href="#normalizing-rows" title="Link to this heading">#</a></h3>
+<p>Another common technique we use in Machine Learning and Deep Learning is to normalize our data. It often leads to a better performance because gradient descent converges faster after normalization. Here, by normalization we mean changing x to <span class="math notranslate nohighlight">\( \frac{x}{\| x\|} \)</span> (dividing each row vector of x by its norm).</p>
+<p>For example, if</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}x = \begin{bmatrix}
+        0 &amp; 3 &amp; 4 \\
+        2 &amp; 6 &amp; 4 \\
+\end{bmatrix}\end{split}\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\| x\| = \text{np.linalg.norm(x, axis=1, keepdims=True)} = \begin{bmatrix}
+    5 \\
+    \sqrt{56} \\
+\end{bmatrix}\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} x\_normalized = \frac{x}{\| x\|} = \begin{bmatrix}
+    0 &amp; \frac{3}{5} &amp; \frac{4}{5} \\
+    \frac{2}{\sqrt{56}} &amp; \frac{6}{\sqrt{56}} &amp; \frac{4}{\sqrt{56}} \\
+\end{bmatrix}\end{split}\]</div>
+<p>Note that you can divide matrices of different sizes and it works fine: this is called broadcasting and you’re going to learn about it in part 5.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">keepdims=True</span></code> the result will broadcast correctly against the original x.</p>
+<p><code class="docutils literal notranslate"><span class="pre">axis=1</span></code> means you are going to get the norm in a row-wise manner. If you need the norm in a column-wise way, you would need to set <code class="docutils literal notranslate"><span class="pre">axis=0</span></code>.</p>
+<p>numpy.linalg.norm has another parameter <code class="docutils literal notranslate"><span class="pre">ord</span></code> where we specify the type of normalization to be done (in the exercise below you’ll do 2-norm). To get familiar with the types of normalization you can visit <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html">numpy.linalg.norm</a></p>
+</section>
+<section id="exercise-6-normalize-rows">
+<h3>Exercise 6 - normalize_rows<a class="headerlink" href="#exercise-6-normalize-rows" title="Link to this heading">#</a></h3>
+<p>Implement normalizeRows() to normalize the rows of a matrix. After applying this function to an input matrix x, each row of x should be a vector of unit length (meaning length 1).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: normalize_rows</span>
+
+<span class="k">def</span> <span class="nf">normalize_rows</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implement a function that normalizes each row of the matrix x (to have unit length).</span>
+<span class="sd">    </span>
+<span class="sd">    Argument:</span>
+<span class="sd">    x -- A numpy matrix of shape (n, m)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    x -- The normalized (by row) numpy matrix. You are allowed to modify x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#(≈ 2 lines of code)</span>
+    <span class="c1"># Compute x_norm as the norm 2 of x. Use np.linalg.norm(..., ord = 2, axis = ..., keepdims = True)</span>
+    <span class="c1"># x_norm =</span>
+    <span class="c1"># Divide x by its norm.</span>
+    <span class="c1"># x =</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">x_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">ord</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">keepdims</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">/=</span> <span class="n">x_norm</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;normalizeRows(x) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">normalize_rows</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+
+<span class="n">normalizeRows_test</span><span class="p">(</span><span class="n">normalize_rows</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>normalizeRows(x) = [[0.         0.6        0.8       ]
+ [0.13736056 0.82416338 0.54944226]]
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Note</strong>:
+In normalize_rows(), you can try to print the shapes of x_norm and x, and then rerun the assessment. You’ll find out that they have different shapes. This is normal given that x_norm takes the norm of each row of x. So x_norm has the same number of rows but only 1 column. So how did it work when you divided x by x_norm? This is called broadcasting and we’ll talk about it now!</p>
+</section>
+<section id="exercise-7-softmax">
+<h3>Exercise 7 - softmax<a class="headerlink" href="#exercise-7-softmax" title="Link to this heading">#</a></h3>
+<p>Implement a softmax function using numpy. You can think of softmax as a normalizing function used when your algorithm needs to classify two or more classes. You will learn more about softmax in the second course of this specialization.</p>
+<p><strong>Instructions</strong>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\text{for } x \in \mathbb{R}^{1\times n} \text{,     }\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+ \text{softmax}(x) &amp;= \text{softmax}\left(\begin{bmatrix}
+    x_1  &amp;&amp;
+    x_2 &amp;&amp;
+    ...  &amp;&amp;
+    x_n  
+\end{bmatrix}\right) \\&amp;= \begin{bmatrix}
+    \frac{e^{x_1}}{\sum_{j}e^{x_j}}  &amp;&amp;
+    \frac{e^{x_2}}{\sum_{j}e^{x_j}}  &amp;&amp;
+    ...  &amp;&amp;
+    \frac{e^{x_n}}{\sum_{j}e^{x_j}} 
+\end{bmatrix} 
+\end{align*}\end{split}\]</div>
+<ul class="simple">
+<li><p>for a matrix  <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{m \times n}\)</span>,  <span class="math notranslate nohighlight">\(x_{ij}\)</span> maps to the element in the <span class="math notranslate nohighlight">\(i^{th}\)</span> row and <span class="math notranslate nohighlight">\(j^{th}\)</span> column of <span class="math notranslate nohighlight">\(x\)</span>, thus we have:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+\text{softmax}(x) &amp;= \text{softmax}\begin{bmatrix}
+            x_{11} &amp; x_{12} &amp; x_{13} &amp; \dots  &amp; x_{1n} \\
+            x_{21} &amp; x_{22} &amp; x_{23} &amp; \dots  &amp; x_{2n} \\
+            \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+            x_{m1} &amp; x_{m2} &amp; x_{m3} &amp; \dots  &amp; x_{mn}
+            \end{bmatrix} \\ \\&amp;= 
+ \begin{bmatrix}
+    \frac{e^{x_{11}}}{\sum_{j}e^{x_{1j}}} &amp; \frac{e^{x_{12}}}{\sum_{j}e^{x_{1j}}} &amp; \frac{e^{x_{13}}}{\sum_{j}e^{x_{1j}}} &amp; \dots  &amp; \frac{e^{x_{1n}}}{\sum_{j}e^{x_{1j}}} \\
+    \frac{e^{x_{21}}}{\sum_{j}e^{x_{2j}}} &amp; \frac{e^{x_{22}}}{\sum_{j}e^{x_{2j}}} &amp; \frac{e^{x_{23}}}{\sum_{j}e^{x_{2j}}} &amp; \dots  &amp; \frac{e^{x_{2n}}}{\sum_{j}e^{x_{2j}}} \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    \frac{e^{x_{m1}}}{\sum_{j}e^{x_{mj}}} &amp; \frac{e^{x_{m2}}}{\sum_{j}e^{x_{mj}}} &amp; \frac{e^{x_{m3}}}{\sum_{j}e^{x_{mj}}} &amp; \dots  &amp; \frac{e^{x_{mn}}}{\sum_{j}e^{x_{mj}}}
+\end{bmatrix} \\ \\ &amp;= \begin{pmatrix}
+    \text{softmax}\text{(first row of x)}  \\
+    \text{softmax}\text{(second row of x)} \\
+    \vdots  \\
+    \text{softmax}\text{(last row of x)} \\
+\end{pmatrix} 
+\end{align*}\end{split}\]</div>
+<p><strong>Notes:</strong>
+Note that later in the course, you’ll see “m” used to represent the “number of training examples”, and each training example is in its own column of the matrix. Also, each feature will be in its own row (each row has data for the same feature).<br />
+Softmax should be performed for all features of each training example, so softmax would be performed on the columns (once we switch to that representation later in this course).</p>
+<p>However, in this coding practice, we’re just focusing on getting familiar with Python, so we’re using the common math notation <span class="math notranslate nohighlight">\(m \times n\)</span><br />
+where <span class="math notranslate nohighlight">\(m\)</span> is the number of rows and <span class="math notranslate nohighlight">\(n\)</span> is the number of columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: softmax</span>
+
+<span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the softmax for each row of the input x.</span>
+
+<span class="sd">    Your code should work for a row vector and also for matrices of shape (m,n).</span>
+
+<span class="sd">    Argument:</span>
+<span class="sd">    x -- A numpy matrix of shape (m,n)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    s -- A numpy matrix equal to the softmax of x, of shape (m,n)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#(≈ 3 lines of code)</span>
+    <span class="c1"># Apply exp() element-wise to x. Use np.exp(...).</span>
+    <span class="c1"># x_exp = ...</span>
+
+    <span class="c1"># Create a vector x_sum that sums each row of x_exp. Use np.sum(..., axis = 1, keepdims = True).</span>
+    <span class="c1"># x_sum = ...</span>
+    
+    <span class="c1"># Compute softmax(x) by dividing x_exp by x_sum. It should automatically use numpy broadcasting.</span>
+    <span class="c1"># s = ...</span>
+    
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">x_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">x_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_exp</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">s</span> <span class="o">=</span> <span class="n">x_exp</span> <span class="o">/</span> <span class="n">x_sum</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;softmax(x) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="n">t_x</span><span class="p">)))</span>
+
+<span class="n">softmax_test</span><span class="p">(</span><span class="n">softmax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>softmax(x) = [[9.80897665e-01 8.94462891e-04 1.79657674e-02 1.21052389e-04
+  1.21052389e-04]
+ [8.78679856e-01 1.18916387e-01 8.01252314e-04 8.01252314e-04
+  8.01252314e-04]]
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="notes">
+<h4>Notes<a class="headerlink" href="#notes" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>If you print the shapes of x_exp, x_sum and s above and rerun the assessment cell, you will see that x_sum is of shape (2,1) while x_exp and s are of shape (2,5). <strong>x_exp/x_sum</strong> works due to python broadcasting.</p></li>
+</ul>
+<p>Congratulations! You now have a pretty good understanding of python numpy and have implemented a few useful functions that you will be using in deep learning.</p>
+<p><strong>What you need to remember:</strong></p>
+<ul class="simple">
+<li><p>np.exp(x) works for any np.array x and applies the exponential function to every coordinate</p></li>
+<li><p>the sigmoid function and its gradient</p></li>
+<li><p>image2vector is commonly used in deep learning</p></li>
+<li><p>np.reshape is widely used. In the future, you’ll see that keeping your matrix/vector dimensions straight will go toward eliminating a lot of bugs.</p></li>
+<li><p>numpy has efficient built-in functions</p></li>
+<li><p>broadcasting is extremely useful</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="vectorization">
+<h2>2 - Vectorization<a class="headerlink" href="#vectorization" title="Link to this heading">#</a></h2>
+<p>In deep learning, you deal with very large datasets. Hence, a non-computationally-optimal function can become a huge bottleneck in your algorithm and can result in a model that takes ages to run. To make sure that your code is  computationally efficient, you will use vectorization. For example, try to tell the difference between the following implementations of the dot/outer/elementwise product.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">### CLASSIC DOT PRODUCT OF VECTORS IMPLEMENTATION ###</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">dot</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)):</span>
+    <span class="n">dot</span> <span class="o">+=</span> <span class="n">x1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dot = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="c1">### CLASSIC OUTER PRODUCT IMPLEMENTATION ###</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">outer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="p">)))</span> <span class="c1"># we create a len(x1)*len(x2) matrix with only zeros</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="p">)):</span>
+        <span class="n">outer</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">x1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;outer = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">outer</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="c1">### CLASSIC ELEMENTWISE IMPLEMENTATION ###</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">mul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)):</span>
+    <span class="n">mul</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;elementwise multiplication = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mul</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="c1">### CLASSIC GENERAL DOT PRODUCT IMPLEMENTATION ###</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span> <span class="c1"># Random 3*len(x1) numpy array</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">gdot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)):</span>
+        <span class="n">gdot</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">x1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;gdot = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gdot</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dot = 278
+ ----- Computation time = 0.1120000000005561ms
+outer = [[81. 18. 18. 81.  0. 81. 18. 45.  0.  0. 81. 18. 45.  0.  0.]
+ [18.  4.  4. 18.  0. 18.  4. 10.  0.  0. 18.  4. 10.  0.  0.]
+ [45. 10. 10. 45.  0. 45. 10. 25.  0.  0. 45. 10. 25.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
+ [63. 14. 14. 63.  0. 63. 14. 35.  0.  0. 63. 14. 35.  0.  0.]
+ [45. 10. 10. 45.  0. 45. 10. 25.  0.  0. 45. 10. 25.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
+ [81. 18. 18. 81.  0. 81. 18. 45.  0.  0. 81. 18. 45.  0.  0.]
+ [18.  4.  4. 18.  0. 18.  4. 10.  0.  0. 18.  4. 10.  0.  0.]
+ [45. 10. 10. 45.  0. 45. 10. 25.  0.  0. 45. 10. 25.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]]
+ ----- Computation time = 0.2629999999994581ms
+elementwise multiplication = [81.  4. 10.  0.  0. 63. 10.  0.  0.  0. 81.  4. 25.  0.  0.]
+ ----- Computation time = 0.11399999999994748ms
+gdot = [13.84179255 20.37769035 27.11990522]
+ ----- Computation time = 0.204000000000093ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">### VECTORIZED DOT PRODUCT OF VECTORS ###</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">dot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dot = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="c1">### VECTORIZED OUTER PRODUCT ###</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">outer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;outer = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">outer</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="c1">### VECTORIZED ELEMENTWISE MULTIPLICATION ###</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">mul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;elementwise multiplication = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mul</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+<span class="c1">### VECTORIZED GENERAL DOT PRODUCT ###</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="n">dot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">,</span><span class="n">x1</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;gdot = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ----- Computation time = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dot = 278
+ ----- Computation time = 0.5890000000006168ms
+outer = [[81 18 18 81  0 81 18 45  0  0 81 18 45  0  0]
+ [18  4  4 18  0 18  4 10  0  0 18  4 10  0  0]
+ [45 10 10 45  0 45 10 25  0  0 45 10 25  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [63 14 14 63  0 63 14 35  0  0 63 14 35  0  0]
+ [45 10 10 45  0 45 10 25  0  0 45 10 25  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [81 18 18 81  0 81 18 45  0  0 81 18 45  0  0]
+ [18  4  4 18  0 18  4 10  0  0 18  4 10  0  0]
+ [45 10 10 45  0 45 10 25  0  0 45 10 25  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]]
+ ----- Computation time = 0.5790000000001072ms
+elementwise multiplication = [81  4 10  0  0 63 10  0  0  0 81  4 25  0  0]
+ ----- Computation time = 0.1020000000000465ms
+gdot = [13.84179255 20.37769035 27.11990522]
+ ----- Computation time = 0.40900000000032577ms
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you may have noticed, the vectorized implementation is much cleaner and more efficient. For bigger vectors/matrices, the differences in running time become even bigger.</p>
+<p><strong>Note</strong> that <code class="docutils literal notranslate"><span class="pre">np.dot()</span></code> performs a matrix-matrix or matrix-vector multiplication. This is different from <code class="docutils literal notranslate"><span class="pre">np.multiply()</span></code> and the <code class="docutils literal notranslate"><span class="pre">*</span></code> operator (which is equivalent to  <code class="docutils literal notranslate"><span class="pre">.*</span></code> in Matlab/Octave), which performs an element-wise multiplication.</p>
+<section id="implement-the-l1-and-l2-loss-functions">
+<h3>2.1 Implement the L1 and L2 loss functions<a class="headerlink" href="#implement-the-l1-and-l2-loss-functions" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-8-l1">
+<h3>Exercise 8 - L1<a class="headerlink" href="#exercise-8-l1" title="Link to this heading">#</a></h3>
+<p>Implement the numpy vectorized version of the L1 loss. You may find the function abs(x) (absolute value of x) useful.</p>
+<p><strong>Reminder</strong>:</p>
+<ul class="simple">
+<li><p>The loss is used to evaluate the performance of your model. The bigger your loss is, the more different your predictions (<span class="math notranslate nohighlight">\( \hat{y} \)</span>) are from the true values (<span class="math notranslate nohighlight">\(y\)</span>). In deep learning, you use optimization algorithms like Gradient Descent to train your model and to minimize the cost.</p></li>
+<li><p>L1 loss is defined as:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{align*} &amp; L_1(\hat{y}, y) = \sum_{i=0}^{m-1}|y^{(i)} - \hat{y}^{(i)}| \end{align*}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: L1</span>
+
+<span class="k">def</span> <span class="nf">L1</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    yhat -- vector of size m (predicted labels)</span>
+<span class="sd">    y -- vector of size m (true labels)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    loss -- the value of the L1 loss function defined above</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#(≈ 1 line of code)</span>
+    <span class="c1"># loss = </span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">))</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">.4</span><span class="p">,</span> <span class="mf">.9</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L1 = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">L1</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">)))</span>
+
+<span class="n">L1_test</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L1 = 1.1
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-9-l2">
+<h3>Exercise 9 - L2<a class="headerlink" href="#exercise-9-l2" title="Link to this heading">#</a></h3>
+<p>Implement the numpy vectorized version of the L2 loss. There are several way of implementing the L2 loss but you may find the function np.dot() useful. As a reminder, if <span class="math notranslate nohighlight">\(x = [x_1, x_2, ..., x_n]\)</span>, then <code class="docutils literal notranslate"><span class="pre">np.dot(x,x)</span></code> = <span class="math notranslate nohighlight">\(\sum_{j=1}^n x_j^{2}\)</span>.</p>
+<ul class="simple">
+<li><p>L2 loss is defined as</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{align*} &amp; L_2(\hat{y},y) = \sum_{i=0}^{m-1}(y^{(i)} - \hat{y}^{(i)})^2 \end{align*}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: L2</span>
+
+<span class="k">def</span> <span class="nf">L2</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    yhat -- vector of size m (predicted labels)</span>
+<span class="sd">    y -- vector of size m (true labels)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    loss -- the value of the L2 loss function defined above</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#(≈ 1 line of code)</span>
+    <span class="c1"># loss = ...</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">))</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">.4</span><span class="p">,</span> <span class="mf">.9</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L2 = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">)))</span>
+
+<span class="n">L2_test</span><span class="p">(</span><span class="n">L2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L2 = 0.43
+ All tests passed.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Congratulations on completing this assignment. We hope that this little warm-up exercise helps you in the future assignments, which will be more exciting and interesting!</p>
+<p><strong>What to remember:</strong></p>
+<ul class="simple">
+<li><p>Vectorization is very important in deep learning. It provides computational efficiency and clarity.</p></li>
+<li><p>You have reviewed the L1 and L2 loss.</p></li>
+<li><p>You are familiar with many numpy functions such as np.sum, np.dot, np.multiply, np.maximum, etc…</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2 Neural Networks Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C2_Practical_Test.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Practicel 1: Logistic Regression with a Neural Network mindset</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-ipython-notebooks">About iPython Notebooks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-basic-functions-with-numpy">1 - Building basic functions with numpy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid-function-np-exp">1.1 - sigmoid function, np.exp()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-basic-sigmoid">Exercise 2 - basic_sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-sigmoid">Exercise 3 - sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid-gradient">1.2 - Sigmoid Gradient</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-sigmoid-derivative">Exercise 4 - sigmoid_derivative</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-arrays">1.3 - Reshaping arrays</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-image2vector">Exercise 5 - image2vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-rows">1.4 - Normalizing rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-normalize-rows">Exercise 6 - normalize_rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-softmax">Exercise 7 - softmax</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vectorization">2 - Vectorization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-l1-and-l2-loss-functions">2.1 Implement the L1 and L2 loss functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-l1">Exercise 8 - L1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-l2">Exercise 9 - L2</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Chao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

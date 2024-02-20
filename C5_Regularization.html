@@ -1,0 +1,1354 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Practical 6: Regularization &#8212; Deep Learning Specialization</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'C5_Regularization';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Practical 5: Initialization" href="C5_Initialization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Deep Learning Specialization - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Deep Learning Specialization - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to Deep Learning Specialization
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="C1.html">1 Introduction to Deep Learning</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C2.html">2 Neural Networks Basics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical.html">Pre-Practical: Python Basics with Numpy (optional assignment)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C2_Practical_Test.html">Practicel 1: Logistic Regression with a Neural Network mindset</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C3.html">3 Shallow Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C3_Practical_Test.html">Practical 2: Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="C4.html">4 Deep Neural Networks</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P1.html">Practical 3: Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C4_Practical_Test_P2.html">Practical 4: Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="C5.html">5 Practical Aspects of Deep Learning</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="C5_Initialization.html">Practical 5: Initialization</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Practical 6: Regularization</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FC5_Regularization.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/C5_Regularization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Practical 6: Regularization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2 - Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-dataset">3 - Loading the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-regularized-model">4 - Non-Regularized Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2-regularization">5 - L2 Regularization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-compute-cost-with-regularization">Exercise 1 - compute_cost_with_regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-backward-propagation-with-regularization">Exercise 2 - backward_propagation_with_regularization</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dropout">6 - Dropout</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation-with-dropout">6.1 - Forward Propagation with Dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-forward-propagation-with-dropout">Exercise 3 - forward_propagation_with_dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-propagation-with-dropout">6.2 - Backward Propagation with Dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-backward-propagation-with-dropout">Exercise 4 - backward_propagation_with_dropout</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">7 - Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="practical-6-regularization">
+<h1>Practical 6: Regularization<a class="headerlink" href="#practical-6-regularization" title="Link to this heading">#</a></h1>
+<p>Welcome to the second assignment of this week. Deep Learning models have so much flexibility and capacity that <strong>overfitting can be a serious problem</strong>, if the training dataset is not big enough. Sure it does well on the training set, but the learned network <strong>doesn’t generalize to new examples</strong> that it has never seen!</p>
+<p><strong>You will learn to:</strong> Use regularization in your deep learning models.</p>
+<p>Let’s get started!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import packages</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">sklearn.datasets</span>
+<span class="kn">import</span> <span class="nn">scipy.io</span>
+<span class="kn">from</span> <span class="nn">reg_utils_c2w1a2</span> <span class="kn">import</span> <span class="n">sigmoid</span><span class="p">,</span> <span class="n">relu</span><span class="p">,</span> <span class="n">plot_decision_boundary</span><span class="p">,</span> <span class="n">initialize_parameters</span><span class="p">,</span> <span class="n">load_2D_dataset</span><span class="p">,</span> <span class="n">predict_dec</span>
+<span class="kn">from</span> <span class="nn">reg_utils_c2w1a2</span> <span class="kn">import</span> <span class="n">compute_cost</span><span class="p">,</span> <span class="n">predict</span><span class="p">,</span> <span class="n">forward_propagation</span><span class="p">,</span> <span class="n">backward_propagation</span><span class="p">,</span> <span class="n">update_parameters</span>
+<span class="kn">from</span> <span class="nn">testCases_c2w1a2</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span> <span class="c1"># set default size of plots</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;image.interpolation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;image.cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="problem-statement">
+<h2>2 - Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h2>
+<p>You have just been hired as an AI expert by the French Football Corporation. They would like you to recommend positions where France’s goal keeper should kick the ball so that the French team’s players can then hit it with their head.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/field_kiank.png"><img alt="_images/field_kiank.png" src="_images/field_kiank.png" style="height: 350px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Football field. The goal keeper kicks the ball in the air, the players of each team are fighting to hit the ball with their head</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>They give you the following 2D dataset from France’s past 10 games.</p>
+</section>
+<section id="loading-the-dataset">
+<h2>3 - Loading the Dataset<a class="headerlink" href="#loading-the-dataset" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">test_X</span><span class="p">,</span> <span class="n">test_Y</span> <span class="o">=</span> <span class="n">load_2D_dataset</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0247c9a05afc59c89e6fadbdfacc5d9c6133a6ddf64daab034ed0d7c3dca8e71.png" src="_images/0247c9a05afc59c89e6fadbdfacc5d9c6133a6ddf64daab034ed0d7c3dca8e71.png" />
+</div>
+</div>
+<p>Each dot corresponds to a position on the football field where a football player has hit the ball with his/her head after the French goal keeper has shot the ball from the left side of the football field.</p>
+<ul class="simple">
+<li><p>If the dot is blue, it means the French player managed to hit the ball with his/her head</p></li>
+<li><p>If the dot is red, it means the other team’s player hit the ball with their head</p></li>
+</ul>
+<p><strong>Your goal</strong>: Use a deep learning model to find the positions on the field where the goalkeeper should kick the ball.</p>
+<p><strong>Analysis of the dataset</strong>: This dataset is a little noisy, but it looks like a diagonal line separating the upper left half (blue) from the lower right half (red) would work well.</p>
+<p>You will first try a non-regularized model. Then you’ll learn how to regularize it and decide which model you will choose to solve the French Football Corporation’s problem.</p>
+</section>
+<section id="non-regularized-model">
+<h2>4 - Non-Regularized Model<a class="headerlink" href="#non-regularized-model" title="Link to this heading">#</a></h2>
+<p>You will use the following neural network (already implemented for you below). This model can be used:</p>
+<ul class="simple">
+<li><p>in <em>regularization mode</em> – by setting the <code class="docutils literal notranslate"><span class="pre">lambd</span></code> input to a non-zero value. We use “<code class="docutils literal notranslate"><span class="pre">lambd</span></code>” instead of “<code class="docutils literal notranslate"><span class="pre">lambda</span></code>” because “<code class="docutils literal notranslate"><span class="pre">lambda</span></code>” is a reserved keyword in Python.</p></li>
+<li><p>in <em>dropout mode</em> – by setting the <code class="docutils literal notranslate"><span class="pre">keep_prob</span></code> to a value less than one</p></li>
+</ul>
+<p>You will first try the model without any regularization. Then, you will implement:</p>
+<ul class="simple">
+<li><p><em>L2 regularization</em> – functions: “<code class="docutils literal notranslate"><span class="pre">compute_cost_with_regularization()</span></code>” and “<code class="docutils literal notranslate"><span class="pre">backward_propagation_with_regularization()</span></code>”</p></li>
+<li><p><em>Dropout</em> – functions: “<code class="docutils literal notranslate"><span class="pre">forward_propagation_with_dropout()</span></code>” and “<code class="docutils literal notranslate"><span class="pre">backward_propagation_with_dropout()</span></code>”</p></li>
+</ul>
+<p>In each part, you will run this model with the correct inputs so that it calls the functions you’ve implemented. Take a look at the code below to familiarize yourself with the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">30000</span><span class="p">,</span> <span class="n">print_cost</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">lambd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">keep_prob</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a three-layer neural network: LINEAR-&gt;RELU-&gt;LINEAR-&gt;RELU-&gt;LINEAR-&gt;SIGMOID.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input data, of shape (input size, number of examples)</span>
+<span class="sd">    Y -- true &quot;label&quot; vector (1 for blue dot / 0 for red dot), of shape (output size, number of examples)</span>
+<span class="sd">    learning_rate -- learning rate of the optimization</span>
+<span class="sd">    num_iterations -- number of iterations of the optimization loop</span>
+<span class="sd">    print_cost -- If True, print the cost every 10000 iterations</span>
+<span class="sd">    lambd -- regularization hyperparameter, scalar</span>
+<span class="sd">    keep_prob - probability of keeping a neuron active during drop-out, scalar.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    parameters -- parameters learned by the model. They can then be used to predict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+        
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>                            <span class="c1"># to keep track of the cost</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                        <span class="c1"># number of examples</span>
+    <span class="n">layers_dims</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    
+    <span class="c1"># Initialize parameters dictionary.</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">initialize_parameters</span><span class="p">(</span><span class="n">layers_dims</span><span class="p">)</span>
+
+    <span class="c1"># Loop (gradient descent)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_iterations</span><span class="p">):</span>
+
+        <span class="c1"># Forward propagation: LINEAR -&gt; RELU -&gt; LINEAR -&gt; RELU -&gt; LINEAR -&gt; SIGMOID.</span>
+        <span class="k">if</span> <span class="n">keep_prob</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">a3</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward_propagation</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">keep_prob</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">a3</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward_propagation_with_dropout</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">)</span>
+        
+        <span class="c1"># Cost function</span>
+        <span class="k">if</span> <span class="n">lambd</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="n">compute_cost</span><span class="p">(</span><span class="n">a3</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="n">compute_cost_with_regularization</span><span class="p">(</span><span class="n">a3</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">lambd</span><span class="p">)</span>
+            
+        <span class="c1"># Backward propagation.</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">lambd</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">keep_prob</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1"># it is possible to use both L2 regularization and dropout, </span>
+                                                <span class="c1"># but this assignment will only explore one at a time</span>
+        <span class="k">if</span> <span class="n">lambd</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">keep_prob</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">grads</span> <span class="o">=</span> <span class="n">backward_propagation</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">lambd</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">grads</span> <span class="o">=</span> <span class="n">backward_propagation_with_regularization</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">lambd</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">keep_prob</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">grads</span> <span class="o">=</span> <span class="n">backward_propagation_with_dropout</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">)</span>
+        
+        <span class="c1"># Update parameters.</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">update_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">)</span>
+        
+        <span class="c1"># Print the loss every 10000 iterations</span>
+        <span class="k">if</span> <span class="n">print_cost</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cost after iteration </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cost</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">print_cost</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+    
+    <span class="c1"># plot the cost</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;cost&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iterations (x1,000)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Learning rate =&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">parameters</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s train the model without any regularization, and observe the accuracy on the train/test sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;On the training set:&quot;</span><span class="p">)</span>
+<span class="n">predictions_train</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;On the test set:&quot;</span><span class="p">)</span>
+<span class="n">predictions_test</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">,</span> <span class="n">test_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 0: 0.6557412523481002
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 10000: 0.16329987525724177
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 20000: 0.13851642423233596
+</pre></div>
+</div>
+<img alt="_images/2dbfa2d9a218adb605aabea60411c2d3859e06f291f554fd0c3877046d08fb23.png" src="_images/2dbfa2d9a218adb605aabea60411c2d3859e06f291f554fd0c3877046d08fb23.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>On the training set:
+Accuracy: 0.9478672985781991
+On the test set:
+Accuracy: 0.915
+</pre></div>
+</div>
+</div>
+</div>
+<p>The train accuracy is 94.8% while the test accuracy is 91.5%. This is the <strong>baseline model</strong> (you will observe the impact of regularization on this model). Run the following code to plot the decision boundary of your model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Model without regularization&quot;</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.40</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.65</span><span class="p">])</span>
+<span class="n">plot_decision_boundary</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">predict_dec</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5710f67af3605f032492253666928c91194a6a848c2144f92e45cd102388c4e9.png" src="_images/5710f67af3605f032492253666928c91194a6a848c2144f92e45cd102388c4e9.png" />
+</div>
+</div>
+<p>The non-regularized model is obviously overfitting the training set. It is fitting the noisy points! Lets now look at two techniques to reduce overfitting.</p>
+</section>
+<section id="l2-regularization">
+<h2>5 - L2 Regularization<a class="headerlink" href="#l2-regularization" title="Link to this heading">#</a></h2>
+<p>The standard way to avoid overfitting is called <strong>L2 regularization</strong>. It consists of appropriately modifying your cost function, from:</p>
+<div class="math notranslate nohighlight">
+\[J = -\frac{1}{m} \sum\limits_{i = 1}^{m} \large{(}\small  y^{(i)}\log\left(a^{[L](i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right) \large{)} \tag{1}\]</div>
+<p>To:</p>
+<div class="math notranslate nohighlight">
+\[J_{regularized} = \small \underbrace{-\frac{1}{m} \sum\limits_{i = 1}^{m} \large{(}\small y^{(i)}\log\left(a^{[L](i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right) \large{)} }_\text{cross-entropy cost} + \underbrace{\frac{1}{m} \frac{\lambda}{2} \sum\limits_l\sum\limits_k\sum\limits_j W_{k,j}^{[l]2} }_\text{L2 regularization cost} \tag{2}\]</div>
+<p>Let’s modify your cost and observe the consequences.</p>
+<section id="exercise-1-compute-cost-with-regularization">
+<h3>Exercise 1 - compute_cost_with_regularization<a class="headerlink" href="#exercise-1-compute-cost-with-regularization" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">compute_cost_with_regularization()</span></code> which computes the cost given by formula (2). To calculate <span class="math notranslate nohighlight">\(\sum\limits_k\sum\limits_j W_{k,j}^{[l]2}\)</span>  , use :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">Wl</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that you have to do this for <span class="math notranslate nohighlight">\(W^{[1]}\)</span>, <span class="math notranslate nohighlight">\(W^{[2]}\)</span> and <span class="math notranslate nohighlight">\(W^{[3]}\)</span>, then sum the three terms and multiply by <span class="math notranslate nohighlight">\( \frac{1}{m} \frac{\lambda}{2} \)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: compute_cost_with_regularization</span>
+
+<span class="k">def</span> <span class="nf">compute_cost_with_regularization</span><span class="p">(</span><span class="n">A3</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">lambd</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implement the cost function with L2 regularization. See formula (2) above.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    A3 -- post-activation, output of forward propagation, of shape (output size, number of examples)</span>
+<span class="sd">    Y -- &quot;true&quot; labels vector, of shape (output size, number of examples)</span>
+<span class="sd">    parameters -- python dictionary containing parameters of the model</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    cost - value of the regularized loss function (formula (2))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W1&quot;</span><span class="p">]</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W2&quot;</span><span class="p">]</span>
+    <span class="n">W3</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W3&quot;</span><span class="p">]</span>
+    
+    <span class="n">cross_entropy_cost</span> <span class="o">=</span> <span class="n">compute_cost</span><span class="p">(</span><span class="n">A3</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span> <span class="c1"># This gives you the cross-entropy part of the cost</span>
+    
+    <span class="c1">#(≈ 1 lines of code)</span>
+    <span class="c1"># L2_regularization_cost = </span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">L2_regularization_cost</span> <span class="o">=</span> <span class="p">(</span><span class="n">lambd</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">W1</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">W2</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">W3</span><span class="p">)))</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">cross_entropy_cost</span> <span class="o">+</span> <span class="n">L2_regularization_cost</span>
+    
+    <span class="k">return</span> <span class="n">cost</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A3</span><span class="p">,</span> <span class="n">t_Y</span><span class="p">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="n">compute_cost_with_regularization_test_case</span><span class="p">()</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">compute_cost_with_regularization</span><span class="p">(</span><span class="n">A3</span><span class="p">,</span> <span class="n">t_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">lambd</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cost = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cost</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cost = 1.7864859451590758
+</pre></div>
+</div>
+</div>
+</div>
+<p>Of course, because you changed the cost, you have to change backward propagation as well! All the gradients have to be computed with respect to this new cost.</p>
+</section>
+<section id="exercise-2-backward-propagation-with-regularization">
+<h3>Exercise 2 - backward_propagation_with_regularization<a class="headerlink" href="#exercise-2-backward-propagation-with-regularization" title="Link to this heading">#</a></h3>
+<p>Implement the changes needed in backward propagation to take into account regularization. The changes only concern dW1, dW2 and dW3. For each, you have to add the regularization term’s gradient (<span class="math notranslate nohighlight">\(\frac{d}{dW} ( \frac{1}{2}\frac{\lambda}{m}  W^2) = \frac{\lambda}{m} W\)</span>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: backward_propagation_with_regularization</span>
+
+<span class="k">def</span> <span class="nf">backward_propagation_with_regularization</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">lambd</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the backward propagation of our baseline model to which we added an L2 regularization.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input dataset, of shape (input size, number of examples)</span>
+<span class="sd">    Y -- &quot;true&quot; labels vector, of shape (output size, number of examples)</span>
+<span class="sd">    cache -- cache output from forward_propagation()</span>
+<span class="sd">    lambd -- regularization hyperparameter, scalar</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    gradients -- A dictionary with the gradients with respect to each parameter, activation and pre-activation variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">m</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">(</span><span class="n">Z1</span><span class="p">,</span> <span class="n">A1</span><span class="p">,</span> <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">Z2</span><span class="p">,</span> <span class="n">A2</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">Z3</span><span class="p">,</span> <span class="n">A3</span><span class="p">,</span> <span class="n">W3</span><span class="p">,</span> <span class="n">b3</span><span class="p">)</span> <span class="o">=</span> <span class="n">cache</span>
+    
+    <span class="n">dZ3</span> <span class="o">=</span> <span class="n">A3</span> <span class="o">-</span> <span class="n">Y</span>
+    <span class="c1">#(≈ 1 lines of code)</span>
+    <span class="c1"># dW3 = 1./m * np.dot(dZ3, A2.T) + None</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">dW3</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ3</span><span class="p">,</span> <span class="n">A2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">lambd</span><span class="o">*</span><span class="n">W3</span><span class="p">)</span><span class="o">/</span><span class="n">m</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="n">db3</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">dA2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W3</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">dZ3</span><span class="p">)</span>
+    <span class="n">dZ2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">dA2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">A2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="c1">#(≈ 1 lines of code)</span>
+    <span class="c1"># dW2 = 1./m * np.dot(dZ2, A1.T) + None</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">dW2</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ2</span><span class="p">,</span> <span class="n">A1</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">lambd</span><span class="o">*</span><span class="n">W2</span><span class="p">)</span><span class="o">/</span><span class="n">m</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="n">db2</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">dA1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">dZ2</span><span class="p">)</span>
+    <span class="n">dZ1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">dA1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">A1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="c1">#(≈ 1 lines of code)</span>
+    <span class="c1"># dW1 = 1./m * np.dot(dZ1, X.T) + None</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">dW1</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ1</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">lambd</span><span class="o">*</span><span class="n">W1</span><span class="p">)</span><span class="o">/</span><span class="n">m</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="n">db1</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">gradients</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dZ3&quot;</span><span class="p">:</span> <span class="n">dZ3</span><span class="p">,</span> <span class="s2">&quot;dW3&quot;</span><span class="p">:</span> <span class="n">dW3</span><span class="p">,</span> <span class="s2">&quot;db3&quot;</span><span class="p">:</span> <span class="n">db3</span><span class="p">,</span><span class="s2">&quot;dA2&quot;</span><span class="p">:</span> <span class="n">dA2</span><span class="p">,</span>
+                 <span class="s2">&quot;dZ2&quot;</span><span class="p">:</span> <span class="n">dZ2</span><span class="p">,</span> <span class="s2">&quot;dW2&quot;</span><span class="p">:</span> <span class="n">dW2</span><span class="p">,</span> <span class="s2">&quot;db2&quot;</span><span class="p">:</span> <span class="n">db2</span><span class="p">,</span> <span class="s2">&quot;dA1&quot;</span><span class="p">:</span> <span class="n">dA1</span><span class="p">,</span> 
+                 <span class="s2">&quot;dZ1&quot;</span><span class="p">:</span> <span class="n">dZ1</span><span class="p">,</span> <span class="s2">&quot;dW1&quot;</span><span class="p">:</span> <span class="n">dW1</span><span class="p">,</span> <span class="s2">&quot;db1&quot;</span><span class="p">:</span> <span class="n">db1</span><span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">gradients</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_X</span><span class="p">,</span> <span class="n">t_Y</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">backward_propagation_with_regularization_test_case</span><span class="p">()</span>
+
+<span class="n">grads</span> <span class="o">=</span> <span class="n">backward_propagation_with_regularization</span><span class="p">(</span><span class="n">t_X</span><span class="p">,</span> <span class="n">t_Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">lambd</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dW1 = </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">&quot;dW1&quot;</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dW2 = </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">&quot;dW2&quot;</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dW3 = </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">&quot;dW3&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dW1 = 
+[[-0.25604646  0.12298827 -0.28297129]
+ [-0.17706303  0.34536094 -0.4410571 ]]
+dW2 = 
+[[ 0.79276486  0.85133918]
+ [-0.0957219  -0.01720463]
+ [-0.13100772 -0.03750433]]
+dW3 = 
+[[-1.77691347 -0.11832879 -0.09397446]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s now run the model with L2 regularization <span class="math notranslate nohighlight">\((\lambda = 0.7)\)</span>. The <code class="docutils literal notranslate"><span class="pre">model()</span></code> function will call:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_cost_with_regularization</span></code> instead of <code class="docutils literal notranslate"><span class="pre">compute_cost</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">backward_propagation_with_regularization</span></code> instead of <code class="docutils literal notranslate"><span class="pre">backward_propagation</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">lambd</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;On the train set:&quot;</span><span class="p">)</span>
+<span class="n">predictions_train</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;On the test set:&quot;</span><span class="p">)</span>
+<span class="n">predictions_test</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">,</span> <span class="n">test_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 0: 0.6974484493131264
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 10000: 0.2684918873282239
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 20000: 0.2680916337127301
+</pre></div>
+</div>
+<img alt="_images/c64365498da7849d60b0339beba5e8c049421f26a29c97e532ce410318413ca8.png" src="_images/c64365498da7849d60b0339beba5e8c049421f26a29c97e532ce410318413ca8.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>On the train set:
+Accuracy: 0.9383886255924171
+On the test set:
+Accuracy: 0.93
+</pre></div>
+</div>
+</div>
+</div>
+<p>Congrats, the test set accuracy increased to 93%. You have saved the French football team!</p>
+<p>You are not overfitting the training data anymore. Let’s plot the decision boundary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Model with L2-regularization&quot;</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.40</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.65</span><span class="p">])</span>
+<span class="n">plot_decision_boundary</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">predict_dec</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/879e15066d968cab8f2dc74583e7833550ff9f5128de35ff690b31a33d26a9bc.png" src="_images/879e15066d968cab8f2dc74583e7833550ff9f5128de35ff690b31a33d26a9bc.png" />
+</div>
+</div>
+<p><strong>Observations</strong>:</p>
+<ul class="simple">
+<li><p>The value of <span class="math notranslate nohighlight">\(\lambda\)</span> is a hyperparameter that you can tune using a dev set.</p></li>
+<li><p>L2 regularization makes your decision boundary smoother. If <span class="math notranslate nohighlight">\(\lambda\)</span> is too large, it is also possible to “oversmooth”, resulting in a model with high bias.</p></li>
+</ul>
+<div class="admonition-in-summary admonition">
+<p class="admonition-title">In summary</p>
+<p><strong>What is L2-regularization actually doing?</strong>:</p>
+<p>L2-regularization relies on the assumption that a model with small weights is simpler than a model with large weights. Thus, by penalizing the square values of the weights in the cost function you drive all the weights to smaller values. It becomes too costly for the cost to have large weights! This leads to a smoother model in which the output changes more slowly as the input changes.</p>
+<p><strong>What you should remember:</strong> the implications of L2-regularization on:</p>
+<ul class="simple">
+<li><p>The cost computation:</p>
+<ul>
+<li><p>A regularization term is added to the cost.</p></li>
+</ul>
+</li>
+<li><p>The backpropagation function:</p>
+<ul>
+<li><p>There are extra terms in the gradients with respect to weight matrices.</p></li>
+</ul>
+</li>
+<li><p>Weights end up smaller (“weight decay”):</p>
+<ul>
+<li><p>Weights are pushed to smaller values.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="dropout">
+<h2>6 - Dropout<a class="headerlink" href="#dropout" title="Link to this heading">#</a></h2>
+<p>Finally, <strong>dropout</strong> is a widely used regularization technique that is specific to deep learning.
+<strong>It randomly shuts down some neurons in each iteration.</strong> Watch these two videos to see what this means!</p>
+<!--
+To understand drop-out, consider this conversation with a friend:
+- Friend: "Why do you need all these neurons to train your network and classify images?". 
+- You: "Because each neuron contains a weight and can learn specific features/details/shape of an image. The more neurons I have, the more featurse my model learns!"
+- Friend: "I see, but are you sure that your neurons are learning different features and not all the same features?"
+- You: "Good point... Neurons in the same layer actually don't talk to each other. It should be definitly possible that they learn the same image features/shapes/forms/details... which would be redundant. There should be a solution."
+!--> <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;video width=&quot;320&quot; height=&quot;240&quot; controls&gt;</span>
+<span class="s2">        &lt;source src=&quot;images/dropout1_kiank.mp4&quot; type=&quot;video/mp4&quot;&gt;</span>
+<span class="s2">    &lt;/video&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+    <video width="320" height="240" controls>
+        <source src="images/dropout1_kiank.mp4" type="video/mp4">
+    </video>
+</div></div>
+</div>
+<p>Drop-out on the second hidden layer. At each iteration, you shut down (= set to zero) each neuron of a layer with probability <span class="math notranslate nohighlight">\(1 - keep\_prob\)</span> or keep it with probability <span class="math notranslate nohighlight">\(keep\_prob\)</span> (50% here). The dropped neurons don’t contribute to the training in both the forward and backward propagations of the iteration.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;video width=&quot;320&quot; height=&quot;240&quot; controls&gt;</span>
+<span class="s2">        &lt;source src=&quot;images/dropout2_kiank.mp4&quot; type=&quot;video/mp4&quot;&gt;</span>
+<span class="s2">    &lt;/video&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+    <video width="320" height="240" controls>
+        <source src="images/dropout2_kiank.mp4" type="video/mp4">
+    </video>
+</div></div>
+</div>
+<p>Drop-out on the first and third hidden layers. <span class="math notranslate nohighlight">\(1^{st}\)</span> layer: we shut down on average 40% of the neurons.  <span class="math notranslate nohighlight">\(3^{rd}\)</span> layer: we shut down on average 20% of the neurons.</p>
+<p>When you shut some neurons down, you actually modify your model. The idea behind drop-out is that at each iteration, you train a different model that uses only a subset of your neurons. With dropout, your neurons thus become less sensitive to the activation of one other specific neuron, because that other neuron might be shut down at any time.</p>
+<section id="forward-propagation-with-dropout">
+<h3>6.1 - Forward Propagation with Dropout<a class="headerlink" href="#forward-propagation-with-dropout" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-forward-propagation-with-dropout">
+<h3>Exercise 3 - forward_propagation_with_dropout<a class="headerlink" href="#exercise-3-forward-propagation-with-dropout" title="Link to this heading">#</a></h3>
+<p>Implement the forward propagation with dropout. You are using a 3 layer neural network, and will add dropout to the first and second hidden layers. We will not apply dropout to the input layer or output layer.</p>
+<p><strong>Instructions</strong>:
+You would like to shut down some neurons in the first and second layers. To do that, you are going to carry out 4 Steps:</p>
+<ol class="arabic simple">
+<li><p>In lecture, we dicussed creating a variable <span class="math notranslate nohighlight">\(d^{[1]}\)</span> with the same shape as <span class="math notranslate nohighlight">\(a^{[1]}\)</span> using <code class="docutils literal notranslate"><span class="pre">np.random.rand()</span></code> to randomly get numbers between 0 and 1. Here, you will use a vectorized implementation, so create a random matrix <span class="math notranslate nohighlight">\(D^{[1]} = [d^{[1](1)} d^{[1](2)} ... d^{[1](m)}] \)</span> of the same dimension as <span class="math notranslate nohighlight">\(A^{[1]}\)</span>.</p></li>
+<li><p>Set each entry of <span class="math notranslate nohighlight">\(D^{[1]}\)</span> to be 1 with probability (<code class="docutils literal notranslate"><span class="pre">keep_prob</span></code>), and 0 otherwise.</p></li>
+</ol>
+<p><strong>Hint:</strong> Let’s say that keep_prob = 0.8, which means that we want to keep about 80% of the neurons and drop out about 20% of them.  We want to generate a vector that has 1’s and 0’s, where about 80% of them are 1 and about 20% are 0.
+This python statement:<br />
+<code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">=</span> <span class="pre">(X</span> <span class="pre">&lt;</span> <span class="pre">keep_prob).astype(int)</span></code></p>
+<p>is conceptually the same as this if-else statement (for the simple case of a one-dimensional array) :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">keep_prob</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># v &gt;= keep_prob</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">=</span> <span class="pre">(X</span> <span class="pre">&lt;</span> <span class="pre">keep_prob).astype(int)</span></code> works with multi-dimensional arrays, and the resulting output preserves the dimensions of the input array.</p>
+<p>Also note that without using <code class="docutils literal notranslate"><span class="pre">.astype(int)</span></code>, the result is an array of booleans <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">False</span></code>, which Python automatically converts to 1 and 0 if we multiply it with numbers.  (However, it’s better practice to convert data into the data type that we intend, so try using <code class="docutils literal notranslate"><span class="pre">.astype(int)</span></code>.)</p>
+<ol class="arabic simple" start="3">
+<li><p>Set <span class="math notranslate nohighlight">\(A^{[1]}\)</span> to <span class="math notranslate nohighlight">\(A^{[1]} * D^{[1]}\)</span>. (You are shutting down some neurons). You can think of <span class="math notranslate nohighlight">\(D^{[1]}\)</span> as a mask, so that when it is multiplied with another matrix, it shuts down some of the values.</p></li>
+<li><p>Divide <span class="math notranslate nohighlight">\(A^{[1]}\)</span> by <code class="docutils literal notranslate"><span class="pre">keep_prob</span></code>. By doing this you are assuring that the result of the cost will still have the same expected value as without drop-out. (This technique is also called inverted dropout.)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: forward_propagation_with_dropout</span>
+
+<span class="k">def</span> <span class="nf">forward_propagation_with_dropout</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">keep_prob</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the forward propagation: LINEAR -&gt; RELU + DROPOUT -&gt; LINEAR -&gt; RELU + DROPOUT -&gt; LINEAR -&gt; SIGMOID.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input dataset, of shape (2, number of examples)</span>
+<span class="sd">    parameters -- python dictionary containing your parameters &quot;W1&quot;, &quot;b1&quot;, &quot;W2&quot;, &quot;b2&quot;, &quot;W3&quot;, &quot;b3&quot;:</span>
+<span class="sd">                    W1 -- weight matrix of shape (20, 2)</span>
+<span class="sd">                    b1 -- bias vector of shape (20, 1)</span>
+<span class="sd">                    W2 -- weight matrix of shape (3, 20)</span>
+<span class="sd">                    b2 -- bias vector of shape (3, 1)</span>
+<span class="sd">                    W3 -- weight matrix of shape (1, 3)</span>
+<span class="sd">                    b3 -- bias vector of shape (1, 1)</span>
+<span class="sd">    keep_prob - probability of keeping a neuron active during drop-out, scalar</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    A3 -- last activation value, output of the forward propagation, of shape (1,1)</span>
+<span class="sd">    cache -- tuple, information stored for computing the backward propagation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># retrieve parameters</span>
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W1&quot;</span><span class="p">]</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b1&quot;</span><span class="p">]</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W2&quot;</span><span class="p">]</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b2&quot;</span><span class="p">]</span>
+    <span class="n">W3</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W3&quot;</span><span class="p">]</span>
+    <span class="n">b3</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b3&quot;</span><span class="p">]</span>
+    
+    <span class="c1"># LINEAR -&gt; RELU -&gt; LINEAR -&gt; RELU -&gt; LINEAR -&gt; SIGMOID</span>
+    <span class="n">Z1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W1</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="n">b1</span>
+    <span class="n">A1</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z1</span><span class="p">)</span>
+    <span class="c1">#(≈ 4 lines of code)         # Steps 1-4 below correspond to the Steps 1-4 described above. </span>
+    <span class="c1"># D1 =                                           # Step 1: initialize matrix D1 = np.random.rand(..., ...)</span>
+    <span class="c1"># D1 =                                           # Step 2: convert entries of D1 to 0 or 1 (using keep_prob as the threshold)</span>
+    <span class="c1"># A1 =                                           # Step 3: shut down some neurons of A1</span>
+    <span class="c1"># A1 =                                           # Step 4: scale the value of neurons that haven&#39;t been shut down</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">D1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">A1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">D1</span> <span class="o">=</span> <span class="p">(</span><span class="n">D1</span> <span class="o">&lt;</span> <span class="n">keep_prob</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">A1</span> <span class="o">=</span> <span class="n">A1</span> <span class="o">*</span> <span class="n">D1</span>
+    <span class="n">A1</span> <span class="o">/=</span> <span class="n">keep_prob</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="n">Z2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="p">,</span> <span class="n">A1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b2</span>
+    <span class="n">A2</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z2</span><span class="p">)</span>
+    <span class="c1">#(≈ 4 lines of code)</span>
+    <span class="c1"># D2 =                                           # Step 1: initialize matrix D2 = np.random.rand(..., ...)</span>
+    <span class="c1"># D2 =                                           # Step 2: convert entries of D2 to 0 or 1 (using keep_prob as the threshold)</span>
+    <span class="c1"># A2 =                                           # Step 3: shut down some neurons of A2</span>
+    <span class="c1"># A2 =                                           # Step 4: scale the value of neurons that haven&#39;t been shut down</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">D2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">A2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">D2</span> <span class="o">=</span> <span class="p">(</span><span class="n">D2</span> <span class="o">&lt;</span> <span class="n">keep_prob</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">A2</span> <span class="o">=</span> <span class="n">A2</span> <span class="o">*</span> <span class="n">D2</span>
+    <span class="n">A2</span> <span class="o">/=</span> <span class="n">keep_prob</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="n">Z3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W3</span><span class="p">,</span> <span class="n">A2</span><span class="p">)</span> <span class="o">+</span> <span class="n">b3</span>
+    <span class="n">A3</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">Z3</span><span class="p">)</span>
+    
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span><span class="n">Z1</span><span class="p">,</span> <span class="n">D1</span><span class="p">,</span> <span class="n">A1</span><span class="p">,</span> <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">Z2</span><span class="p">,</span> <span class="n">D2</span><span class="p">,</span> <span class="n">A2</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">Z3</span><span class="p">,</span> <span class="n">A3</span><span class="p">,</span> <span class="n">W3</span><span class="p">,</span> <span class="n">b3</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">A3</span><span class="p">,</span> <span class="n">cache</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_X</span><span class="p">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="n">forward_propagation_with_dropout_test_case</span><span class="p">()</span>
+
+<span class="n">A3</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward_propagation_with_dropout</span><span class="p">(</span><span class="n">t_X</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">keep_prob</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;A3 = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">A3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A3 = [[0.36974721 0.00305176 0.04565099 0.49683389 0.36974721]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="backward-propagation-with-dropout">
+<h3>6.2 - Backward Propagation with Dropout<a class="headerlink" href="#backward-propagation-with-dropout" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-4-backward-propagation-with-dropout">
+<h3>Exercise 4 - backward_propagation_with_dropout<a class="headerlink" href="#exercise-4-backward-propagation-with-dropout" title="Link to this heading">#</a></h3>
+<p>Implement the backward propagation with dropout. As before, you are training a 3 layer network. Add dropout to the first and second hidden layers, using the masks <span class="math notranslate nohighlight">\(D^{[1]}\)</span> and <span class="math notranslate nohighlight">\(D^{[2]}\)</span> stored in the cache.</p>
+<p><strong>Instruction</strong>:
+Backpropagation with dropout is actually quite easy. You will have to carry out 2 Steps:</p>
+<ol class="arabic simple">
+<li><p>You had previously shut down some neurons during forward propagation, by applying a mask <span class="math notranslate nohighlight">\(D^{[1]}\)</span> to <code class="docutils literal notranslate"><span class="pre">A1</span></code>. In backpropagation, you will have to shut down the same neurons, by reapplying the same mask <span class="math notranslate nohighlight">\(D^{[1]}\)</span> to <code class="docutils literal notranslate"><span class="pre">dA1</span></code>.</p></li>
+<li><p>During forward propagation, you had divided <code class="docutils literal notranslate"><span class="pre">A1</span></code> by <code class="docutils literal notranslate"><span class="pre">keep_prob</span></code>. In backpropagation, you’ll therefore have to divide <code class="docutils literal notranslate"><span class="pre">dA1</span></code> by <code class="docutils literal notranslate"><span class="pre">keep_prob</span></code> again (the calculus interpretation is that if <span class="math notranslate nohighlight">\(A^{[1]}\)</span> is scaled by <code class="docutils literal notranslate"><span class="pre">keep_prob</span></code>, then its derivative <span class="math notranslate nohighlight">\(dA^{[1]}\)</span> is also scaled by the same <code class="docutils literal notranslate"><span class="pre">keep_prob</span></code>).</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: backward_propagation_with_dropout</span>
+
+<span class="k">def</span> <span class="nf">backward_propagation_with_dropout</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the backward propagation of our baseline model to which we added dropout.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input dataset, of shape (2, number of examples)</span>
+<span class="sd">    Y -- &quot;true&quot; labels vector, of shape (output size, number of examples)</span>
+<span class="sd">    cache -- cache output from forward_propagation_with_dropout()</span>
+<span class="sd">    keep_prob - probability of keeping a neuron active during drop-out, scalar</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    gradients -- A dictionary with the gradients with respect to each parameter, activation and pre-activation variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">m</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">(</span><span class="n">Z1</span><span class="p">,</span> <span class="n">D1</span><span class="p">,</span> <span class="n">A1</span><span class="p">,</span> <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">Z2</span><span class="p">,</span> <span class="n">D2</span><span class="p">,</span> <span class="n">A2</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">Z3</span><span class="p">,</span> <span class="n">A3</span><span class="p">,</span> <span class="n">W3</span><span class="p">,</span> <span class="n">b3</span><span class="p">)</span> <span class="o">=</span> <span class="n">cache</span>
+    
+    <span class="n">dZ3</span> <span class="o">=</span> <span class="n">A3</span> <span class="o">-</span> <span class="n">Y</span>
+    <span class="n">dW3</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ3</span><span class="p">,</span> <span class="n">A2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">db3</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dA2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W3</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">dZ3</span><span class="p">)</span>
+    <span class="c1">#(≈ 2 lines of code)</span>
+    <span class="c1"># dA2 =                # Step 1: Apply mask D2 to shut down the same neurons as during the forward propagation</span>
+    <span class="c1"># dA2 =                # Step 2: Scale the value of neurons that haven&#39;t been shut down</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">dA2</span> <span class="o">=</span> <span class="n">D2</span> <span class="o">*</span> <span class="n">dA2</span>
+    <span class="n">dA2</span> <span class="o">/=</span> <span class="n">keep_prob</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="n">dZ2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">dA2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">A2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">dW2</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ2</span><span class="p">,</span> <span class="n">A1</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">db2</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">dA1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">dZ2</span><span class="p">)</span>
+    <span class="c1">#(≈ 2 lines of code)</span>
+    <span class="c1"># dA1 =                # Step 1: Apply mask D1 to shut down the same neurons as during the forward propagation</span>
+    <span class="c1"># dA1 =                # Step 2: Scale the value of neurons that haven&#39;t been shut down</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    <span class="n">dA1</span> <span class="o">=</span> <span class="n">D1</span> <span class="o">*</span> <span class="n">dA1</span>
+    <span class="n">dA1</span> <span class="o">/=</span> <span class="n">keep_prob</span>
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="n">dZ1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">dA1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">A1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">dW1</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dZ1</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">db1</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dZ1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">gradients</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dZ3&quot;</span><span class="p">:</span> <span class="n">dZ3</span><span class="p">,</span> <span class="s2">&quot;dW3&quot;</span><span class="p">:</span> <span class="n">dW3</span><span class="p">,</span> <span class="s2">&quot;db3&quot;</span><span class="p">:</span> <span class="n">db3</span><span class="p">,</span><span class="s2">&quot;dA2&quot;</span><span class="p">:</span> <span class="n">dA2</span><span class="p">,</span>
+                 <span class="s2">&quot;dZ2&quot;</span><span class="p">:</span> <span class="n">dZ2</span><span class="p">,</span> <span class="s2">&quot;dW2&quot;</span><span class="p">:</span> <span class="n">dW2</span><span class="p">,</span> <span class="s2">&quot;db2&quot;</span><span class="p">:</span> <span class="n">db2</span><span class="p">,</span> <span class="s2">&quot;dA1&quot;</span><span class="p">:</span> <span class="n">dA1</span><span class="p">,</span> 
+                 <span class="s2">&quot;dZ1&quot;</span><span class="p">:</span> <span class="n">dZ1</span><span class="p">,</span> <span class="s2">&quot;dW1&quot;</span><span class="p">:</span> <span class="n">dW1</span><span class="p">,</span> <span class="s2">&quot;db1&quot;</span><span class="p">:</span> <span class="n">db1</span><span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">gradients</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_X</span><span class="p">,</span> <span class="n">t_Y</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">backward_propagation_with_dropout_test_case</span><span class="p">()</span>
+
+<span class="n">gradients</span> <span class="o">=</span> <span class="n">backward_propagation_with_dropout</span><span class="p">(</span><span class="n">t_X</span><span class="p">,</span> <span class="n">t_Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">keep_prob</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dA1 = </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dA1&quot;</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dA2 = </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dA2&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dA1 = 
+[[ 0.36544439  0.         -0.00188233  0.         -0.17408748]
+ [ 0.65515713  0.         -0.00337459  0.         -0.        ]]
+dA2 = 
+[[ 0.58180856  0.         -0.00299679  0.         -0.27715731]
+ [ 0.          0.53159854 -0.          0.53159854 -0.34089673]
+ [ 0.          0.         -0.00292733  0.         -0.        ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s now run the model with dropout (<code class="docutils literal notranslate"><span class="pre">keep_prob</span> <span class="pre">=</span> <span class="pre">0.86</span></code>). It means at every iteration you shut down each neurons of layer 1 and 2 with 14% probability. The function <code class="docutils literal notranslate"><span class="pre">model()</span></code> will now call:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">forward_propagation_with_dropout</span></code> instead of <code class="docutils literal notranslate"><span class="pre">forward_propagation</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">backward_propagation_with_dropout</span></code> instead of <code class="docutils literal notranslate"><span class="pre">backward_propagation</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">keep_prob</span> <span class="o">=</span> <span class="mf">0.86</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;On the train set:&quot;</span><span class="p">)</span>
+<span class="n">predictions_train</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;On the test set:&quot;</span><span class="p">)</span>
+<span class="n">predictions_test</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">,</span> <span class="n">test_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 0: 0.6543912405149825
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 10000: 0.0610169865749056
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 20000: 0.060582435798513114
+</pre></div>
+</div>
+<img alt="_images/ffd541a4e426c82aa8af99f3c74e74d34ef34601e22028a2368596046a1354cd.png" src="_images/ffd541a4e426c82aa8af99f3c74e74d34ef34601e22028a2368596046a1354cd.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>On the train set:
+Accuracy: 0.9289099526066351
+On the test set:
+Accuracy: 0.95
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dropout works great! The test accuracy has increased again (to 95%)! Your model is not overfitting the training set and does a great job on the test set. The French football team will be forever grateful to you!</p>
+<p>Run the code below to plot the decision boundary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Model with dropout&quot;</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.40</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.65</span><span class="p">])</span>
+<span class="n">plot_decision_boundary</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">predict_dec</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01d1f60b30c6e96687569d7147cd3170a892d453923ff7fc7277c41f31d1084e.png" src="_images/01d1f60b30c6e96687569d7147cd3170a892d453923ff7fc7277c41f31d1084e.png" />
+</div>
+</div>
+<p><strong>Note</strong>:</p>
+<ul class="simple">
+<li><p>A <strong>common mistake</strong> when using dropout is to use it both in training and testing. You should use dropout (randomly eliminate nodes) only in training.</p></li>
+<li><p>Deep learning frameworks like <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/nn/dropout">TensorFlow</a>, <a class="reference external" href="https://www.paddlepaddle.org.cn/documentation/docs/en/api/paddle/nn/Dropout_en.html#dropout">PaddlePaddle</a>, <a class="reference external" href="https://keras.io/api/layers/regularization_layers/dropout/">Keras</a> or <a class="reference external" href="https://caffe.berkeleyvision.org/doxygen/classcaffe_1_1DropoutLayer.html">caffe</a> come with a dropout layer implementation. Don’t stress - you will soon learn some of these frameworks.</p></li>
+</ul>
+<div class="warning admonition">
+<p class="admonition-title">What you should remember about dropout:</p>
+<ul class="simple">
+<li><p>Dropout is a regularization technique.</p></li>
+<li><p>You only use dropout during training. Don’t use dropout (randomly eliminate nodes) during test time.</p></li>
+<li><p>Apply dropout both during forward and backward propagation.</p></li>
+<li><p>During training time, divide each dropout layer by keep_prob to keep the same expected value for the activations. For example, if keep_prob is 0.5, then we will on average shut down half the nodes, so the output will be scaled by 0.5 since only the remaining half are contributing to the solution. Dividing by 0.5 is equivalent to multiplying by 2. Hence, the output now has the same expected value. You can check that this works even when keep_prob is other values than 0.5.</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="conclusions">
+<h2>7 - Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
+<p><strong>Here are the results of our three models</strong>:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Train accuracy</p></th>
+<th class="head"><p>Test accuracy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3-layer NN without regularization</p></td>
+<td><p>95%</p></td>
+<td><p>91.5%</p></td>
+</tr>
+<tr class="row-odd"><td><p>3-layer NN with L2-regularization</p></td>
+<td><p>94%</p></td>
+<td><p>93%</p></td>
+</tr>
+<tr class="row-even"><td><p>3-layer NN with dropout</p></td>
+<td><p>93%</p></td>
+<td><p>95%</p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that regularization hurts training set performance! This is because it limits the ability of the network to overfit to the training set. But since it ultimately gives better test accuracy, it is helping your system.</p>
+<div class="warning admonition">
+<p class="admonition-title">In summary</p>
+<p>Here’s a quick recap of the main takeaways:</p>
+<ul class="simple">
+<li><p>Regularization will help you reduce overfitting.</p></li>
+<li><p>Regularization will drive your weights to lower values.</p></li>
+<li><p>L2 regularization and Dropout are two very effective regularization techniques.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C5_Initialization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Practical 5: Initialization</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2 - Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-dataset">3 - Loading the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-regularized-model">4 - Non-Regularized Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2-regularization">5 - L2 Regularization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-compute-cost-with-regularization">Exercise 1 - compute_cost_with_regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-backward-propagation-with-regularization">Exercise 2 - backward_propagation_with_regularization</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dropout">6 - Dropout</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation-with-dropout">6.1 - Forward Propagation with Dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-forward-propagation-with-dropout">Exercise 3 - forward_propagation_with_dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-propagation-with-dropout">6.2 - Backward Propagation with Dropout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-backward-propagation-with-dropout">Exercise 4 - backward_propagation_with_dropout</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">7 - Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Chao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

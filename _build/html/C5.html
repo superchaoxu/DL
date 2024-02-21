@@ -593,18 +593,70 @@ w^{[l]}
 <section id="why-regularization-reduces-overfitting">
 <h3>Why regularization Reduces Overfitting?<a class="headerlink" href="#why-regularization-reduces-overfitting" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://youtu.be/E-e1LRzRz0o">Video</a></p>
+<p><strong>Regularization adds a extra term that penalizes the weight matrices from being too large.</strong></p>
+<ol class="arabic simple">
+<li><p>Increasing <span class="math notranslate nohighlight">\(\lambda\)</span>, the matrices <span class="math notranslate nohighlight">\(W\)</span> will be reasonably close to zero.</p>
+<ul class="simple">
+<li><p>One piece of intuition is maybe it’ll set the weight to be so close to zero for a lot of hidden units that’s basically zeroing out a lot of the impact of these hidden units. This much simplified neural network becomes a much smaller neural network. This will take you from the overfitting case, much closer to the other high bias case. But, hopefully, there’ll be an intermediate value of lambda that results in the result closer to this “just right” case in the middle.</p></li>
+<li><p>However, the intuition of completely zeroing out a bunch of hidden units isn’t quite right. It turns out that what actually happens is it’ll still use all the hidden units, but each of them would just have a much smaller effect. But you do end up with a simpler network, and as if you have a smaller network that is, therefore, less prone to overfitting.</p></li>
+</ul>
+</li>
+<li><p>I’m going to assume that we’re using the <span class="math notranslate nohighlight">\(\text{tanh}()\)</span> activation function:</p></li>
+</ol>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="images/5-4.png"><img alt="images/5-4.png" src="images/5-4.png" style="height: 250px;" /></a>
+<figcaption>
+<p><span class="caption-text"><span class="math notranslate nohighlight">\(g(z) = \text{tanh}(z)\)</span></span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Notice that so long as <span class="math notranslate nohighlight">\(z\)</span> is quite small, so if <span class="math notranslate nohighlight">\(z\)</span> takes on only a smallish range of parameters, maybe around in the middle range shows in the figure, then you’re just using the linear regime of the <span class="math notranslate nohighlight">\(\text{tanh}\)</span> function. Only if <span class="math notranslate nohighlight">\(z\)</span> is allowed to larger values or smaller values, that the activation function starts to become less linear.</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(\lambda\)</span>, the regularization parameter is large, then the parameters will be relatively small, because they are penalized being large in the cost function.</p></li>
+<li><p>And so if the weights, <span class="math notranslate nohighlight">\(W\)</span>, are small, then <span class="math notranslate nohighlight">\(z\)</span> will also be relatively small.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[z^{[l]} = w^{[l]}a^{[l-1]} + b^{[l]}\]</div>
+<ul class="simple">
+<li><p>In particular, if <span class="math notranslate nohighlight">\(z\)</span> ends up taking relatively small values, just in this little range, then <span class="math notranslate nohighlight">\(g(z)\)</span> will be roughly linear. So if every layer is linear, then the whole network is just a linear network.</p></li>
+<li><p>And so even a very deep network, with a deep network with a linear activation function is only able to compute a linear function. So it’s not able to fit very complicated decision, very non-linear decision boundaries. And so, is also much less able to overfit.</p></li>
+</ul>
 </section>
 <section id="dropout-regularization">
 <h3>Dropout Regularization<a class="headerlink" href="#dropout-regularization" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://youtu.be/62AiUPL_g18">Video</a></p>
+<p><strong>Dropout</strong>: Go through each of the layers of the network and set some probability of eliminating a node in neural network.</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="_images/dropout1_kiank.gif"><img alt="_images/dropout1_kiank.gif" src="_images/dropout1_kiank.gif" style="height: 360px;" /></a>
+</figure>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="_images/dropout2_kiank.gif"><img alt="_images/dropout2_kiank.gif" src="_images/dropout2_kiank.gif" style="height: 360px;" /></a>
+</figure>
+<ul class="simple">
+<li><p>Implementing droptout in Python: <code class="docutils literal notranslate"><span class="pre">keep_prob</span></code> - which is a number, there will be the probability that a given hidden unit will be kept. For example, if <code class="docutils literal notranslate"><span class="pre">keep_prob</span> <span class="pre">=</span> <span class="pre">0.8</span></code>, then this means that there’s a 0.2 chance of eliminating any hidden unit. So, what it does is it generates a random matrix.</p></li>
+<li><p>Making prediction at test time: <strong>NOT</strong> to use dropout at test time. That’s because when you are making predictions at the test time, you don’t really want your output to be random. If you are implementing dropout at test time, that just add noise to your predictions. Also don’t need to add in an extra scaling parameter at test time.</p></li>
+</ul>
 </section>
 <section id="understanding-dropout">
 <h3>Understanding Dropout<a class="headerlink" href="#understanding-dropout" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://youtu.be/mcNkV_hFoY8">Video</a></p>
+<p>Intuition:</p>
+<ol class="arabic simple">
+<li><p>Drop-out randomly knocks out units in your network. So it’s as if on every iteration you’re working with a smaller neural network. And so using a smaller neural network seems like it should have a regularizing effect.</p></li>
+<li><p>Cannot rely on any feature (because anyone feature could go away at random or anyone of its own inputs could go away at random), so have to spread out weights (this will tend to have an effect of shrinking the squared norm of the weights).</p></li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The thing to remember is that
+drop out is a regularization technique, it helps prevent overfitting.</p>
+</div>
 </section>
 <section id="other-regularization-methods">
 <h3>Other Regularization Methods<a class="headerlink" href="#other-regularization-methods" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://youtu.be/4tVRKn4sZiI">Video</a></p>
+<ul class="simple">
+<li><p>Data augmentation</p></li>
+<li><p>Early stopping</p></li>
+</ul>
 </section>
 </section>
 <section id="setting-up-your-opimization-problem">

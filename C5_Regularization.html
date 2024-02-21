@@ -769,7 +769,9 @@ Accuracy: 0.915
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dW1 = 
 [[-0.25604646  0.12298827 -0.28297129]
  [-0.17706303  0.34536094 -0.4410571 ]]
-dW2 = 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dW2 = 
 [[ 0.79276486  0.85133918]
  [-0.0957219  -0.01720463]
  [-0.13100772 -0.03750433]]
@@ -871,43 +873,13 @@ To understand drop-out, consider this conversation with a friend:
 - You: "Because each neuron contains a weight and can learn specific features/details/shape of an image. The more neurons I have, the more featurse my model learns!"
 - Friend: "I see, but are you sure that your neurons are learning different features and not all the same features?"
 - You: "Good point... Neurons in the same layer actually don't talk to each other. It should be definitly possible that they learn the same image features/shapes/forms/details... which would be redundant. There should be a solution."
-!--> <div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
-
-<span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    &lt;video width=&quot;320&quot; height=&quot;240&quot; controls&gt;</span>
-<span class="s2">        &lt;source src=&quot;images/dropout1_kiank.mp4&quot; type=&quot;video/mp4&quot;&gt;</span>
-<span class="s2">    &lt;/video&gt;</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">
-    <video width="320" height="240" controls>
-        <source src="images/dropout1_kiank.mp4" type="video/mp4">
-    </video>
-</div></div>
-</div>
+!--> <figure class="align-default">
+<a class="reference internal image-reference" href="_images/dropout1_kiank.gif"><img alt="_images/dropout1_kiank.gif" src="_images/dropout1_kiank.gif" style="height: 360px;" /></a>
+</figure>
 <p>Drop-out on the second hidden layer. At each iteration, you shut down (= set to zero) each neuron of a layer with probability <span class="math notranslate nohighlight">\(1 - keep\_prob\)</span> or keep it with probability <span class="math notranslate nohighlight">\(keep\_prob\)</span> (50% here). The dropped neurons don’t contribute to the training in both the forward and backward propagations of the iteration.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    &lt;video width=&quot;320&quot; height=&quot;240&quot; controls&gt;</span>
-<span class="s2">        &lt;source src=&quot;images/dropout2_kiank.mp4&quot; type=&quot;video/mp4&quot;&gt;</span>
-<span class="s2">    &lt;/video&gt;</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">
-    <video width="320" height="240" controls>
-        <source src="images/dropout2_kiank.mp4" type="video/mp4">
-    </video>
-</div></div>
-</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/dropout2_kiank.gif"><img alt="_images/dropout2_kiank.gif" src="_images/dropout2_kiank.gif" style="height: 360px;" /></a>
+</figure>
 <p>Drop-out on the first and third hidden layers. <span class="math notranslate nohighlight">\(1^{st}\)</span> layer: we shut down on average 40% of the neurons.  <span class="math notranslate nohighlight">\(3^{rd}\)</span> layer: we shut down on average 20% of the neurons.</p>
 <p>When you shut some neurons down, you actually modify your model. The idea behind drop-out is that at each iteration, you train a different model that uses only a subset of your neurons. With dropout, your neurons thus become less sensitive to the activation of one other specific neuron, because that other neuron might be shut down at any time.</p>
 <section id="forward-propagation-with-dropout">

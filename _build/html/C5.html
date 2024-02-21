@@ -412,10 +412,18 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-opimization-problem">Setting up your Opimization Problem</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-inputs">Normalizing Inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-inputs">Normalizing Inputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-training-sets">Normalizing training sets</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-normalize-inputs">Why normalize inputs?</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanishing-exploding-gradients">Vanishing / Exploding Gradients</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-initialization-for-deep-networks">Weight Initialization for Deep Networks</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-approximation-of-gradients">Numerical Approximation of Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-approximation-of-gradients">Numerical Approximation of Gradients</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-sided-difference">One-sided difference</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sided-difference">Two-sided difference</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking">Gradient Checking</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking-implementation-notes">Gradient Checking Implementation Notes</a></li>
 </ul>
@@ -530,6 +538,7 @@ document.write(`
 </section>
 <section id="regularizing-your-neural-network">
 <h2>Regularizing your Neural Network<a class="headerlink" href="#regularizing-your-neural-network" title="Link to this heading">#</a></h2>
+<p>The second section will introduce regularizaiton which is a very useful technique for reducing variance. To help you understand how to apply regularization to the neural network.</p>
 <section id="regularization">
 <h3>Regularization<a class="headerlink" href="#regularization" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://youtu.be/ZlrNwgvycNw">Video</a></p>
@@ -652,32 +661,263 @@ drop out is a regularization technique, it helps prevent overfitting.</p>
 </section>
 <section id="other-regularization-methods">
 <h3>Other Regularization Methods<a class="headerlink" href="#other-regularization-methods" title="Link to this heading">#</a></h3>
-<p><a class="reference external" href="https://youtu.be/4tVRKn4sZiI">Video</a></p>
+<p><a class="reference external" href="https://youtu.be/ZMvhY3nSilg">Video</a></p>
 <ul class="simple">
 <li><p>Data augmentation</p></li>
 <li><p>Early stopping</p></li>
+<li><p>Please find more practical exercises in <a class="reference internal" href="C5_Regularization.html"><span class="doc std std-doc">Practical 6: Regularization</span></a>.</p></li>
 </ul>
 </section>
 </section>
 <section id="setting-up-your-opimization-problem">
 <h2>Setting up your Opimization Problem<a class="headerlink" href="#setting-up-your-opimization-problem" title="Link to this heading">#</a></h2>
+<p>The third section will introduce some techniques for setting up your optimization problem to make your training go quickly.</p>
 <section id="normalizing-inputs">
 <h3>Normalizing Inputs<a class="headerlink" href="#normalizing-inputs" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/bxMVspfz2I4">Video</a></p>
+<p>When training a neural network, one of the techniques to speed up your training is if you normalize your inputs.</p>
+<section id="normalizing-training-sets">
+<h4>Normalizing training sets<a class="headerlink" href="#normalizing-training-sets" title="Link to this heading">#</a></h4>
+<p>Let’s see the training sets with two input features.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{x} = \left[ 
+\begin{matrix}
+x_1 \\
+x_2
+\end{matrix}
+\right]\end{split}\]</div>
+<p>The input features <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> are two-dimensional and here’s a scatter plot of your training set.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/5-5.png"><img alt="_images/5-5.png" src="_images/5-5.png" style="height: 200px;" /></a>
+</figure>
+<p>Normalizing your inputs corresponds to two steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Subtract mean</strong>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\mu &amp;= \dfrac{1}{m} \sum_{i=1}^m x^{(i)} \\
+x &amp;= x-\mu
+\end{aligned}\end{split}\]</div>
+<p>This step means that you just move the training set until it has zero mean.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Normalize variance</strong>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\sigma^2 &amp;= \dfrac{1}{m} \sum_{i=1}^m x^{(i)} ** 2 \\
+x &amp;= x/\sigma^2
+\end{aligned}\end{split}\]</div>
+<blockquote>
+<div><p>Note: <code class="docutils literal notranslate"><span class="pre">**</span></code> means element-wise squaring. <span class="math notranslate nohighlight">\(\sigma^2\)</span> is a vector with the variances of each of the features.</p>
+</div></blockquote>
+<p>After these two steps, the variance of <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> are both equal to one.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you use this to scale your training data,
+then use the same <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> to normalize your test set.</p>
+<p>In particular, you don’t want to normalize the training set and a test set differently. Whatever <span class="math notranslate nohighlight">\(\mu\)</span> value is and whatever <span class="math notranslate nohighlight">\(\sigma^2\)</span> value is, use them in above two formulas so that you scale your test set in exactly the same way rather than estimating <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span> separately on your training set and test set, because you want your data both training and test examples to go through the same transformation defined by the same <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span> calculated on your training data.</p>
+</div>
+</section>
+<section id="why-normalize-inputs">
+<h4>Why normalize inputs?<a class="headerlink" href="#why-normalize-inputs" title="Link to this heading">#</a></h4>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/5-6.png"><img alt="_images/5-6.png" src="_images/5-6.png" style="height: 360px;" /></a>
+</figure>
+<ul class="simple">
+<li><p>If you use unnormalized input features, it’s more likely that your cost function will look like the plot shows in the left of figure, like a very squished out bowl, very elongated cost function.</p>
+<ul>
+<li><p>This situation happens when the features are on very different scales, for example the feature <span class="math notranslate nohighlight">\(x_1\)</span> ranges from <span class="math notranslate nohighlight">\((1, 1000)\)</span> and the feature <span class="math notranslate nohighlight">\(x_2\)</span> ranges from <span class="math notranslate nohighlight">\((0, 1)\)</span>, then it turns out that the ratio or the range of values for the parameters <span class="math notranslate nohighlight">\(w_1\)</span> and <span class="math notranslate nohighlight">\(w_2\)</span> will end up taking on very different values, cost function can be very elongated bowl like that. If you plot the contours of this function, you can have a very elongated function like that.</p></li>
+</ul>
+</li>
+<li><p>Whereas if you normalize the features, then your cost function will on average look more symmetric.</p></li>
+<li><p>If you are running gradient descent on a cost function like the one on the left, then you might have to use a very small learning rate, the gradient decent might need a lot of steps to oscillate back and forth before it finally finds its way to the minimum.</p></li>
+<li><p>Whereas if you have more spherical contours, then wherever you start, gradient descent can pretty much go straight to the minimum. You can take much larger steps where gradient descent need, rather than needing to oscillate around like the picture on the left.</p></li>
+<li><p>In practice, <span class="math notranslate nohighlight">\(w\)</span> is a high dimensional vector. Trying to plot this in 2D doesn’t convey all the intuitions correctly. But the rough intuition that you cost function will be in a more round and easier (faster) to optimize when your features are on similar scales.</p></li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>In practice,
+if your dataset included <span class="math notranslate nohighlight">\(x_1\)</span> range from <span class="math notranslate nohighlight">\((0, 1)\)</span>, <span class="math notranslate nohighlight">\(x_2\)</span> range from <span class="math notranslate nohighlight">\((-1, 1)\)</span>, and <span class="math notranslate nohighlight">\(x_3\)</span> range from <span class="math notranslate nohighlight">\((1, 2)\)</span>, these are fairly similar ranges, so this will work just fine. When they are on dramatically different ranges like ones <span class="math notranslate nohighlight">\((1, 1000)\)</span> and another from <span class="math notranslate nohighlight">\((0, 1)\)</span>. That really hurts your optimization algorithm.</p>
+<p>That by just setting all of them to zero mean and variance one like we did in last section, that just guarantees that all your features are in a similar scale and will usually help you learning algorithm run faster.</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Summary</p>
+<p>If your input features came from very different scales, maybe some features are from <span class="math notranslate nohighlight">\((0,1)\)</span>, some from <span class="math notranslate nohighlight">\((1, 1000)\)</span>, then it’s important to normalize your features.</p>
+<p>If your features came in on similar scales, then this step is less important although performing this type of normalization pretty much never does any harm.</p>
+<p>Often you could do it anyway, if you are not sure whether or not it will help with speeding up training for your algorithm.</p>
+</div>
+</section>
 </section>
 <section id="vanishing-exploding-gradients">
 <h3>Vanishing / Exploding Gradients<a class="headerlink" href="#vanishing-exploding-gradients" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/lRutSzyhr8Y">Video</a></p>
+<p>One of the problems of training neural network, especially very deep neural networks, is data vanishing and exploding gradients. What that means is that when you’re training a very deep network your derivatives or your slopes can sometimes get either very, very big or very, very small, maybe even exponentially small, and this makes training difficult. In this section you will see what this problem of exploding and vanishing gradients really means, as well as how you can use careful choices of the random weight initialization to significantly reduce this problem.</p>
+<p>Here shows a very deep neural network, to save space and as a simple example, only two hidden units per layer, but it could be more as well.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/5-7.png"><img alt="_images/5-7.png" src="_images/5-7.png" style="height: 100px;" /></a>
+</figure>
+<p>Assumptions:</p>
+<ol class="arabic simple">
+<li><p>For a deep neural, the parameters of weight: <span class="math notranslate nohighlight">\(W^{[1]}, W^{[2]}, \cdots, W^{[l]}\)</span>;</p></li>
+<li><p>Ignore <span class="math notranslate nohighlight">\(b\)</span>, setting <span class="math notranslate nohighlight">\(b = 0\)</span>;</p></li>
+<li><p>Activation function: <span class="math notranslate nohighlight">\(g(z) = z\)</span>, a linear function.</p></li>
+</ol>
+<p>Based on these assumptions, the output:</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = W^{[l]}W^{[l-1]}W^{[l-2]} \cdots W^{[3]}W^{[2]}W^{[1]} x\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+z^{[1]} &amp;= W^{[1]} x \\
+a^{[1]} &amp;= g(z^{[1]}) = z^{[1]} \\
+a^{[2]} &amp;= g(z^{[2]}) = z^{[2]} =  W^{[2]} a^{[1]} \\
+&amp;\vdots \\
+\hat{y} = a^{[l]} &amp;= g(z^{[l]}) = z^{[l]}
+\end{aligned}\end{split}\]</div>
+<ul class="simple">
+<li><p>Now let’s say that each of you weight matrices:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}W^{[l]} = \left[ 
+\begin{matrix}
+1.5 &amp; 0 \\
+0 &amp; 1.5
+\end{matrix}
+\right]\end{split}\]</div>
+<blockquote>
+<div><p>Notice: Technically, the last one <span class="math notranslate nohighlight">\(W^{[l]}\)</span> has different dimensions so maybe this is just the rest of <span class="math notranslate nohighlight">\([l-1]\)</span> weight matrices.</p>
+</div></blockquote>
+<p>In this case,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \hat{y} = W^{[l]}  \left[ 
+\begin{matrix}
+1.5 &amp; 0 \\
+0 &amp; 1.5
+\end{matrix}
+\right]^{L-1} \mathbf{x} \approx 1.5^{L-1} \mathbf{x}\end{split}\]</div>
+<p>If <span class="math notranslate nohighlight">\(L\)</span> was large for very deep neural network, <span class="math notranslate nohighlight">\(\hat{y}\)</span> will be very large. It grows exponentially, it grows like 1.5 to the number of layers. And so if you have a very deep neural network, the value of <span class="math notranslate nohighlight">\(\hat{y}\)</span> will explode.</p>
+<ul class="simple">
+<li><p>Conversely, if we replace <span class="math notranslate nohighlight">\(1.5\)</span> with <span class="math notranslate nohighlight">\(0.5\)</span>, something less than 1 <span class="math notranslate nohighlight">\((&lt;1)\)</span>, then the result becomes <span class="math notranslate nohighlight">\(0.5\)</span> to the power of L.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split} \hat{y} = W^{[l]}  \left[ 
+\begin{matrix}
+0.5 &amp; 0 \\
+0 &amp; 0.5
+\end{matrix}
+\right]^{L-1} \mathbf{x} \approx 0.5^{L-1} \mathbf{x}\end{split}\]</div>
+<p>In this case, the activation values will decrease exponentially as a function of the number of layers L of the network. So in the very deep network, the activations end up decreasing exponentially.</p>
+<div class="important admonition">
+<p class="admonition-title">Summary</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+W^{[l]} &amp;&gt; \mathbf{I} \  \longrightarrow \text{explode} \\
+W^{[l]} &amp;&lt; \mathbf{I} \  \longrightarrow \text{decrease exponentially} 
+\end{aligned}\end{split}\]</div>
+<ul class="simple">
+<li><p>The weights <span class="math notranslate nohighlight">\(W\)</span>, if they’re all just a little bit bigger than one or just a little bit bigger than the identity matrix, then with a very deep network the activations can explode.</p></li>
+<li><p>And if <span class="math notranslate nohighlight">\(W\)</span> is just a little bit less than identity. Then you have a very deep network, the activations will decrease exponentially.</p></li>
+</ul>
+<p>With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially smaller than L, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.</p>
+</div>
+<p>To summarize, you’ve learned how deep networks suffer from the problems of vanishing or exploding gradients. In fact, for a long time this problem was a huge barrier to training deep neural networks. It turns out there’s a partial solution that doesn’t completely solve this problem but it helps a lot which is careful choice of how you initialize the weights.</p>
 </section>
 <section id="weight-initialization-for-deep-networks">
 <h3>Weight Initialization for Deep Networks<a class="headerlink" href="#weight-initialization-for-deep-networks" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/qbwFUDJ4R_w">Video</a></p>
+<ul class="simple">
+<li><p>ReLU: <span class="math notranslate nohighlight">\(W^{[l]}\)</span> = <code class="docutils literal notranslate"><span class="pre">np.random.randn</span></code>(<span class="math notranslate nohighlight">\(n^{[l]}, n^{[l-1]}\)</span>) * <code class="docutils literal notranslate"><span class="pre">np.sqrt</span></code>(<span class="math notranslate nohighlight">\(\frac{2}{n^{[l-1]}}\)</span>)</p></li>
+<li><p>tanh (Xavier initialization): <span class="math notranslate nohighlight">\(W^{[l]}\)</span> = <code class="docutils literal notranslate"><span class="pre">np.random.randn</span></code>(<span class="math notranslate nohighlight">\(n^{[l]}, n^{[l-1]}\)</span>) * <code class="docutils literal notranslate"><span class="pre">np.sqrt</span></code>(<span class="math notranslate nohighlight">\(\frac{1}{n^{[l-1]}}\)</span>)</p></li>
+<li><p>some other initialization method: <span class="math notranslate nohighlight">\(W^{[l]}\)</span> = <code class="docutils literal notranslate"><span class="pre">np.random.randn</span></code>(<span class="math notranslate nohighlight">\(n^{[l]}, n^{[l-1]}\)</span>) * <code class="docutils literal notranslate"><span class="pre">np.sqrt</span></code>(<span class="math notranslate nohighlight">\(\frac{2}{n^{[l]} + n^{[l-1]}}\)</span>)</p></li>
+</ul>
+<p>If the input features of activations are roughly mean 0 and standard variance and variance 1 then this would cause <span class="math notranslate nohighlight">\(z\)</span> to also take on a similar scale. And this <em><strong>doesn’t solve</strong></em>, but it definitely <em><strong>helps reduce</strong></em> the vanishing, exploding gradients problem, because it’s trying to set each of the weight matrices <span class="math notranslate nohighlight">\(W\)</span> not too much bigger than 1 and not too much less than 1, so it doesn’t explode or vanish too quickly.</p>
+<p>For more details in <a class="reference internal" href="C5_Initialization.html"><span class="doc std std-doc">Practical 5: Initialization</span></a>.</p>
 </section>
 <section id="numerical-approximation-of-gradients">
 <h3>Numerical Approximation of Gradients<a class="headerlink" href="#numerical-approximation-of-gradients" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/5zTEBiHOAhc">Video</a></p>
+<section id="one-sided-difference">
+<h4>One-sided difference<a class="headerlink" href="#one-sided-difference" title="Link to this heading">#</a></h4>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/5-8.png"><img alt="_images/5-8.png" src="_images/5-8.png" style="height: 300px;" /></a>
+</figure>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+J = f(\theta) &amp;= \theta^3, \ \theta \in \mathbb{R} \\
+g(\theta) = \dfrac{\mathrm{d}}{\mathrm{d}\theta} f(\theta) = f'(\theta) &amp;= 3\theta^2 \\
+\dfrac{f(\theta+\epsilon) - f(\theta)}{\epsilon} &amp;\approx g(\theta) 
+\end{aligned}\end{split}\]</div>
+<p>When <span class="math notranslate nohighlight">\(\theta = 1, \ \epsilon = 0.01\)</span>,</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(g(\theta) =  f'(\theta) = 3\theta^2 = 3\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\dfrac{f(\theta+\epsilon) - f(\theta)}{\epsilon} = \dfrac{(1.01)^3 - 1^3}{0.01} = 3.0301 \approx 3\)</span></p></li>
+<li><p>the approximate error: <span class="math notranslate nohighlight">\(0.0301\)</span></p></li>
+</ul>
+</section>
+<section id="two-sided-difference">
+<h4>Two-sided difference<a class="headerlink" href="#two-sided-difference" title="Link to this heading">#</a></h4>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/5-9.png"><img alt="_images/5-9.png" src="_images/5-9.png" style="height: 300px;" /></a>
+</figure>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+J = f(\theta) &amp;= \theta^3, \ \theta \in \mathbb{R} \\
+g(\theta) = \dfrac{\mathrm{d}}{\mathrm{d}\theta} f(\theta) = f'(\theta) &amp;= 3\theta^2 \\
+\dfrac{f(\theta+\epsilon) - f(\theta-\epsilon)}{2\epsilon} &amp;\approx g(\theta) 
+\end{aligned}\end{split}\]</div>
+<p>When <span class="math notranslate nohighlight">\(\theta = 1, \ \epsilon = 0.01\)</span>,</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(g(\theta) =  f'(\theta) = 3\theta^2 = 3\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\dfrac{f(\theta+\epsilon) - f(\theta-\epsilon)}{2\epsilon} = \dfrac{(1.01)^3 - (0.99)^3}{0.02} = 3.0001 \approx 3\)</span></p></li>
+<li><p>the approximate error: <span class="math notranslate nohighlight">\(0.0001\)</span></p></li>
+</ul>
+<div class="hint admonition">
+<p class="admonition-title">Optional</p>
+<p>The formal definition of a derivative:</p>
+<div class="math notranslate nohighlight">
+\[f'(\theta) = \lim_{\epsilon \to \infty} \dfrac{f(\theta+\epsilon) - f(\theta-\epsilon)}{2\epsilon} \tag{1}\]</div>
+<p>It turns out that for a non zero value of <span class="math notranslate nohighlight">\(\epsilon\)</span> <span class="math notranslate nohighlight">\((\epsilon \neq 0)\)</span>, you can show that the error of this approximation is on the order of epsilon squared (<span class="math notranslate nohighlight">\(\boldsymbol{O}(\epsilon^2)\)</span>), and remember epsilon is a very small number. The big O notation ($\boldsymbol{O}) means the error is actually some constant times this.</p>
+<div class="math notranslate nohighlight">
+\[f'(\theta) = \lim_{\epsilon \to \infty} \dfrac{f(\theta+\epsilon) - f(\theta)}{\epsilon} \tag{2}\]</div>
+<p>The error is on the order of epsilon (<span class="math notranslate nohighlight">\(\boldsymbol{O}(\epsilon)\)</span>).</p>
+<p>And again, when <span class="math notranslate nohighlight">\(\epsilon\)</span> is a number less than 1, then <span class="math notranslate nohighlight">\(\epsilon\)</span> is actually much bigger than <span class="math notranslate nohighlight">\(\epsilon^2\)</span> which is why the formula (2) is actually much less accurate approximation than the formula (1). Which is why when doing gradient checking, we use this two-sided difference rather than just one sided difference which is less accurate.</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Summary</p>
+<p>Two-sided difference formula is much more accurate.</p>
+</div>
+</section>
 </section>
 <section id="gradient-checking">
 <h3>Gradient Checking<a class="headerlink" href="#gradient-checking" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/CglVBBL2fZc">Video</a></p>
+<p>For more details in <a class="reference internal" href="C5_Gradient_Checking.html"><span class="doc std std-doc">Practical 7: Gradient Checking</span></a>.</p>
 </section>
 <section id="gradient-checking-implementation-notes">
 <h3>Gradient Checking Implementation Notes<a class="headerlink" href="#gradient-checking-implementation-notes" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://youtu.be/2lEYV0OP0ug">Video</a></p>
+<p>In this section, I want to share with you some practical tips or some notes on how to actually go about implementing <em><strong>gradient checking</strong></em> for your neural network:</p>
+<ol class="arabic simple">
+<li><p><strong>DO NOT</strong> use in training - only use to debug.</p></li>
+<li><p>If algorithm fails grad check, look at components to try to identify bug.</p></li>
+<li><p>Remember regularization. When doing grad check, remember your regularization term if you’re using regularization.</p></li>
+<li><p>Grad check <strong>DOES NOT</strong> work with dropout.</p>
+<ul class="simple">
+<li><p>Because in every iteration, dropout is randomly eliminating different subsets of the hidden units. There isn’t an easy to compute cost function <span class="math notranslate nohighlight">\(J\)</span> that dropout is doing gradient descent on. It turns out that dropout can be viewed as optimizing some cost function <span class="math notranslate nohighlight">\(J\)</span>, but this cost function <span class="math notranslate nohighlight">\(J\)</span> defined by summing over all exponentially large subsets of nodes they could eliminate in any iteration. So the cost function <span class="math notranslate nohighlight">\(J\)</span> is very difficult to compute, and you’re just sampling the cost function every time you eliminate different random subsets in those we use dropout. So it’s difficult to use grad check to double check your computation with dropouts.</p></li>
+</ul>
+</li>
+<li><p>Run at random initialization; perhaps again after some training.</p></li>
+</ol>
+<div class="important admonition">
+<p class="admonition-title">Summary</p>
+<p>In this week, you’ve learned about:</p>
+<ul class="simple">
+<li><p>how to set up your train, dev, and test sets;</p></li>
+<li><p>how to analyze bias and variance and what things to do if you have high bias versus high variance versus maybe high bias and high variance;</p></li>
+<li><p>how to apply different forms of regularization, like L2 regularization and dropout on your neural network. So some tricks for speeding up the training of your neural network.</p></li>
+<li><p>And then finally, gradient checking.</p></li>
+</ul>
+</div>
 </section>
 </section>
 <section id="quiz">
@@ -948,10 +1188,18 @@ D. When decreasing the keep_prob value, the probability that a node gets discard
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-opimization-problem">Setting up your Opimization Problem</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-inputs">Normalizing Inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-inputs">Normalizing Inputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-training-sets">Normalizing training sets</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-normalize-inputs">Why normalize inputs?</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanishing-exploding-gradients">Vanishing / Exploding Gradients</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-initialization-for-deep-networks">Weight Initialization for Deep Networks</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-approximation-of-gradients">Numerical Approximation of Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-approximation-of-gradients">Numerical Approximation of Gradients</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-sided-difference">One-sided difference</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sided-difference">Two-sided difference</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking">Gradient Checking</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-checking-implementation-notes">Gradient Checking Implementation Notes</a></li>
 </ul>
